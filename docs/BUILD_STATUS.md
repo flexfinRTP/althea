@@ -8,8 +8,10 @@ Updated during implementation. Entries are concrete.
 - [PASS] Specification suite read.
 - [PASS] Sponsor research: Arc 5042002, USDC `0x3600000000000000000000000000000000000000`, Privy node policies, World IDKit v4 Selfie Check, Circle CLI `wallet execute`.
 - [PASS] 2026 HHS FPL tables.
-- [PASS] Next.js app, patient journey, FAP engine, APIs, Relief rules, ReliefPool, Privy treasury UI/API, Circle agent tools, World IDKit client.
-- [PASS] Unit tests written for FPL, eligibility, timeline, Relief rules, demo-story eval, contract tests.
+- [PASS] Next.js app, patient journey including `/result/demo`, FAP engine, APIs including PATCH, Relief rules, ReliefPool + interface, Privy treasury UI/API, Circle agent tools, World IDKit client.
+- [PASS] Bill reduction, sequential agent trace, policy source, `/how`, print packet, skip-link, error/not-found.
+- [PASS] Unit tests written for FPL, eligibility, timeline, Relief rules, demo-story eval, demo case bootstrap, contract tests, second hospital fixture.
+- [PASS] Canonical spec copies in `docs/specs/`, integration notes, AI disclosure file-level entries, World feedback honesty banner.
 
 ## IN PROGRESS
 
@@ -30,20 +32,19 @@ Updated during implementation. Entries are concrete.
   Reason: deploy script is present; onchain deploy needs `DEPLOYER_PRIVATE_KEY` and faucet USDC.
   Fallback currently implemented: contract + tests + testnet/mainnet scripts; `docs/DEPLOYMENTS.md` filled after Justin runs deploy.
 
-## TODO
+## TODO (Justin)
 
-- Justin: copy `.env.example` to `.env.local` and fill credentials.
-- Justin: `npm install`
-- Justin: `npm test`
-- Justin: `npm run contracts:test`
-- Justin: `npm run typecheck`
-- Justin: `npm run lint`
-- Justin: `npm run build`
-- Justin: `npm run dev` then walk the Definition of Done flow.
-- Justin: `npm run deploy:arc:testnet` after funding a deployer.
-- Justin: `circle wallet login you@email --testnet` then set `CIRCLE_AGENT_WALLET_ADDRESS`.
-- Replace WORLD_FEEDBACK.md placeholders with observations from the real sandbox run.
-- Update AI_DISCLOSURE.md file-level checklist after Justin reviews.
+- Copy `.env.example` to `.env.local` and fill credentials.
+- `npm test`
+- `npm run contracts:test`
+- `npm run typecheck`
+- `npm run lint`
+- `npm run build`
+- `npm run dev` then walk the Definition of Done flow.
+- `npm run deploy:arc:testnet` after funding a deployer.
+- `circle wallet login you@email --testnet` then set `CIRCLE_AGENT_WALLET_ADDRESS`.
+- Replace remaining World Sandbox `[FILL AFTER TEST]` items after a real Selfie Check.
+- Record the 2–4 minute demo video.
 
 ## SPONSOR ELIGIBILITY STATUS
 

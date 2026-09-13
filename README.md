@@ -750,17 +750,11 @@ althea/
 ├── scripts/
 │
 ├── docs/
-│   ├── MASTER_BLUEPRINT.md
-│   ├── TECH_ARCHITECTURE.md
-│   ├── PRIZE_STRATEGY.md
-│   ├── BUSINESS_MARKETING.md
-│   ├── RESEARCH_EVIDENCE.md
-│   ├── SECURITY_PRIVACY_COMPLIANCE.md
-│   ├── DATA_MODEL_API.md
-│   ├── IMPLEMENTATION_PLAN.md
-│   ├── DEMO_SCRIPT.md
-│   ├── WORLD_FEEDBACK.md
-│   ├── AI_DISCLOSURE.md
+│   ├── master_prompt.md
+│   ├── blueprint.md
+│   ├── specs/          (canonical ETHGlobal names)
+│   ├── WORLD_FEEDBACK.md → world_feedback.md
+│   ├── AI_DISCLOSURE.md → ai_disclosure.md
 │   └── DEPLOYMENTS.md
 │
 └── README.md
@@ -794,7 +788,7 @@ Create:
 .env.local
 ```
 
-using the project's environment template.
+using the project's environment template (`.env.example`). Canonical specification copies with ETHGlobal filenames live in `docs/specs/`. Working copies remain in `docs/` (lowercase).
 
 Then:
 
@@ -1078,6 +1072,35 @@ Patient medical information remains private.
 ```
 
 A real-money launch requires specialized healthcare, nonprofit, privacy, payments, and tax counsel.
+
+---
+
+# Known Limitations
+
+* Hospital coverage is demonstration fixtures (Example Medical Center + Riverside Community Hospital), not a nationwide database.
+* Hospital decisions in the ETHOnline demo are simulated and labeled.
+* World Selfie Check, Privy treasury, Circle Agent Stack, and Arc deploy/fund require Justin's credentials and live transactions.
+* PostgreSQL/Prisma schema exists; local demo uses `.data/althea-store.json` when `DATABASE_URL` is unset.
+* FAP extraction can return `NEEDS_REVIEW`. The demo policy is already structured JSON.
+* Not a production medical, legal, or charitable service.
+
+# Future Roadmap
+
+## Week 1
+
+Live sponsor sandboxes, recorded backup evidence, submission checklist.
+
+## Month 1
+
+Additional hospital policies, advocate workflow, stronger audit logs.
+
+## Month 2–3
+
+Nonprofit governance, real settlement accounts, privacy review.
+
+## Later
+
+Hospital SaaS, employer benefits, partner APIs. No medical-debt tokenization.
 
 ---
 
