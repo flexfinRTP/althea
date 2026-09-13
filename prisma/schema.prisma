@@ -1,0 +1,308 @@
+generator client {
+  provider = "prisma-client-js"
+}
+
+datasource db {
+  provider = "postgresql"
+  url      = env("DATABASE_URL")
+}
+
+enum UserRole {
+  patient
+  advocate
+  relief_reviewer
+  program_admin
+  treasury_admin
+  auditor
+  system_agent
+}
+
+enum CaseStatus {
+  draft
+  fap_analyzed
+  application_prepared
+  application_submitted
+  hospital_review
+  hospital_approved
+  hospital_denied
+  residual_verified
+  relief_requested
+  world_check_complete
+  relief_evaluated
+  relief_review
+  relief_approved
+  relief_denied
+  grant_executed
+  closed
+}
+
+model User {
+  id        String   @id
+  role      UserRole
+  email     String?
+  createdAt DateTime @default(now()) @map("created_at")
+  updatedAt DateTime @updatedAt @map("updated_at")
+  cases     Case[]
+
+  @@map("users")
+}
+
+model Hospital {
+  id                    String             @id
+  name                  String
+  systemName            String?            @map("system_name")
+  city                  String?
+  state                 String?
+  organizationType      String?            @map("organization_type")
+  fapLandingPageUrl     String?            @map("fap_landing_page_url")
+  applicationUrl        String?            @map("application_url")
+  activePolicyVersionId String?            @map("active_policy_version_id")
+  createdAt             DateTime           @default(now()) @map("created_at")
+  updatedAt             DateTime           @updatedAt @map("updated_at")
+  documents             FapDocument[]
+  policyVersions        FapPolicyVersion[]
+  cases                 Case[]
+
+  @@map("hospitals")
+}
+
+model FapDocument {
+  id               String             @id
+  hospitalId       String             @map("hospital_id")
+  title            String
+  sourceUrl        String?            @map("source_url")
+  sourceType       String             @map("source_type")
+  effectiveDate    String?            @map("effective_date")
+  fileHash         String?            @map("file_hash")
+  ingestionStatus  String             @map("ingestion_status")
+  createdAt        DateTime           @default(now()) @map("created_at")
+  hospital         Hospital           @relation(fields: [hospitalId], references: [id])
+  policyVersions   FapPolicyVersion[]
+
+  @@map("fap_documents")
+}
+
+model FapPolicyVersion {
+  id                   String                 @id
+  hospitalId           String                 @map("hospital_id")
+  documentId           String                 @map("document_id")
+  versionLabel         String                 @map("version_label")
+  effectiveDate        String?                @map("effective_date")
+  structuredPolicyJson Json                   @map("structured_policy_json")
+  validationStatus     String                 @map("validation_status")
+  reviewedBy           String?                @map("reviewed_by")
+  createdAt            DateTime               @default(now()) @map("created_at")
+  updatedAt            DateTime               @updatedAt @map("updated_at")
+  hospital             Hospital               @relation(fields: [hospitalId], references: [id])
+  document             FapDocument            @relation(fields: [documentId], references: [id])
+  estimates            EligibilityEstimate[]
+  packets              ApplicationPacket[]
+
+  @@map("fap_policy_versions")
+}
+
+model Case {
+  id               String                @id
+  userId           String?               @map("user_id")
+  hospitalId       String                @map("hospital_id")
+  status           CaseStatus
+  caseHash         String?               @unique @map("case_hash")
+  caseHashSalt     String?               @map("case_hash_salt")
+  createdAt        DateTime              @default(now()) @map("created_at")
+  updatedAt        DateTime              @updatedAt @map("updated_at")
+  user             User?                 @relation(fields: [userId], references: [id])
+  hospital         Hospital              @relation(fields: [hospitalId], references: [id])
+  financialInput   CaseFinancialInput?
+  estimates        EligibilityEstimate[]
+  packets          ApplicationPacket[]
+  decisions        HospitalDecision[]
+  worldChecks      WorldVerification[]
+  reliefRequests   ReliefRequest[]
+  auditEvents      AuditEvent[]
+
+  @@map("cases")
+}
+
+model CaseFinancialInput {
+  caseId                    String   @id @map("case_id")
+  billAmount                Float    @map("bill_amount")
+  householdSize             Int      @map("household_size")
+  householdAnnualIncome     Float    @map("household_annual_income")
+  insuranceStatus           String   @map("insurance_status")
+  firstPostDischargeBillDate String? @map("first_post_discharge_bill_date")
+  state                     String?
+  additionalPolicyInputsJson Json?   @map("additional_policy_inputs_json")
+  case                      Case     @relation(fields: [caseId], references: [id])
+
+  @@map("case_financial_inputs")
+}
+
+model EligibilityEstimate {
+  id                    String           @id
+  caseId                String           @map("case_id")
+  policyVersionId       String           @map("policy_version_id")
+  fplPercent            Float?           @map("fpl_percent")
+  outcome               String
+  estimatedAssistance   Float?           @map("estimated_assistance")
+  estimatedRemaining    Float?           @map("estimated_remaining")
+  matchedRuleIdsJson    Json             @map("matched_rule_ids_json")
+  assumptionsJson       Json             @map("assumptions_json")
+  reasonsJson           Json             @map("reasons_json")
+  citationIdsJson       Json             @map("citation_ids_json")
+  calculatedAt          DateTime         @map("calculated_at")
+  case                  Case             @relation(fields: [caseId], references: [id])
+  policyVersion         FapPolicyVersion @relation(fields: [policyVersionId], references: [id])
+
+  @@map("eligibility_estimates")
+}
+
+model ApplicationPacket {
+  id                         String           @id
+  caseId                     String           @map("case_id")
+  policyVersionId            String           @map("policy_version_id")
+  status                     String
+  applicationUrl             String?          @map("application_url")
+  submissionInstructionsJson Json             @map("submission_instructions_json")
+  requiredDocumentsJson      Json             @map("required_documents_json")
+  generatedFieldsJson        Json             @map("generated_fields_json")
+  generatedAt                DateTime         @map("generated_at")
+  submittedAt                DateTime?        @map("submitted_at")
+  case                       Case             @relation(fields: [caseId], references: [id])
+  policyVersion              FapPolicyVersion @relation(fields: [policyVersionId], references: [id])
+
+  @@map("application_packets")
+}
+
+model HospitalDecision {
+  id                  String   @id
+  caseId              String   @map("case_id")
+  status              String
+  originalBalance     Float    @map("original_balance")
+  approvedAssistance  Float    @map("approved_assistance")
+  remainingBalance    Float    @map("remaining_balance")
+  source              String
+  verified            Boolean
+  createdAt           DateTime @default(now()) @map("created_at")
+  case                Case     @relation(fields: [caseId], references: [id])
+
+  @@map("hospital_decisions")
+}
+
+model ReliefProgram {
+  id                        String          @id
+  name                      String
+  status                    String
+  currency                  String
+  maxGrant                  Float           @map("max_grant")
+  autoApprovalCap           Float           @map("auto_approval_cap")
+  humanApprovalThreshold    Float           @map("human_approval_threshold")
+  quorumThreshold           Float?          @map("quorum_threshold")
+  requiresWorldCheck        Boolean         @map("requires_world_check")
+  requiresFapCompletion     Boolean         @map("requires_fap_completion")
+  requiresVerifiedResidual  Boolean         @map("requires_verified_residual")
+  createdAt                 DateTime        @default(now()) @map("created_at")
+  updatedAt                 DateTime        @updatedAt @map("updated_at")
+  requests                  ReliefRequest[]
+
+  @@map("relief_programs")
+}
+
+model ReliefRequest {
+  id               String           @id
+  caseId           String           @map("case_id")
+  programId        String           @map("program_id")
+  requestedAmount  Float            @map("requested_amount")
+  residualBalance  Float            @map("residual_balance")
+  status           String
+  executionKey     String?          @unique @map("execution_key")
+  createdAt        DateTime         @default(now()) @map("created_at")
+  updatedAt        DateTime         @updatedAt @map("updated_at")
+  case             Case             @relation(fields: [caseId], references: [id])
+  program          ReliefProgram    @relation(fields: [programId], references: [id])
+  decisions        ReliefDecision[]
+  grants           Grant[]
+
+  @@map("relief_requests")
+}
+
+model WorldVerification {
+  id                     String    @id
+  caseId                 String    @map("case_id")
+  status                 String
+  verificationReference  String?   @map("verification_reference")
+  verifiedAt             DateTime? @map("verified_at")
+  createdAt              DateTime  @default(now()) @map("created_at")
+  case                   Case      @relation(fields: [caseId], references: [id])
+
+  @@map("world_verifications")
+}
+
+model ReliefDecision {
+  id                    String        @id
+  reliefRequestId       String        @map("relief_request_id")
+  decision              String
+  calculatedGrantAmount Float         @map("calculated_grant_amount")
+  reasonCodesJson       Json          @map("reason_codes_json")
+  rulesVersion          String        @map("rules_version")
+  approvedBy            String?       @map("approved_by")
+  createdAt             DateTime      @default(now()) @map("created_at")
+  request               ReliefRequest @relation(fields: [reliefRequestId], references: [id])
+
+  @@map("relief_decisions")
+}
+
+model Grant {
+  id                         String         @id
+  reliefRequestId            String         @map("relief_request_id")
+  caseHash                   String         @map("case_hash")
+  programId                  String         @map("program_id")
+  amount                     Float
+  currency                   String
+  providerSettlementAddress  String         @map("provider_settlement_address")
+  decisionHash               String         @map("decision_hash")
+  status                     String
+  arcTransactionHash         String?        @map("arc_transaction_hash")
+  submittedAt                DateTime?      @map("submitted_at")
+  confirmedAt                DateTime?      @map("confirmed_at")
+  request                    ReliefRequest  @relation(fields: [reliefRequestId], references: [id])
+
+  @@map("grants")
+}
+
+model TreasuryTransaction {
+  id                  String   @id
+  type                String
+  amount              Float
+  currency            String
+  sourceAddress       String?  @map("source_address")
+  destinationAddress  String   @map("destination_address")
+  chain               String
+  transactionHash     String?  @map("transaction_hash")
+  status              String
+  initiatedBy         String   @map("initiated_by")
+  createdAt           DateTime @default(now()) @map("created_at")
+
+  @@map("treasury_transactions")
+}
+
+model AuditEvent {
+  id          String   @id
+  caseId      String?  @map("case_id")
+  actorType   String   @map("actor_type")
+  actorId     String?  @map("actor_id")
+  eventType   String   @map("event_type")
+  metadataJson Json?   @map("metadata_json")
+  createdAt   DateTime @default(now()) @map("created_at")
+  case        Case?    @relation(fields: [caseId], references: [id])
+
+  @@map("audit_events")
+}
+
+model WorldNullifier {
+  nullifier  String
+  action     String
+  verifiedAt DateTime @default(now()) @map("verified_at")
+
+  @@id([nullifier, action])
+  @@map("world_nullifiers")
+}
