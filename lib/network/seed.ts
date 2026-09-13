@@ -187,7 +187,7 @@ export function seedNetworkPrograms(now: string): StoredNetworkProgram[] {
   ];
 }
 
-export function seedCampaigns(now: string): StoredMatchCampaign[] {
+export function seedCampaigns(): StoredMatchCampaign[] {
   return [
     {
       id: CAMPAIGN_WEEKEND_ID,

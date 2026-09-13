@@ -10,9 +10,9 @@ export function ChainAddress({
   value?: string | null;
   label: string;
 }) {
-  const address = value;
   const [copied, setCopied] = useState(false);
-  if (!address) return <span className="text-muted">Not configured</span>;
+  if (!value) return <span className="text-muted">Not configured</span>;
+  const address = value;
   const href = explorerAddress(address);
 
   async function copy() {

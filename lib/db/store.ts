@@ -326,7 +326,7 @@ function emptyStore(): StoreShape {
     escrows: [],
     allocations: [],
     donations: [],
-    campaigns: seedCampaigns(seededAt),
+    campaigns: seedCampaigns(),
     donors: [],
     program: {
       id: DEMO_PROGRAM_ID,

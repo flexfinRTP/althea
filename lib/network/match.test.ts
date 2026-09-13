@@ -7,7 +7,7 @@ const now = new Date("2026-09-13T12:00:00.000Z");
 
 describe("automatic match campaigns", () => {
   it("matches $50 + $50 until the campaign budget is gone", () => {
-    const campaign = seedCampaigns(now.toISOString())[0];
+    const campaign = seedCampaigns()[0];
     expect(campaignMatchAmount(50, campaign, now)).toBe(50);
     const after = applyCampaignSpend(campaign, 50);
     expect(after.spent).toBe(50);
