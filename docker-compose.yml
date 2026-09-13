@@ -1,0 +1,14 @@
+services:
+  postgres:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: althea
+      POSTGRES_PASSWORD: althea
+      POSTGRES_DB: althea
+    ports:
+      - "5432:5432"
+    volumes:
+      - althea_pg:/var/lib/postgresql/data
+
+volumes:
+  althea_pg:

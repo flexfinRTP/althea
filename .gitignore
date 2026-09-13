@@ -10,3 +10,10 @@ dist/
 Thumbs.db
 .vercel
 coverage/
+.data/
+cache/
+artifacts/
+typechain-types/
+prisma/*.db
+prisma/*.db-journal
+*.tsbuildinfo
