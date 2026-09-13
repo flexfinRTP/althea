@@ -2,18 +2,10 @@
 
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
-import { IDKitRequestWidget, selfieCheckLegacy } from "@worldcoin/idkit";
+import { IDKitRequestWidget, selfieCheckLegacy, type RpContext } from "@worldcoin/idkit";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { api } from "@/lib/client/api";
-
-type RpContext = {
-  rp_id: string;
-  nonce: string;
-  created_at: number | string;
-  expires_at: number | string;
-  signature: string;
-};
 
 export default function VerifyPage() {
   const params = useParams<{ caseId: string }>();

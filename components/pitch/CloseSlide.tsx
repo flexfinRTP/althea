@@ -94,15 +94,15 @@ export function CloseSlide() {
           ))}
         </ul>
 
-        <p className="mt-[1.5em] flex items-center justify-center gap-[0.45em] text-[1.05em] text-gold-soft">
+        <p className="mt-[1.5em] flex flex-wrap items-center justify-center gap-x-[0.5em] gap-y-[0.4em] text-[1.05em] text-gold-soft">
           <span>Proudly built for the</span>
-          <span className="inline-flex h-[1.9em] w-[2.15em] items-center justify-center rounded-full bg-white">
+          <span className="inline-flex items-center rounded-full bg-white px-[0.85em] py-[0.28em]">
             <Image
-              src="/partners/ethereum.png"
-              alt="Ethereum"
-              width={119}
-              height={179}
-              className="h-[1.25em] w-auto"
+              src="/partners/ethereum-lockup.png"
+              alt="ethereum"
+              width={512}
+              height={212}
+              className="h-[2.4em] w-auto"
             />
           </span>
           <span>2026 hackathon!</span>

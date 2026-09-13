@@ -4,7 +4,8 @@
  */
 import { describe, expect, it } from "vitest";
 import { errorEnvelope } from "@/lib/errors";
-import { caseCreateSchema, treasuryFundSchema } from "@/lib/validation";
+import { sanitizeMoneyInput, sanitizeWholeNumberInput } from "@/lib/money";
+import { caseCreateSchema, donateSchema, funderProgramSchema, treasuryFundSchema } from "@/lib/validation";
 import demo from "@/data/demo/example-medical-center.json";
 
 describe("input validation eval", () => {
@@ -37,5 +38,20 @@ describe("input validation eval", () => {
     expect(parsed.success).toBe(false);
     if (parsed.success) return;
     expect(errorEnvelope(parsed.error).error.code).toBe("INVALID_AMOUNT");
+  });
+
+  it("rejects letters in money fields on Check My Bill, treasury, donate, and funder", () => {
+    expect(sanitizeMoneyInput("eighteen thousand")).toBe("");
+    expect(sanitizeWholeNumberInput("three")).toBe("");
+    expect(caseCreateSchema.safeParse({
+      hospitalId: demo.hospitalId,
+      billAmount: "abc",
+      householdSize: "x",
+      householdAnnualIncome: "50k",
+      insuranceStatus: demo.insuranceStatus,
+    }).success).toBe(false);
+    expect(treasuryFundSchema.safeParse({ amount: "1e6" }).success).toBe(false);
+    expect(donateSchema.safeParse({ amount: "fifty", sourceChain: "ethereum" }).success).toBe(false);
+    expect(funderProgramSchema.safeParse({ name: "Match", grantCap: "two fifty" }).success).toBe(false);
   });
 });

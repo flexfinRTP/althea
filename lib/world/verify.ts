@@ -21,10 +21,10 @@ export function createRpSignature(action: string) {
   }
   const signed = signRequest({ signingKeyHex, action });
   return {
-    rp_id: process.env.WORLD_RP_ID,
+    rp_id: process.env.WORLD_RP_ID as string,
     nonce: signed.nonce,
-    created_at: signed.createdAt,
-    expires_at: signed.expiresAt,
+    created_at: Number(signed.createdAt),
+    expires_at: Number(signed.expiresAt),
     signature: signed.sig,
     sig: signed.sig,
   };

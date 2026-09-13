@@ -318,9 +318,12 @@ export const donateSchema = z.object({
     errorMap: () => ({ message: "Select a source chain." }),
   }),
   destinationProgramId: entityIdSchema.optional(),
-  email: z.string().email("Enter a valid email.").optional(),
+  email: z.preprocess(
+    emptyToUndefined,
+    z.string().email("Enter a valid email.").max(254, "Email is too long.").optional(),
+  ),
   campaignId: entityIdSchema.optional(),
-  donorWallet: z.string().trim().optional(),
+  donorWallet: z.preprocess(emptyToUndefined, z.string().trim().max(128, "Wallet is too long.").optional()),
 });
 
 export const donateCompleteSchema = z.object({

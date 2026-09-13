@@ -6,10 +6,11 @@ import { useParams } from "next/navigation";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
-import { Field, inputClass } from "@/components/ui/Field";
+import { Field, fieldDescribedBy, inputClass } from "@/components/ui/Field";
 import { VaultTable } from "@/components/network/VaultTable";
 import { api } from "@/lib/client/api";
-import { formatUsd } from "@/lib/money";
+import { formatUsd, sanitizeMoneyInput } from "@/lib/money";
+import { fieldErrors, funderProgramSchema, fundProgramSchema, visibleFieldError } from "@/lib/validation";
 import { LOADER_STATUS } from "@/lib/ui/loader";
 
 type FunderPayload = {
@@ -53,6 +54,29 @@ export default function FunderConsolePage() {
   const [fundProgramId, setFundProgramId] = useState("");
   const [probe, setProbe] = useState("");
   const [busy, setBusy] = useState<string | null>(null);
+  const [createSubmitted, setCreateSubmitted] = useState(false);
+  const [fundSubmitted, setFundSubmitted] = useState(false);
+  const [createTouched, setCreateTouched] = useState<Record<string, boolean>>({});
+  const [fundTouched, setFundTouched] = useState<Record<string, boolean>>({});
+
+  const createValues = {
+    name,
+    kind: "match" as const,
+    budget,
+    grantCap,
+    matchRatioNum: 1,
+    matchRatioDen: 1,
+    maxMatchPerCase: grantCap,
+  };
+  const createParsed = funderProgramSchema.safeParse(createValues);
+  const createErrors = createParsed.success ? {} : fieldErrors(createParsed.error);
+  const nameError = visibleFieldError("name", createErrors, createTouched, createSubmitted);
+  const budgetError = visibleFieldError("budget", createErrors, createTouched, createSubmitted);
+  const grantCapError = visibleFieldError("grantCap", createErrors, createTouched, createSubmitted);
+
+  const fundParsed = fundProgramSchema.safeParse({ amount: fundAmount });
+  const fundErrors = fundParsed.success ? {} : fieldErrors(fundParsed.error);
+  const fundAmountError = visibleFieldError("amount", fundErrors, fundTouched, fundSubmitted);
 
   const load = useCallback(async () => {
     const next = await api<FunderPayload>(`/api/funders/${params.funderId}`);
@@ -66,19 +90,23 @@ export default function FunderConsolePage() {
 
   async function createProgram(event: FormEvent) {
     event.preventDefault();
+    setError("");
+    setCreateSubmitted(true);
+    const result = funderProgramSchema.safeParse(createValues);
+    if (!result.success) {
+      const next = fieldErrors(result.error);
+      const first = ["programName", "budget", "grantCap"].find((field) => {
+        const key = field === "programName" ? "name" : field;
+        return next[key];
+      });
+      if (first) document.getElementById(first)?.focus();
+      return;
+    }
     setBusy("create");
     try {
       await api(`/api/funders/${params.funderId}/programs`, {
         method: "POST",
-        body: JSON.stringify({
-          name,
-          kind: "match",
-          budget: Number(budget),
-          grantCap: Number(grantCap),
-          matchRatioNum: 1,
-          matchRatioDen: 1,
-          maxMatchPerCase: Number(grantCap),
-        }),
+        body: JSON.stringify(result.data),
       });
       await load();
     } catch (err) {
@@ -90,11 +118,18 @@ export default function FunderConsolePage() {
 
   async function fundProgram(event: FormEvent) {
     event.preventDefault();
+    setError("");
+    setFundSubmitted(true);
+    const result = fundProgramSchema.safeParse({ amount: fundAmount });
+    if (!result.success) {
+      document.getElementById("fundAmount")?.focus();
+      return;
+    }
     setBusy("fund");
     try {
       await api(`/api/funders/${params.funderId}/programs/${fundProgramId}/fund`, {
         method: "POST",
-        body: JSON.stringify({ amount: Number(fundAmount) }),
+        body: JSON.stringify(result.data),
       });
       await load();
     } catch (err) {
@@ -207,23 +242,58 @@ export default function FunderConsolePage() {
       </section>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <form className="space-y-4 border border-ink bg-cream-elev p-6" onSubmit={createProgram}>
+        <form className="space-y-4 border border-ink bg-cream-elev p-6" noValidate onSubmit={createProgram}>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">Create relief program</p>
-          <Field id="programName" label="Program name">
-            <input id="programName" className={inputClass} value={name} onChange={(e) => setName(e.target.value)} />
+          <Field id="programName" label="Program name" required error={nameError}>
+            <input
+              id="programName"
+              className={inputClass}
+              maxLength={120}
+              value={name}
+              aria-invalid={Boolean(nameError)}
+              aria-describedby={fieldDescribedBy("programName", nameError)}
+              onBlur={() => setCreateTouched((current) => ({ ...current, name: true }))}
+              onChange={(e) => setName(e.target.value)}
+              required
+            />
           </Field>
-          <Field id="budget" label="Budget">
-            <input id="budget" className={inputClass} value={budget} onChange={(e) => setBudget(e.target.value)} />
+          <Field id="budget" label="Budget" error={budgetError}>
+            <input
+              id="budget"
+              className={inputClass}
+              inputMode="decimal"
+              autoComplete="off"
+              spellCheck={false}
+              maxLength={14}
+              value={budget}
+              aria-invalid={Boolean(budgetError)}
+              aria-describedby={fieldDescribedBy("budget", budgetError)}
+              onBlur={() => setCreateTouched((current) => ({ ...current, budget: true }))}
+              onChange={(e) => setBudget(sanitizeMoneyInput(e.target.value))}
+            />
           </Field>
-          <Field id="grantCap" label="Maximum per case">
-            <input id="grantCap" className={inputClass} value={grantCap} onChange={(e) => setGrantCap(e.target.value)} />
+          <Field id="grantCap" label="Maximum per case" required error={grantCapError}>
+            <input
+              id="grantCap"
+              className={inputClass}
+              inputMode="decimal"
+              autoComplete="off"
+              spellCheck={false}
+              maxLength={14}
+              value={grantCap}
+              aria-invalid={Boolean(grantCapError)}
+              aria-describedby={fieldDescribedBy("grantCap", grantCapError)}
+              onBlur={() => setCreateTouched((current) => ({ ...current, grantCap: true }))}
+              onChange={(e) => setGrantCap(sanitizeMoneyInput(e.target.value))}
+              required
+            />
           </Field>
           <Button type="submit" disabled={busy !== null}>
             Create program
           </Button>
         </form>
 
-        <form className="space-y-4 border border-ink bg-cream-elev p-6" onSubmit={fundProgram}>
+        <form className="space-y-4 border border-ink bg-cream-elev p-6" noValidate onSubmit={fundProgram}>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">Fund program</p>
           <Field id="fundProgram" label="Program">
             <select
@@ -239,12 +309,20 @@ export default function FunderConsolePage() {
               ))}
             </select>
           </Field>
-          <Field id="fundAmount" label="Amount">
+          <Field id="fundAmount" label="Amount" required error={fundAmountError}>
             <input
               id="fundAmount"
               className={inputClass}
+              inputMode="decimal"
+              autoComplete="off"
+              spellCheck={false}
+              maxLength={14}
               value={fundAmount}
-              onChange={(e) => setFundAmount(e.target.value)}
+              aria-invalid={Boolean(fundAmountError)}
+              aria-describedby={fieldDescribedBy("fundAmount", fundAmountError)}
+              onBlur={() => setFundTouched((current) => ({ ...current, amount: true }))}
+              onChange={(e) => setFundAmount(sanitizeMoneyInput(e.target.value))}
+              required
             />
           </Field>
           <Button type="submit" disabled={busy !== null || !fundProgramId}>

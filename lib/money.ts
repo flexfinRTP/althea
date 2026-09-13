@@ -12,6 +12,30 @@ export function formatUsd(amount: number): string {
 
 const MONEY_PATTERN = /^(0|[1-9]\d*)(\.\d{1,2})?$/;
 
+export function sanitizeMoneyInput(value: string): string {
+  const compact = value.replace(/\s/g, "");
+  const dollar = compact.startsWith("$") ? "$" : "";
+  const body = (dollar ? compact.slice(1) : compact).replace(/[^0-9.,]/g, "");
+  const dot = body.indexOf(".");
+  if (dot === -1) return dollar + body;
+  const whole = body.slice(0, dot).replace(/\./g, "");
+  const frac = body.slice(dot + 1).replace(/[.,]/g, "").slice(0, 2);
+  return `${dollar}${whole}.${frac}`;
+}
+
+export function sanitizeWholeNumberInput(value: string, maxLength?: number): string {
+  const digits = value.replace(/\D/g, "");
+  return maxLength == null ? digits : digits.slice(0, maxLength);
+}
+
+export function sanitizeHexInput(value: string): string {
+  const compact = value.replace(/\s/g, "");
+  if (compact === "0" || compact === "0x" || compact === "0X") return compact === "0X" ? "0x" : compact;
+  const prefixed = /^0x/i.test(compact);
+  const body = (prefixed ? compact.slice(2) : compact).replace(/[^0-9a-fA-F]/g, "");
+  return prefixed ? `0x${body}` : body;
+}
+
 export function parseUsdInput(value: string): number | null {
   const cleaned = value.replace(/[$,\s]/g, "");
   if (!cleaned) return null;

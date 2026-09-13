@@ -6,6 +6,7 @@ import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Field, fieldDescribedBy, inputClass } from "@/components/ui/Field";
 import { api } from "@/lib/client/api";
+import { sanitizeMoneyInput, sanitizeWholeNumberInput } from "@/lib/money";
 import {
   CASE_FIELD_ORDER,
   MIN_BILL_DATE,
@@ -163,7 +164,7 @@ export default function CheckPage() {
             aria-invalid={Boolean(billError)}
             aria-describedby={fieldDescribedBy("billAmount", billError)}
             onBlur={() => markTouched("billAmount")}
-            onChange={(e) => setBillAmount(e.target.value)}
+            onChange={(e) => setBillAmount(sanitizeMoneyInput(e.target.value))}
             required
           />
         </Field>
@@ -180,7 +181,7 @@ export default function CheckPage() {
             aria-invalid={Boolean(sizeError)}
             aria-describedby={fieldDescribedBy("householdSize", sizeError)}
             onBlur={() => markTouched("householdSize")}
-            onChange={(e) => setHouseholdSize(e.target.value)}
+            onChange={(e) => setHouseholdSize(sanitizeWholeNumberInput(e.target.value, 2))}
             required
           />
         </Field>
@@ -197,7 +198,7 @@ export default function CheckPage() {
             aria-invalid={Boolean(incomeError)}
             aria-describedby={fieldDescribedBy("householdAnnualIncome", incomeError)}
             onBlur={() => markTouched("householdAnnualIncome")}
-            onChange={(e) => setIncome(e.target.value)}
+            onChange={(e) => setIncome(sanitizeMoneyInput(e.target.value))}
             required
           />
         </Field>

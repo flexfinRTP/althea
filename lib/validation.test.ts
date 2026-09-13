@@ -1,5 +1,5 @@
 import { describe, expect, it } from "vitest";
-import { parseUsdInput } from "@/lib/money";
+import { parseUsdInput, sanitizeHexInput, sanitizeMoneyInput, sanitizeWholeNumberInput } from "@/lib/money";
 import { errorEnvelope } from "@/lib/errors";
 import {
   caseCreateSchema,
@@ -37,6 +37,38 @@ describe("parseUsdInput", () => {
     expect(parseUsdInput("10.123")).toBeNull();
     expect(parseUsdInput("-5")).toBeNull();
     expect(parseUsdInput("abc")).toBeNull();
+  });
+});
+
+describe("sanitizeMoneyInput", () => {
+  it("strips letters and extra punctuation", () => {
+    expect(sanitizeMoneyInput("abc")).toBe("");
+    expect(sanitizeMoneyInput("18k")).toBe("18");
+    expect(sanitizeMoneyInput("1e6")).toBe("16");
+    expect(sanitizeMoneyInput("-50")).toBe("50");
+    expect(sanitizeMoneyInput("12.3456")).toBe("12.34");
+  });
+
+  it("keeps dollars, commas, and a trailing decimal", () => {
+    expect(sanitizeMoneyInput("$18,420.50")).toBe("$18,420.50");
+    expect(sanitizeMoneyInput("18.")).toBe("18.");
+    expect(sanitizeMoneyInput("$")).toBe("$");
+  });
+});
+
+describe("sanitizeWholeNumberInput", () => {
+  it("keeps digits only and respects max length", () => {
+    expect(sanitizeWholeNumberInput("3 people")).toBe("3");
+    expect(sanitizeWholeNumberInput("twelve")).toBe("");
+    expect(sanitizeWholeNumberInput("123", 2)).toBe("12");
+  });
+});
+
+describe("sanitizeHexInput", () => {
+  it("allows 0x and hex letters only", () => {
+    expect(sanitizeHexInput("0xabcDEF12")).toBe("0xabcDEF12");
+    expect(sanitizeHexInput("0xzzz")).toBe("0x");
+    expect(sanitizeHexInput("hello")).toBe("");
   });
 });
 
@@ -98,6 +130,13 @@ describe("caseCreateSchema", () => {
     if (parsed.success) return;
     expect(errorEnvelope(parsed.error).error.code).toBe("INVALID_BILL_AMOUNT");
   });
+
+  it("rejects letters in money and household fields", () => {
+    expect(caseCreateSchema.safeParse({ ...valid, billAmount: "eighteen" }).success).toBe(false);
+    expect(caseCreateSchema.safeParse({ ...valid, householdSize: "two" }).success).toBe(false);
+    expect(caseCreateSchema.safeParse({ ...valid, householdAnnualIncome: "50k" }).success).toBe(false);
+    expect(caseCreateSchema.safeParse({ ...valid, billAmount: "1e6" }).success).toBe(false);
+  });
 });
 
 describe("treasuryFundSchema", () => {
@@ -115,6 +154,12 @@ describe("donateSchema", () => {
       sourceChain: "ethereum",
     });
     expect(donateSchema.safeParse({ amount: 50, sourceChain: "bitcoin" }).success).toBe(false);
+  });
+
+  it("treats a blank email as omitted and rejects letter amounts", () => {
+    expect(donateSchema.parse({ amount: 50, sourceChain: "arc", email: "" }).email).toBeUndefined();
+    expect(donateSchema.safeParse({ amount: "abc", sourceChain: "arc" }).success).toBe(false);
+    expect(donateSchema.safeParse({ amount: 50, sourceChain: "arc", email: "not-an-email" }).success).toBe(false);
   });
 });
 

@@ -9,7 +9,7 @@ import { ChainAddress } from "@/components/treasury/ChainAddress";
 import { PrivyActions } from "@/components/treasury/PrivyActions";
 import { api } from "@/lib/client/api";
 import { explorerTx, shortenAddress } from "@/lib/arc/chain";
-import { formatDateTime, formatUsd } from "@/lib/money";
+import { formatDateTime, formatUsd, sanitizeMoneyInput } from "@/lib/money";
 import {
   allocation,
   TREASURY_STATUS_LABEL,
@@ -17,6 +17,7 @@ import {
   type TreasuryActivity,
 } from "@/lib/treasury/activity";
 import { fieldErrors, treasuryFundSchema, visibleFieldError } from "@/lib/validation";
+import { publicPrivyAppId } from "@/lib/privy/app-id";
 import { LOADER_STATUS } from "@/lib/ui/loader";
 
 type Balance = {
@@ -54,7 +55,7 @@ export default function TreasuryPage() {
   const [busy, setBusy] = useState<"fund" | "test" | "refresh" | null>(null);
   const [submitted, setSubmitted] = useState(false);
   const [touched, setTouched] = useState(false);
-  const privyEnabled = Boolean(process.env.NEXT_PUBLIC_PRIVY_APP_ID);
+  const privyEnabled = Boolean(publicPrivyAppId());
 
   const parsed = treasuryFundSchema.safeParse({ amount });
   const errors = parsed.success ? {} : fieldErrors(parsed.error);
@@ -290,7 +291,7 @@ export default function TreasuryPage() {
                 aria-invalid={Boolean(amountError)}
                 aria-describedby={fieldDescribedBy("amount", amountError, "USDC")}
                 onBlur={() => setTouched(true)}
-                onChange={(e) => setAmount(e.target.value)}
+                onChange={(e) => setAmount(sanitizeMoneyInput(e.target.value))}
                 required
               />
             </Field>

@@ -26,11 +26,15 @@
 
 ### Changed
 
+- Root Privy provider skips or catches an invalid `NEXT_PUBLIC_PRIVY_APP_ID` (including a World `app_` prefix) so `/check` and other pages do not 500.
+- Money and household fields drop letters as you type. Donate and funder amounts use the same sanitizer and Zod rules as Check My Bill instead of `Number()`.
+- `not-found` Home control uses Next `Link` so `next build` lint passes.
+- World verify page uses IDKit `RpContext` (`created_at` / `expires_at` as unix seconds) so `next build` type-check passes.
 - `/how` is the architecture flowchart and copy page again: one Fig. 1 rail diagram, text stage cards, no still-life photographs. Homepage photographs are unchanged.
-- Pitch close uses a larger cream lockup. ETHOnline line sits at the bottom: Proudly built for the Ethereum 2026 hackathon, mark in a white oval.
+- Pitch close footer uses the Ethereum diamond + ethereum wordmark on a white pill. The source banner had no recoverable word pixels; the wordmark is rebuilt from that diamond.
 - Pitch close remaining figure rolls $18,420 → $1,970, then pops. No fade.
 - Pitch close headline is the Relief Network line. The hospital-already-had-it line is removed.
-- Pitch open gives the left column more width and larger type. The right-side lockup is smaller.
+- Pitch open lockup is 24em on the right. Left type is a step smaller.
 - Pitch open names financial assistance on the 240-day and $2.7B lines, with KFF / CFPB / IRS after each figure.
 - Pitch open is the national problem statement from `docs/business_marketing.md` and `docs/research_evidence.md`, not the demo $18,420 bill. Cream lockup stays large on the right. Close is full-stage, centered.
 - Homepage and `/how` restored to the photographed marketing pages (numbered hero, section images, existing copy). Relief Network is one added section on each page.
