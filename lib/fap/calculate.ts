@@ -34,7 +34,7 @@ function inRange(value: number, min?: number, max?: number): boolean {
   return true;
 }
 
-function conditionsNeedReview(rule: AssistanceRule, input: PatientFinancialInputs): boolean {
+function conditionsNeedReview(rule: AssistanceRule): boolean {
   return (rule.conditions ?? []).some((condition) => condition.operator === "requires_review");
 }
 
@@ -85,7 +85,7 @@ function matchRule(
   for (const rule of rules) {
     if (!inRange(fplPercent, rule.minFplPercent, rule.maxFplPercent)) continue;
     if (conditionsFail(rule, input)) continue;
-    if (conditionsNeedReview(rule, input)) return { rule, needsReview: true };
+    if (conditionsNeedReview(rule)) return { rule, needsReview: true };
     return { rule, needsReview: false };
   }
   return { needsReview: false };

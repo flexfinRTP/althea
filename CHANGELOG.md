@@ -27,7 +27,7 @@
 ### Changed
 
 - ETHOnline demo cut is four screens, two minutes: `/pitch`, `/result/demo`, `/fund`, `/pitch/close`. Full path stays in `docs/demo_script.md` for judges.
-- `next build` type-check: `ChainAddress` copies a narrowed string, and `seedCampaigns` no longer takes an unused `now`.
+- `next build` type-check: `ChainAddress` copies a narrowed string, `seedCampaigns` drops unused `now`, `conditionsNeedReview` drops unused `input`, and `recordHospitalDecision` reads a captured `financialInput` after the estimate refresh.
 - Demo flow and app pages share one cream / olive / gold chrome: pill actions, rounded cards, gold kickers, and card nav instead of plain text links. `/check`, `/result`, `/application`, `/case/*`, `/policy`, `/admin`, `/fund`, `/fund/give`, `/fund/verify`, and `/funders` keep the same buttons, forms, and destinations.
 - Root Privy provider skips or catches an invalid `NEXT_PUBLIC_PRIVY_APP_ID` (including a World `app_` prefix) so `/check` and other pages do not 500.
 - Money and household fields drop letters as you type. Donate and funder amounts use the same sanitizer and Zod rules as Check My Bill instead of `Number()`.

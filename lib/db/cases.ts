@@ -381,12 +381,13 @@ export async function recordHospitalDecision(
   },
 ): Promise<StoredDecision> {
   let bundle = await getCaseBundle(caseId);
-  if (!bundle.financialInput) throw new ApiError("INPUT_MISSING", "Financial inputs are missing.");
+  const financialInput = bundle.financialInput;
+  if (!financialInput) throw new ApiError("INPUT_MISSING", "Financial inputs are missing.");
   if (!bundle.estimate) {
     await calculateCaseEstimate(caseId);
     bundle = await getCaseBundle(caseId);
   }
-  const original = bundle.financialInput.billAmount;
+  const original = financialInput.billAmount;
   const approvedAssistance = input.approvedAssistance ?? bundle.estimate?.estimatedAssistance ?? 0;
   const remainingBalance =
     input.remainingBalance ?? bundle.estimate?.estimatedRemaining ?? Math.max(0, original - approvedAssistance);
