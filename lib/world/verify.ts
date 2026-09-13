@@ -22,10 +22,11 @@ export function createRpSignature(action: string) {
   const signed = signRequest({ signingKeyHex, action });
   return {
     rp_id: process.env.WORLD_RP_ID,
-    sig: signed.sig,
     nonce: signed.nonce,
     created_at: signed.createdAt,
     expires_at: signed.expiresAt,
+    signature: signed.sig,
+    sig: signed.sig,
   };
 }
 
@@ -59,7 +60,7 @@ export async function verifyWorldProof(input: {
   const nullifier = extractNullifier(input.idkitResponse) ?? extractNullifier(body);
   const action = process.env.WORLD_ACTION_ID || process.env.NEXT_PUBLIC_WORLD_ACTION_ID || "althea-relief-liveness";
   if (nullifier) {
-    const stored = storeNullifier(nullifier, action);
+  const stored = await storeNullifier(nullifier, action);
     if (!stored) {
       throw new ApiError(
         "WORLD_DUPLICATE",

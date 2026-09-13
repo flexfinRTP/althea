@@ -21,7 +21,7 @@ export function Providers({ children }: { children: React.ReactNode }) {
         },
         appearance: {
           theme: "light",
-          accentColor: "#1f4a43",
+          accentColor: "#5c5c38",
         },
       }}
     >

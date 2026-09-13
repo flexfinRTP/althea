@@ -5,7 +5,7 @@ import { readSession, writeSession } from "@/lib/auth";
 
 export async function POST() {
   try {
-    const created = ensureDemoCase();
+    const created = await ensureDemoCase();
     const session = await readSession();
     await writeSession({
       ...session,
@@ -14,8 +14,8 @@ export async function POST() {
     return jsonOk({
       caseId: created.id,
       status: created.status,
-      case: getFullCase("demo"),
-      timeline: getCaseTimeline("demo"),
+      case: await getFullCase("demo"),
+      timeline: await getCaseTimeline("demo"),
       disclaimer: ESTIMATE_DISCLAIMER,
     });
   } catch (error) {

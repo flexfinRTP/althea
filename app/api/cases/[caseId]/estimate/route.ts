@@ -7,9 +7,9 @@ export async function POST(_request: Request, context: { params: Promise<{ caseI
   try {
     const { caseId } = await context.params;
     const session = await readSession();
-    const caseRow = getCase(caseId);
+    const caseRow = await getCase(caseId);
     canAccessCase(session, caseId, caseRow.userId);
-    const estimate = calculateCaseEstimate(caseId);
+    const estimate = await calculateCaseEstimate(caseId);
     return jsonOk({
       ...estimate,
       disclaimer: ESTIMATE_DISCLAIMER,

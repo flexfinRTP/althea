@@ -3,7 +3,7 @@ generator client {
 }
 
 datasource db {
-  provider = "postgresql"
+  provider = "sqlite"
   url      = env("DATABASE_URL")
 }
 
@@ -57,6 +57,7 @@ model Hospital {
   fapLandingPageUrl     String?            @map("fap_landing_page_url")
   applicationUrl        String?            @map("application_url")
   activePolicyVersionId String?            @map("active_policy_version_id")
+  policySourcePath      String?            @map("policy_source_path")
   createdAt             DateTime           @default(now()) @map("created_at")
   updatedAt             DateTime           @updatedAt @map("updated_at")
   documents             FapDocument[]
@@ -131,6 +132,7 @@ model CaseFinancialInput {
   insuranceStatus           String   @map("insurance_status")
   firstPostDischargeBillDate String? @map("first_post_discharge_bill_date")
   state                     String?
+  residencyAnswersJson       Json?   @map("residency_answers_json")
   additionalPolicyInputsJson Json?   @map("additional_policy_inputs_json")
   case                      Case     @relation(fields: [caseId], references: [id])
 
@@ -193,6 +195,7 @@ model ReliefProgram {
   name                      String
   status                    String
   currency                  String
+  minGrant                  Float?          @map("min_grant")
   maxGrant                  Float           @map("max_grant")
   autoApprovalCap           Float           @map("auto_approval_cap")
   humanApprovalThreshold    Float           @map("human_approval_threshold")

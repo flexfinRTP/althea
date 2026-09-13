@@ -17,3 +17,19 @@ typechain-types/
 prisma/*.db
 prisma/*.db-journal
 *.tsbuildinfo
+
+# Local specification drafts (kept on disk, not published)
+docs/
+
+# Secrets, keys, wallets
+*.pem
+*.p12
+*.pfx
+*.wallet
+wallets.json
+
+# Editor / OS / machine-local
+.cursor/
+.vscode/
+.idea/
+*.local

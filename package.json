@@ -4,6 +4,7 @@
   "private": true,
   "description": "Althea Care — patient financial advocacy and transparent charitable relief rail.",
   "scripts": {
+    "predev": "node scripts/ensure-sqlite.mjs",
     "dev": "next dev --turbopack",
     "build": "next build",
     "start": "next start",

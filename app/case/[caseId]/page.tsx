@@ -3,8 +3,10 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { AppLoader } from "@/components/ui/AppLoader";
 import { Card } from "@/components/ui/Card";
 import { api } from "@/lib/client/api";
+import { LOADER_STATUS } from "@/lib/ui/loader";
 
 type CasePayload = {
   case: { status: string };
@@ -31,7 +33,7 @@ export default function CasePage() {
     api<CasePayload>(`/api/cases/${params.caseId}`).then(setData).catch(() => undefined);
   }, [params.caseId]);
 
-  if (!data) return <p>Loading...</p>;
+  if (!data) return <AppLoader status={LOADER_STATUS.case} />;
 
   return (
     <div className="space-y-6">
@@ -39,7 +41,7 @@ export default function CasePage() {
       <Card>
         <ol className="space-y-2">
           {STEPS.map((step) => (
-            <li key={step} className={data.case.status === step ? "font-medium" : "text-[#5c564c]"}>
+            <li key={step} className={data.case.status === step ? "font-medium" : "text-muted"}>
               {step.replaceAll("_", " ")}
             </li>
           ))}

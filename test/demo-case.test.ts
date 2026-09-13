@@ -1,13 +1,14 @@
 import { describe, expect, it } from "vitest";
 import { resetStoreForTests } from "@/lib/db/store";
 import { ensureDemoCase, getCase } from "@/lib/db/cases";
+import demo from "@/data/demo/example-medical-center.json";
 
 describe("demo case bootstrap", () => {
-  it("creates case id demo with frozen financial inputs", () => {
-    resetStoreForTests();
-    const created = ensureDemoCase();
+  it("creates case id demo with fixture financial inputs", async () => {
+    await resetStoreForTests();
+    const created = await ensureDemoCase();
     expect(created.id).toBe("demo");
-    expect(getCase("demo").id).toBe("demo");
-    expect(getCase("demo").hospitalId).toBe("hosp_demo_001");
+    expect((await getCase("demo")).id).toBe("demo");
+    expect((await getCase("demo")).hospitalId).toBe(demo.hospitalId);
   });
 });

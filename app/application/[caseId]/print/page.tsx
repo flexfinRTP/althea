@@ -2,9 +2,12 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { Logo } from "@/components/brand/Logo";
+import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { api } from "@/lib/client/api";
+import { LOADER_STATUS } from "@/lib/ui/loader";
 
 type Packet = {
   requiredDocuments: Array<{ id: string; description: string; required: boolean }>;
@@ -23,7 +26,7 @@ export default function ApplicationPrintPage() {
       .catch(() => undefined);
   }, [params.caseId]);
 
-  if (!packet) return <p>Loading...</p>;
+  if (!packet) return <AppLoader status={LOADER_STATUS.print} />;
 
   return (
     <div className="space-y-6 print:max-w-none">
@@ -33,7 +36,8 @@ export default function ApplicationPrintPage() {
           Print
         </Button>
       </div>
-      <p className="text-sm uppercase tracking-[0.16em] text-[#5c564c]">Althea Care</p>
+      <Logo variant="lockup" size="md" href={null} />
+      <p className="text-sm uppercase tracking-[0.16em] text-gold-deep">Althea Care</p>
       <h2 className="text-4xl">Hospital financial assistance packet</h2>
       <Card className="space-y-2">
         <p>Hospital: {packet.generatedFields.hospital}</p>
@@ -60,8 +64,16 @@ export default function ApplicationPrintPage() {
           <p key={line}>{line}</p>
         ))}
         {packet.applicationUrl ? <p>Hospital application: {packet.applicationUrl}</p> : null}
+        {packet.generatedFields.billingPhone || packet.generatedFields.billingAddress ? (
+          <p>
+            Hospital contact:{" "}
+            {[packet.generatedFields.billingName, packet.generatedFields.billingPhone, packet.generatedFields.billingAddress]
+              .filter(Boolean)
+              .join(" · ")}
+          </p>
+        ) : null}
       </Card>
-      <p className="text-sm text-[#5c564c]">
+      <p className="text-sm text-muted">
         Educational packet. Althea does not submit this application to the hospital and does not guarantee eligibility.
       </p>
     </div>

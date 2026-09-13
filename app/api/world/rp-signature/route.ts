@@ -1,12 +1,8 @@
-import { z } from "zod";
 import { jsonError, jsonOk } from "@/lib/http";
 import { createRpSignature } from "@/lib/world/verify";
 import { worldConfigured } from "@/lib/world/verify";
 import { ApiError } from "@/lib/errors";
-
-const bodySchema = z.object({
-  action: z.string().default(process.env.WORLD_ACTION_ID || "althea-relief-liveness"),
-});
+import { worldRpSignatureSchema } from "@/lib/validation";
 
 export async function POST(request: Request) {
   try {
@@ -17,7 +13,7 @@ export async function POST(request: Request) {
         503,
       );
     }
-    const body = bodySchema.parse(await request.json().catch(() => ({})));
+    const body = worldRpSignatureSchema.parse(await request.json().catch(() => ({})));
     return jsonOk(createRpSignature(body.action));
   } catch (error) {
     return jsonError(error);

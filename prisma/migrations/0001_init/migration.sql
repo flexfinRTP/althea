@@ -1,20 +1,15 @@
--- Prisma initial schema for Althea Care.
--- Apply with: npx prisma migrate dev
--- Runtime falls back to .data/althea-store.json when DATABASE_URL is unset.
-
-CREATE TYPE "UserRole" AS ENUM ('patient', 'advocate', 'relief_reviewer', 'program_admin', 'treasury_admin', 'auditor', 'system_agent');
-CREATE TYPE "CaseStatus" AS ENUM ('draft', 'fap_analyzed', 'application_prepared', 'application_submitted', 'hospital_review', 'hospital_approved', 'hospital_denied', 'residual_verified', 'relief_requested', 'world_check_complete', 'relief_evaluated', 'relief_review', 'relief_approved', 'relief_denied', 'grant_executed', 'closed');
+-- Demo SQLite schema. No Postgres required.
 
 CREATE TABLE "users" (
-  "id" TEXT PRIMARY KEY,
-  "role" "UserRole" NOT NULL,
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "role" TEXT NOT NULL,
   "email" TEXT,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" DATETIME NOT NULL
 );
 
 CREATE TABLE "hospitals" (
-  "id" TEXT PRIMARY KEY,
+  "id" TEXT NOT NULL PRIMARY KEY,
   "name" TEXT NOT NULL,
   "system_name" TEXT,
   "city" TEXT,
@@ -23,164 +18,187 @@ CREATE TABLE "hospitals" (
   "fap_landing_page_url" TEXT,
   "application_url" TEXT,
   "active_policy_version_id" TEXT,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL
+  "policy_source_path" TEXT,
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" DATETIME NOT NULL
 );
 
 CREATE TABLE "fap_documents" (
-  "id" TEXT PRIMARY KEY,
-  "hospital_id" TEXT NOT NULL REFERENCES "hospitals"("id"),
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "hospital_id" TEXT NOT NULL,
   "title" TEXT NOT NULL,
   "source_url" TEXT,
   "source_type" TEXT NOT NULL,
   "effective_date" TEXT,
   "file_hash" TEXT,
   "ingestion_status" TEXT NOT NULL,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "fap_documents_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "hospitals" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "fap_policy_versions" (
-  "id" TEXT PRIMARY KEY,
-  "hospital_id" TEXT NOT NULL REFERENCES "hospitals"("id"),
-  "document_id" TEXT NOT NULL REFERENCES "fap_documents"("id"),
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "hospital_id" TEXT NOT NULL,
+  "document_id" TEXT NOT NULL,
   "version_label" TEXT NOT NULL,
   "effective_date" TEXT,
-  "structured_policy_json" JSONB NOT NULL,
+  "structured_policy_json" TEXT NOT NULL,
   "validation_status" TEXT NOT NULL,
   "reviewed_by" TEXT,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" DATETIME NOT NULL,
+  CONSTRAINT "fap_policy_versions_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "hospitals" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT "fap_policy_versions_document_id_fkey" FOREIGN KEY ("document_id") REFERENCES "fap_documents" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "cases" (
-  "id" TEXT PRIMARY KEY,
-  "user_id" TEXT REFERENCES "users"("id"),
-  "hospital_id" TEXT NOT NULL REFERENCES "hospitals"("id"),
-  "status" "CaseStatus" NOT NULL,
-  "case_hash" TEXT UNIQUE,
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "user_id" TEXT,
+  "hospital_id" TEXT NOT NULL,
+  "status" TEXT NOT NULL,
+  "case_hash" TEXT,
   "case_hash_salt" TEXT,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" DATETIME NOT NULL,
+  CONSTRAINT "cases_user_id_fkey" FOREIGN KEY ("user_id") REFERENCES "users" ("id") ON DELETE SET NULL ON UPDATE CASCADE,
+  CONSTRAINT "cases_hospital_id_fkey" FOREIGN KEY ("hospital_id") REFERENCES "hospitals" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+CREATE UNIQUE INDEX "cases_case_hash_key" ON "cases"("case_hash");
+
 CREATE TABLE "case_financial_inputs" (
-  "case_id" TEXT PRIMARY KEY REFERENCES "cases"("id"),
-  "bill_amount" DOUBLE PRECISION NOT NULL,
+  "case_id" TEXT NOT NULL PRIMARY KEY,
+  "bill_amount" REAL NOT NULL,
   "household_size" INTEGER NOT NULL,
-  "household_annual_income" DOUBLE PRECISION NOT NULL,
+  "household_annual_income" REAL NOT NULL,
   "insurance_status" TEXT NOT NULL,
   "first_post_discharge_bill_date" TEXT,
   "state" TEXT,
-  "additional_policy_inputs_json" JSONB
+  "residency_answers_json" TEXT,
+  "additional_policy_inputs_json" TEXT,
+  CONSTRAINT "case_financial_inputs_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "cases" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "eligibility_estimates" (
-  "id" TEXT PRIMARY KEY,
-  "case_id" TEXT NOT NULL REFERENCES "cases"("id"),
-  "policy_version_id" TEXT NOT NULL REFERENCES "fap_policy_versions"("id"),
-  "fpl_percent" DOUBLE PRECISION,
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "case_id" TEXT NOT NULL,
+  "policy_version_id" TEXT NOT NULL,
+  "fpl_percent" REAL,
   "outcome" TEXT NOT NULL,
-  "estimated_assistance" DOUBLE PRECISION,
-  "estimated_remaining" DOUBLE PRECISION,
-  "matched_rule_ids_json" JSONB NOT NULL,
-  "assumptions_json" JSONB NOT NULL,
-  "reasons_json" JSONB NOT NULL,
-  "citation_ids_json" JSONB NOT NULL,
-  "calculated_at" TIMESTAMP(3) NOT NULL
+  "estimated_assistance" REAL,
+  "estimated_remaining" REAL,
+  "matched_rule_ids_json" TEXT NOT NULL,
+  "assumptions_json" TEXT NOT NULL,
+  "reasons_json" TEXT NOT NULL,
+  "citation_ids_json" TEXT NOT NULL,
+  "calculated_at" DATETIME NOT NULL,
+  CONSTRAINT "eligibility_estimates_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "cases" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT "eligibility_estimates_policy_version_id_fkey" FOREIGN KEY ("policy_version_id") REFERENCES "fap_policy_versions" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "application_packets" (
-  "id" TEXT PRIMARY KEY,
-  "case_id" TEXT NOT NULL REFERENCES "cases"("id"),
-  "policy_version_id" TEXT NOT NULL REFERENCES "fap_policy_versions"("id"),
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "case_id" TEXT NOT NULL,
+  "policy_version_id" TEXT NOT NULL,
   "status" TEXT NOT NULL,
   "application_url" TEXT,
-  "submission_instructions_json" JSONB NOT NULL,
-  "required_documents_json" JSONB NOT NULL,
-  "generated_fields_json" JSONB NOT NULL,
-  "generated_at" TIMESTAMP(3) NOT NULL,
-  "submitted_at" TIMESTAMP(3)
+  "submission_instructions_json" TEXT NOT NULL,
+  "required_documents_json" TEXT NOT NULL,
+  "generated_fields_json" TEXT NOT NULL,
+  "generated_at" DATETIME NOT NULL,
+  "submitted_at" DATETIME,
+  CONSTRAINT "application_packets_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "cases" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT "application_packets_policy_version_id_fkey" FOREIGN KEY ("policy_version_id") REFERENCES "fap_policy_versions" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "hospital_decisions" (
-  "id" TEXT PRIMARY KEY,
-  "case_id" TEXT NOT NULL REFERENCES "cases"("id"),
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "case_id" TEXT NOT NULL,
   "status" TEXT NOT NULL,
-  "original_balance" DOUBLE PRECISION NOT NULL,
-  "approved_assistance" DOUBLE PRECISION NOT NULL,
-  "remaining_balance" DOUBLE PRECISION NOT NULL,
+  "original_balance" REAL NOT NULL,
+  "approved_assistance" REAL NOT NULL,
+  "remaining_balance" REAL NOT NULL,
   "source" TEXT NOT NULL,
   "verified" BOOLEAN NOT NULL,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "hospital_decisions_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "cases" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "relief_programs" (
-  "id" TEXT PRIMARY KEY,
+  "id" TEXT NOT NULL PRIMARY KEY,
   "name" TEXT NOT NULL,
   "status" TEXT NOT NULL,
   "currency" TEXT NOT NULL,
-  "max_grant" DOUBLE PRECISION NOT NULL,
-  "auto_approval_cap" DOUBLE PRECISION NOT NULL,
-  "human_approval_threshold" DOUBLE PRECISION NOT NULL,
-  "quorum_threshold" DOUBLE PRECISION,
+  "min_grant" REAL,
+  "max_grant" REAL NOT NULL,
+  "auto_approval_cap" REAL NOT NULL,
+  "human_approval_threshold" REAL NOT NULL,
+  "quorum_threshold" REAL,
   "requires_world_check" BOOLEAN NOT NULL,
   "requires_fap_completion" BOOLEAN NOT NULL,
   "requires_verified_residual" BOOLEAN NOT NULL,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" DATETIME NOT NULL
 );
 
 CREATE TABLE "relief_requests" (
-  "id" TEXT PRIMARY KEY,
-  "case_id" TEXT NOT NULL REFERENCES "cases"("id"),
-  "program_id" TEXT NOT NULL REFERENCES "relief_programs"("id"),
-  "requested_amount" DOUBLE PRECISION NOT NULL,
-  "residual_balance" DOUBLE PRECISION NOT NULL,
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "case_id" TEXT NOT NULL,
+  "program_id" TEXT NOT NULL,
+  "requested_amount" REAL NOT NULL,
+  "residual_balance" REAL NOT NULL,
   "status" TEXT NOT NULL,
-  "execution_key" TEXT UNIQUE,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
-  "updated_at" TIMESTAMP(3) NOT NULL
+  "execution_key" TEXT,
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "updated_at" DATETIME NOT NULL,
+  CONSTRAINT "relief_requests_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "cases" ("id") ON DELETE RESTRICT ON UPDATE CASCADE,
+  CONSTRAINT "relief_requests_program_id_fkey" FOREIGN KEY ("program_id") REFERENCES "relief_programs" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
+CREATE UNIQUE INDEX "relief_requests_execution_key_key" ON "relief_requests"("execution_key");
+
 CREATE TABLE "world_verifications" (
-  "id" TEXT PRIMARY KEY,
-  "case_id" TEXT NOT NULL REFERENCES "cases"("id"),
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "case_id" TEXT NOT NULL,
   "status" TEXT NOT NULL,
   "verification_reference" TEXT,
-  "verified_at" TIMESTAMP(3),
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+  "verified_at" DATETIME,
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "world_verifications_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "cases" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "relief_decisions" (
-  "id" TEXT PRIMARY KEY,
-  "relief_request_id" TEXT NOT NULL REFERENCES "relief_requests"("id"),
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "relief_request_id" TEXT NOT NULL,
   "decision" TEXT NOT NULL,
-  "calculated_grant_amount" DOUBLE PRECISION NOT NULL,
-  "reason_codes_json" JSONB NOT NULL,
+  "calculated_grant_amount" REAL NOT NULL,
+  "reason_codes_json" TEXT NOT NULL,
   "rules_version" TEXT NOT NULL,
   "approved_by" TEXT,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "relief_decisions_relief_request_id_fkey" FOREIGN KEY ("relief_request_id") REFERENCES "relief_requests" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "grants" (
-  "id" TEXT PRIMARY KEY,
-  "relief_request_id" TEXT NOT NULL REFERENCES "relief_requests"("id"),
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "relief_request_id" TEXT NOT NULL,
   "case_hash" TEXT NOT NULL,
   "program_id" TEXT NOT NULL,
-  "amount" DOUBLE PRECISION NOT NULL,
+  "amount" REAL NOT NULL,
   "currency" TEXT NOT NULL,
   "provider_settlement_address" TEXT NOT NULL,
   "decision_hash" TEXT NOT NULL,
   "status" TEXT NOT NULL,
   "arc_transaction_hash" TEXT,
-  "submitted_at" TIMESTAMP(3),
-  "confirmed_at" TIMESTAMP(3)
+  "submitted_at" DATETIME,
+  "confirmed_at" DATETIME,
+  CONSTRAINT "grants_relief_request_id_fkey" FOREIGN KEY ("relief_request_id") REFERENCES "relief_requests" ("id") ON DELETE RESTRICT ON UPDATE CASCADE
 );
 
 CREATE TABLE "treasury_transactions" (
-  "id" TEXT PRIMARY KEY,
+  "id" TEXT NOT NULL PRIMARY KEY,
   "type" TEXT NOT NULL,
-  "amount" DOUBLE PRECISION NOT NULL,
+  "amount" REAL NOT NULL,
   "currency" TEXT NOT NULL,
   "source_address" TEXT,
   "destination_address" TEXT NOT NULL,
@@ -188,22 +206,23 @@ CREATE TABLE "treasury_transactions" (
   "transaction_hash" TEXT,
   "status" TEXT NOT NULL,
   "initiated_by" TEXT NOT NULL,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE "audit_events" (
-  "id" TEXT PRIMARY KEY,
-  "case_id" TEXT REFERENCES "cases"("id"),
+  "id" TEXT NOT NULL PRIMARY KEY,
+  "case_id" TEXT,
   "actor_type" TEXT NOT NULL,
   "actor_id" TEXT,
   "event_type" TEXT NOT NULL,
-  "metadata_json" JSONB,
-  "created_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP
+  "metadata_json" TEXT,
+  "created_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  CONSTRAINT "audit_events_case_id_fkey" FOREIGN KEY ("case_id") REFERENCES "cases" ("id") ON DELETE SET NULL ON UPDATE CASCADE
 );
 
 CREATE TABLE "world_nullifiers" (
   "nullifier" TEXT NOT NULL,
   "action" TEXT NOT NULL,
-  "verified_at" TIMESTAMP(3) NOT NULL DEFAULT CURRENT_TIMESTAMP,
+  "verified_at" DATETIME NOT NULL DEFAULT CURRENT_TIMESTAMP,
   PRIMARY KEY ("nullifier", "action")
 );

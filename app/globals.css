@@ -1,16 +1,37 @@
 @import "tailwindcss";
 
+@theme {
+  --font-sans: var(--font-althea), "Plus Jakarta Sans", ui-sans-serif, system-ui, sans-serif;
+  --color-cream: #f3eddd;
+  --color-cream-elev: #f8f3e6;
+  --color-cream-2: #ebe4d0;
+  --color-ink: #2c2b1f;
+  --color-muted: #6b6a52;
+  --color-line: #e4dcc8;
+  --color-green: #5c5c38;
+  --color-green-2: #6e6e44;
+  --color-green-dark: #3d3d26;
+  --color-gold: #c9a45a;
+  --color-gold-soft: #edd4a4;
+  --color-gold-deep: #b78057;
+  --color-danger: #8a2f2f;
+  --color-warn: #8a5a12;
+}
+
 :root {
-  --bg: #f6f1e8;
-  --bg-elev: #fffdf8;
-  --ink: #1c1915;
-  --muted: #5c564c;
-  --line: #e3d9c8;
-  --accent: #1f4a43;
-  --accent-2: #2f6a60;
+  --bg: #f3eddd;
+  --bg-elev: #f8f3e6;
+  --ink: #2c2b1f;
+  --muted: #6b6a52;
+  --line: #e4dcc8;
+  --accent: #5c5c38;
+  --accent-2: #6e6e44;
+  --gold: #c9a45a;
+  --gold-soft: #edd4a4;
+  --gold-deep: #b78057;
   --warn: #8a5a12;
   --danger: #8a2f2f;
-  --focus: #1f4a43;
+  --focus: #c9a45a;
 }
 
 * {
@@ -29,6 +50,11 @@
   border: 0;
 }
 
+html {
+  scroll-behavior: smooth;
+  scroll-padding-top: 6.5rem;
+}
+
 html,
 body {
   min-height: 100%;
@@ -38,19 +64,24 @@ body {
   margin: 0;
   background: var(--bg);
   color: var(--ink);
-  font-family: var(--font-sans), "IBM Plex Sans", system-ui, sans-serif;
+  font-family: var(--font-sans);
+  font-size: 1.0625rem;
+  line-height: 1.6;
 }
 
 h1,
 h2,
 h3 {
-  font-family: var(--font-serif), "Source Serif 4", Georgia, serif;
-  font-weight: 560;
+  font-family: var(--font-sans);
+  font-weight: 600;
   letter-spacing: -0.02em;
+  line-height: 1.15;
 }
 
-a {
-  color: inherit;
+@layer base {
+  a {
+    color: inherit;
+  }
 }
 
 :focus-visible {
@@ -58,7 +89,45 @@ a {
   outline-offset: 3px;
 }
 
+.althea-loader-inline {
+  display: flex;
+  align-items: center;
+  gap: 0.75rem;
+}
+
+.althea-hash {
+  display: grid;
+  grid-template-columns: repeat(8, 1fr);
+  gap: 4px;
+  height: 28px;
+}
+
+.althea-hash-cell {
+  background: var(--gold-soft);
+}
+
+.althea-hash-cell:nth-child(odd) {
+  background: var(--green);
+}
+
+.althea-settle {
+  display: flex;
+  align-items: center;
+  height: 8px;
+}
+
+.althea-settle-dot {
+  width: 8px;
+  height: 8px;
+  border-radius: 999px;
+  background: var(--gold);
+}
+
 @media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+
   *,
   *::before,
   *::after {

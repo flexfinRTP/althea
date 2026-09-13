@@ -1,31 +1,27 @@
 import type { Metadata } from "next";
-import { IBM_Plex_Sans, Source_Serif_4 } from "next/font/google";
+import { Plus_Jakarta_Sans } from "next/font/google";
 import "./globals.css";
 import { Providers } from "@/components/providers";
 import { AppShell } from "@/components/layout/AppShell";
 
-const sans = IBM_Plex_Sans({
+const sans = Plus_Jakarta_Sans({
   subsets: ["latin"],
-  weight: ["400", "500", "600"],
-  variable: "--font-sans",
-});
-
-const serif = Source_Serif_4({
-  subsets: ["latin"],
-  weight: ["500", "600"],
-  variable: "--font-serif",
+  weight: ["400", "500", "600", "700"],
+  variable: "--font-althea",
+  display: "swap",
 });
 
 export const metadata: Metadata = {
   title: "Althea — Before the bill becomes debt",
   description:
     "Althea helps you find and understand hospital financial assistance before an unaffordable bill becomes debt.",
+  applicationName: "Althea",
 };
 
 export default function RootLayout({ children }: { children: React.ReactNode }) {
   return (
     <html lang="en">
-      <body className={`${sans.variable} ${serif.variable} antialiased`}>
+      <body className={`${sans.variable} antialiased`}>
         <Providers>
           <AppShell>{children}</AppShell>
         </Providers>

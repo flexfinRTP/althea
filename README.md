@@ -541,8 +541,8 @@ Althea uses blockchain only to improve the transparency and programmability of c
 
 ## Database
 
-* PostgreSQL
-* Supabase acceptable for MVP
+* SQLite file at `.data/althea.db` (created on `npm run dev`)
+* No Postgres install for the demo
 
 ## Policy Intelligence
 
@@ -749,13 +749,7 @@ althea/
 │
 ├── scripts/
 │
-├── docs/
-│   ├── master_prompt.md
-│   ├── blueprint.md
-│   ├── specs/          (canonical ETHGlobal names)
-│   ├── WORLD_FEEDBACK.md → world_feedback.md
-│   ├── AI_DISCLOSURE.md → ai_disclosure.md
-│   └── DEPLOYMENTS.md
+├── docs/               (local drafts, gitignored)
 │
 └── README.md
 ```
@@ -768,7 +762,6 @@ althea/
 
 * Node.js
 * package manager
-* PostgreSQL or configured Supabase project
 * World developer configuration
 * Privy developer configuration
 * Circle developer configuration
@@ -788,7 +781,7 @@ Create:
 .env.local
 ```
 
-using the project's environment template (`.env.example`). Canonical specification copies with ETHGlobal filenames live in `docs/specs/`. Working copies remain in `docs/` (lowercase).
+using the project's environment template (`.env.example`). Specification drafts stay in local `docs/` and are not committed.
 
 Then:
 
@@ -853,11 +846,7 @@ Deploy to Arc testnet:
 npm run deploy:arc:testnet
 ```
 
-Deployment details belong in:
-
-```text
-docs/DEPLOYMENTS.md
-```
+Record deployment addresses locally after deploy. Do not commit keys or operator identifiers.
 
 ---
 
@@ -940,11 +929,7 @@ Althea targets:
 
 World is used as a meaningful abuse-prevention signal for a scarce charitable fund.
 
-A separate developer-feedback document is included at:
-
-```text
-docs/WORLD_FEEDBACK.md
-```
+World developer-feedback notes stay in local `docs/` and are not committed.
 
 ---
 
@@ -1079,8 +1064,8 @@ A real-money launch requires specialized healthcare, nonprofit, privacy, payment
 
 * Hospital coverage is demonstration fixtures (Example Medical Center + Riverside Community Hospital), not a nationwide database.
 * Hospital decisions in the ETHOnline demo are simulated and labeled.
-* World Selfie Check, Privy treasury, Circle Agent Stack, and Arc deploy/fund require Justin's credentials and live transactions.
-* PostgreSQL/Prisma schema exists; local demo uses `.data/althea-store.json` when `DATABASE_URL` is unset.
+* World Selfie Check, Privy treasury, Circle Agent Stack, and Arc deploy/fund require operator credentials and live transactions.
+* Prisma uses a local SQLite file at `.data/althea.db`. `npm run dev` creates it.
 * FAP extraction can return `NEEDS_REVIEW`. The demo policy is already structured JSON.
 * Not a production medical, legal, or charitable service.
 
@@ -1147,13 +1132,7 @@ The closing statement is:
 
 AI-assisted development is permitted under ETHOnline rules but must be transparently documented.
 
-See:
-
-```text
-docs/AI_DISCLOSURE.md
-```
-
-All spec-driven planning artifacts used to direct coding assistants are preserved in the repository.
+AI-assisted planning artifacts stay in local `docs/` and are not committed.
 
 ---
 

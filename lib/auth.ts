@@ -1,3 +1,4 @@
+import { createHmac } from "crypto";
 import { cookies } from "next/headers";
 import { Role } from "@/lib/db/store";
 import { isDemoMode, requireStaffKey } from "@/lib/config";
@@ -11,6 +12,32 @@ export type Session = {
 
 const COOKIE = "althea_session";
 
+function sessionSecret(): string {
+  const secret = process.env.SESSION_SECRET;
+  if (secret) return secret;
+  if (isDemoMode()) return "demo-session-secret";
+  throw new ApiError("SESSION_UNCONFIGURED", "Session signing is not configured.", 500);
+}
+
+function sign(payload: string): string {
+  const mac = createHmac("sha256", sessionSecret()).update(payload).digest("hex");
+  return `${payload}.${mac}`;
+}
+
+function verify(raw: string): string | null {
+  const index = raw.lastIndexOf(".");
+  if (index <= 0) return null;
+  const payload = raw.slice(0, index);
+  const mac = raw.slice(index + 1);
+  const expected = createHmac("sha256", sessionSecret()).update(payload).digest("hex");
+  if (mac.length !== expected.length) return null;
+  let mismatch = 0;
+  for (let i = 0; i < expected.length; i += 1) {
+    mismatch |= mac.charCodeAt(i) ^ expected.charCodeAt(i);
+  }
+  return mismatch === 0 ? payload : null;
+}
+
 export async function readSession(): Promise<Session> {
   const jar = await cookies();
   const raw = jar.get(COOKIE)?.value;
@@ -18,7 +45,9 @@ export async function readSession(): Promise<Session> {
     return { userId: "anon", role: "patient", caseIds: [] };
   }
   try {
-    return JSON.parse(raw) as Session;
+    const payload = verify(raw) ?? (isDemoMode() && !raw.includes(".") ? raw : null);
+    if (!payload) return { userId: "anon", role: "patient", caseIds: [] };
+    return JSON.parse(payload) as Session;
   } catch {
     return { userId: "anon", role: "patient", caseIds: [] };
   }
@@ -26,7 +55,7 @@ export async function readSession(): Promise<Session> {
 
 export async function writeSession(session: Session) {
   const jar = await cookies();
-  jar.set(COOKIE, JSON.stringify(session), {
+  jar.set(COOKIE, sign(JSON.stringify(session)), {
     httpOnly: true,
     sameSite: "lax",
     path: "/",

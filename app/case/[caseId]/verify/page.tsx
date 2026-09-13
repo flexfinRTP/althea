@@ -60,9 +60,9 @@ export default function VerifyPage() {
         </p>
       </Card>
       {complete ? <p>Liveness check complete.</p> : null}
-      {error ? <p className="text-[#8a2f2f]">{error}</p> : null}
+      {error ? <p className="text-danger">{error}</p> : null}
       {!configured ? (
-        <p className="text-sm text-[#5c564c]">
+        <p className="text-sm text-muted">
           World app credentials are not configured. Request Manual Review to continue the demo path without faking a Selfie Check proof.
         </p>
       ) : null}
@@ -73,7 +73,7 @@ export default function VerifyPage() {
         <Button variant="ghost" onClick={manual}>
           Request Manual Review
         </Button>
-        <Button variant="ghost" onClick={start}>
+        <Button variant="ghost" onClick={start} disabled={!configured}>
           Try Again
         </Button>
       </div>

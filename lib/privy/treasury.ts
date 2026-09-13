@@ -137,6 +137,24 @@ export async function sendUsdcApproveAndDeposit(amountUsd: number): Promise<{ ha
   return { hash: response.hash };
 }
 
+export async function getTreasuryWalletAddress(): Promise<`0x${string}` | null> {
+  const configured = process.env.PRIVY_TREASURY_WALLET_ADDRESS as `0x${string}` | undefined;
+  if (configured) return configured;
+  const walletId = process.env.PRIVY_TREASURY_WALLET_ID;
+  if (!walletId || !privyConfigured()) return null;
+  try {
+    const privy = privyClient();
+    const wallets = privy.wallets() as { get?: (id: string) => Promise<{ address?: string }> };
+    if (typeof wallets.get === "function") {
+      const wallet = await wallets.get(walletId);
+      if (wallet?.address) return wallet.address as `0x${string}`;
+    }
+  } catch (error) {
+    console.error(error);
+  }
+  return null;
+}
+
 export function policyBlockedMessage() {
   return "Blocked by Althea Treasury Policy";
 }

@@ -5,7 +5,7 @@ import { runReliefAgent } from "@/lib/relief/agent";
 export async function GET(_request: Request, context: { params: Promise<{ reliefRequestId: string }> }) {
   try {
     const { reliefRequestId } = await context.params;
-    getReliefRequest(reliefRequestId);
+    await getReliefRequest(reliefRequestId);
     const trace = await runReliefAgent(reliefRequestId);
     return jsonOk(trace);
   } catch (error) {

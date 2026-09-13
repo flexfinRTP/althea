@@ -1,18 +1,18 @@
-import { z } from "zod";
 import { jsonError, jsonOk } from "@/lib/http";
 import { getFullCase, getCaseTimeline, updateCaseInputs, calculateCaseEstimate } from "@/lib/db/cases";
 import { canAccessCase, readSession } from "@/lib/auth";
 import { ESTIMATE_DISCLAIMER } from "@/lib/config";
+import { casePatchSchema, compactPatch } from "@/lib/validation";
 
 export async function GET(_request: Request, context: { params: Promise<{ caseId: string }> }) {
   try {
     const { caseId } = await context.params;
     const session = await readSession();
-    const bundle = getFullCase(caseId);
+    const bundle = await getFullCase(caseId);
     canAccessCase(session, caseId, bundle.case.userId);
     return jsonOk({
       ...bundle,
-      timeline: getCaseTimeline(caseId),
+      timeline: await getCaseTimeline(caseId),
       disclaimer: ESTIMATE_DISCLAIMER,
     });
   } catch (error) {
@@ -20,28 +20,20 @@ export async function GET(_request: Request, context: { params: Promise<{ caseId
   }
 }
 
-const patchSchema = z.object({
-  billAmount: z.number().nonnegative().optional(),
-  householdSize: z.number().int().min(1).optional(),
-  householdAnnualIncome: z.number().nonnegative().optional(),
-  insuranceStatus: z.enum(["insured", "uninsured"]).optional(),
-  firstPostDischargeBillDate: z.string().optional(),
-  state: z.string().optional(),
-});
 
 export async function PATCH(request: Request, context: { params: Promise<{ caseId: string }> }) {
   try {
     const { caseId } = await context.params;
     const session = await readSession();
-    const bundle = getFullCase(caseId);
+    const bundle = await getFullCase(caseId);
     canAccessCase(session, caseId, bundle.case.userId);
-    const body = patchSchema.parse(await request.json());
-    updateCaseInputs(caseId, body);
-    calculateCaseEstimate(caseId);
-    const next = getFullCase(caseId);
+    const body = compactPatch(casePatchSchema.parse(await request.json()));
+    await updateCaseInputs(caseId, body);
+    await calculateCaseEstimate(caseId);
+    const next = await getFullCase(caseId);
     return jsonOk({
       ...next,
-      timeline: getCaseTimeline(caseId),
+      timeline: await getCaseTimeline(caseId),
       disclaimer: ESTIMATE_DISCLAIMER,
     });
   } catch (error) {

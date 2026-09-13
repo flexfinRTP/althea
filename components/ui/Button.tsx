@@ -14,8 +14,8 @@ export function Button({
       className={twMerge(
         "inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-medium transition disabled:opacity-50",
         variant === "primary"
-          ? "bg-[#1f4a43] text-[#fffdf8] hover:bg-[#2f6a60]"
-          : "border border-[#e3d9c8] bg-[#fffdf8] text-[#1c1915] hover:bg-[#f6f1e8]",
+          ? "bg-green text-cream-elev hover:bg-green-2"
+          : "border border-line bg-cream-elev text-ink hover:bg-cream",
         className,
       )}
       {...rest}

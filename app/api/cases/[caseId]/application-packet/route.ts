@@ -6,8 +6,8 @@ export async function POST(_request: Request, context: { params: Promise<{ caseI
   try {
     const { caseId } = await context.params;
     const session = await readSession();
-    canAccessCase(session, caseId, getCase(caseId).userId);
-    const packet = prepareApplication(caseId);
+    canAccessCase(session, caseId, (await getCase(caseId)).userId);
+    const packet = await prepareApplication(caseId);
     return jsonOk({
       applicationPacketId: packet.id,
       status: packet.status,

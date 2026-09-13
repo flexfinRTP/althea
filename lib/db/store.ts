@@ -1,10 +1,12 @@
 import { randomUUID } from "crypto";
 import { mkdirSync, readFileSync, writeFileSync } from "fs";
 import path from "path";
-import { DEMO_HOSPITAL_ID, DEMO_POLICY_VERSION_ID, DEMO_PROGRAM_ID, DEMO_PROGRAM_NAME } from "@/lib/config";
+import { DEMO_HOSPITAL_ID, DEMO_POLICY_VERSION_ID, DEMO_PROGRAM_ID, DEMO_PROGRAM_NAME, getDemoFixture } from "@/lib/config";
 import fixture from "@/data/hospitals/example-medical-center/fap-2026.json";
 import riverside from "@/data/hospitals/riverside-community/fap-2026.json";
 import { FapPolicy } from "@/lib/fap/schema";
+import { prisma } from "@/lib/db/prisma";
+import { hydrateFromPrisma, persistToPrisma } from "@/lib/db/prisma-sync";
 
 export type CaseStatus =
   | "draft"
@@ -52,6 +54,7 @@ export type StoredFinancialInput = {
   insuranceStatus: "insured" | "uninsured";
   firstPostDischargeBillDate?: string;
   state?: string;
+  residencyAnswers?: Record<string, unknown>;
 };
 
 export type StoredEstimate = {
@@ -184,6 +187,7 @@ export type StoreShape = {
     fapLandingPageUrl?: string;
     applicationUrl?: string;
     activePolicyVersionId?: string;
+    policySourcePath?: string;
   }>;
   policies: Array<{
     id: string;
@@ -212,9 +216,11 @@ export type StoreShape = {
     name: string;
     status: "active" | "paused" | "closed";
     currency: "USDC";
+    minGrant?: number;
     maxGrant: number;
     autoApprovalCap: number;
     humanApprovalThreshold: number;
+    quorumThreshold?: number;
     requiresWorldCheck: boolean;
     requiresFapCompletion: boolean;
     requiresVerifiedResidual: boolean;
@@ -239,6 +245,7 @@ function emptyStore(): StoreShape {
         fapLandingPageUrl: fixture.hospital.fapLandingPageUrl,
         applicationUrl: fixture.hospital.applicationUrl,
         activePolicyVersionId: DEMO_POLICY_VERSION_ID,
+        policySourcePath: "data/hospitals/example-medical-center/fap-2026.md",
       },
       {
         id: riverside.hospital.id,
@@ -250,6 +257,7 @@ function emptyStore(): StoreShape {
         fapLandingPageUrl: riverside.hospital.fapLandingPageUrl,
         applicationUrl: riverside.hospital.applicationUrl,
         activePolicyVersionId: riverside.id,
+        policySourcePath: "data/hospitals/riverside-community/fap-2026.md",
       },
     ],
     policies: [
@@ -290,13 +298,14 @@ function emptyStore(): StoreShape {
       name: DEMO_PROGRAM_NAME,
       status: "active",
       currency: "USDC",
-      maxGrant: 500,
-      autoApprovalCap: 250,
-      humanApprovalThreshold: 251,
+      minGrant: undefined,
+      maxGrant: getDemoFixture().maxStandardGrant,
+      autoApprovalCap: getDemoFixture().autoThreshold,
+      humanApprovalThreshold: getDemoFixture().autoThreshold + 1,
       requiresWorldCheck: true,
       requiresFapCompletion: true,
       requiresVerifiedResidual: true,
-      demoAvailableCapital: 25000,
+      demoAvailableCapital: getDemoFixture().demoAvailableCapital,
       demoReliefDelivered: 8250,
       demoGrantsCompleted: 31,
     },
@@ -304,48 +313,77 @@ function emptyStore(): StoreShape {
 }
 
 let memory: StoreShape | null = null;
+let loading: Promise<StoreShape> | null = null;
 
-function load(): StoreShape {
-  if (memory) return memory;
-  try {
-    memory = JSON.parse(readFileSync(DATA_PATH, "utf8")) as StoreShape;
-    ensureSeededHospitals(memory);
-  } catch {
-    memory = emptyStore();
-    persist();
-  }
-  return memory;
+function persistJson() {
+  mkdirSync(path.dirname(DATA_PATH), { recursive: true });
+  writeFileSync(DATA_PATH, JSON.stringify(memory, null, 2));
 }
 
 function ensureSeededHospitals(store: StoreShape) {
   const seed = emptyStore();
-  let changed = false;
   for (const hospital of seed.hospitals) {
-    if (!store.hospitals.some((row) => row.id === hospital.id)) {
+    const existing = store.hospitals.find((row) => row.id === hospital.id);
+    if (!existing) {
       store.hospitals.push(hospital);
-      changed = true;
+    } else if (!existing.policySourcePath && hospital.policySourcePath) {
+      existing.policySourcePath = hospital.policySourcePath;
     }
   }
   for (const policy of seed.policies) {
     if (!store.policies.some((row) => row.id === policy.id)) {
       store.policies.push(policy);
-      changed = true;
     }
   }
-  if (changed) persist();
+  if (!store.program?.id) {
+    store.program = seed.program;
+  }
 }
 
-function persist() {
-  mkdirSync(path.dirname(DATA_PATH), { recursive: true });
-  writeFileSync(DATA_PATH, JSON.stringify(memory, null, 2));
+async function load(): Promise<StoreShape> {
+  if (memory) return memory;
+  if (loading) return loading;
+  loading = (async () => {
+    const client = prisma();
+    if (client) {
+      memory = await hydrateFromPrisma(client, emptyStore);
+      ensureSeededHospitals(memory);
+      await persistToPrisma(client, memory);
+      return memory;
+    }
+    try {
+      memory = JSON.parse(readFileSync(DATA_PATH, "utf8")) as StoreShape;
+      ensureSeededHospitals(memory);
+      persistJson();
+    } catch {
+      memory = emptyStore();
+      persistJson();
+    }
+    return memory;
+  })();
+  try {
+    return await loading;
+  } finally {
+    loading = null;
+  }
 }
 
-export function getStore(): StoreShape {
+async function persist() {
+  if (!memory) return;
+  const client = prisma();
+  if (client) {
+    await persistToPrisma(client, memory);
+    return;
+  }
+  persistJson();
+}
+
+export async function getStore(): Promise<StoreShape> {
   return load();
 }
 
-export function saveStore(): void {
-  persist();
+export async function saveStore(): Promise<void> {
+  await persist();
 }
 
 export function nowIso(): string {
@@ -356,15 +394,15 @@ export function id(prefix: string): string {
   return `${prefix}_${randomUUID().replace(/-/g, "").slice(0, 16)}`;
 }
 
-export function writeAudit(event: Omit<StoredAudit, "id" | "createdAt">): StoredAudit {
-  const store = load();
+export async function writeAudit(event: Omit<StoredAudit, "id" | "createdAt">): Promise<StoredAudit> {
+  const store = await load();
   const row: StoredAudit = { ...event, id: id("aud"), createdAt: nowIso() };
   store.audits.push(row);
-  persist();
+  await persist();
   return row;
 }
 
-export function resetStoreForTests(): void {
+export async function resetStoreForTests(): Promise<void> {
   memory = emptyStore();
-  persist();
+  persistJson();
 }

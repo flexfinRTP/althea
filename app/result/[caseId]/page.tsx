@@ -3,6 +3,7 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Money } from "@/components/bill/Money";
@@ -10,6 +11,7 @@ import { ExplainDrawer } from "@/components/fap/ExplainDrawer";
 import { TimelineCard } from "@/components/fap/TimelineCard";
 import { api } from "@/lib/client/api";
 import { formatUsd } from "@/lib/money";
+import { LOADER_STATUS } from "@/lib/ui/loader";
 
 type ResultPayload = {
   estimate?: {
@@ -57,7 +59,7 @@ export default function ResultPage() {
   }, [params.caseId]);
 
   if (error) return <p>{error}</p>;
-  if (!data?.estimate || !data.financialInput) return <p>Loading...</p>;
+  if (!data?.estimate || !data.financialInput) return <AppLoader status={LOADER_STATUS.estimate} />;
 
   const citations = data.policy?.structuredPolicy.citations ?? [];
   const rules = [
@@ -65,12 +67,18 @@ export default function ResultPage() {
     ...(data.policy?.structuredPolicy.discountedCareRules ?? []),
   ];
   const matched = rules.find((rule) => data.estimate?.matchedRuleIds.includes(rule.id));
-  const hospitalId = data.hospital?.id ?? "hosp_demo_001";
+  const hospitalId = data.hospital?.id;
+  const heading =
+    data.estimate.outcome === "potentially_ineligible"
+      ? "You may not qualify based on this published policy."
+      : data.estimate.outcome === "needs_more_information"
+        ? "More information is needed."
+        : "You may qualify for financial assistance.";
 
   return (
     <div className="space-y-6">
-      <p className="text-sm uppercase tracking-[0.16em] text-[#5c564c]">Estimate</p>
-      <h1 className="text-4xl">You may qualify for financial assistance.</h1>
+      <p className="text-sm uppercase tracking-[0.16em] text-muted">Estimate</p>
+      <h1 className="text-4xl">{heading}</h1>
       <Card className="space-y-5">
         <div className="flex items-baseline justify-between">
           <span>Original bill</span>
@@ -80,12 +88,12 @@ export default function ResultPage() {
           <span>Potential assistance</span>
           <Money amount={data.estimate.estimatedAssistance ?? 0} />
         </div>
-        <div className="flex items-baseline justify-between border-t border-[#e3d9c8] pt-4">
+        <div className="flex items-baseline justify-between border-t border-line pt-4">
           <span>Potential remaining</span>
           <Money amount={data.estimate.estimatedRemaining ?? 0} />
         </div>
       </Card>
-      <p className="text-sm text-[#5c564c]">{data.disclaimer}</p>
+      <p className="text-sm text-muted">{data.disclaimer}</p>
       <Button variant="ghost" onClick={() => setOpen(true)}>
         Why am I seeing this?
       </Button>
@@ -104,7 +112,7 @@ export default function ResultPage() {
             {reason}
           </p>
         ))}
-        <div className="mt-4 space-y-2 text-sm text-[#5c564c]">
+        <div className="mt-4 space-y-2 text-sm text-muted">
           {citations.map((citation) => (
             <p key={citation.id}>
               {citation.section}
@@ -114,8 +122,8 @@ export default function ResultPage() {
         </div>
         <p className="mt-4 text-sm">
           View policy source:{" "}
-          <Link className="underline" href={`/policy/${hospitalId}`}>
-            Demonstration Policy, {data.hospital?.name ?? "Example Medical Center"} 2026 FAP.
+          <Link className="underline" href={hospitalId ? `/policy/${hospitalId}` : "/check"}>
+            Demonstration Policy, {data.hospital?.name ?? "hospital"} FAP.
           </Link>
         </p>
         <Button className="mt-6" variant="ghost" onClick={() => setOpen(false)}>
@@ -132,7 +140,7 @@ export default function ResultPage() {
       ) : null}
       <Link
         href={`/application/${params.caseId}`}
-        className="inline-flex rounded-md bg-[#1f4a43] px-5 py-3 text-[#fffdf8]"
+        className="inline-flex rounded-md bg-green px-5 py-3 text-white"
       >
         Prepare Application
       </Link>

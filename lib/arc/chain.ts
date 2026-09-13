@@ -22,7 +22,7 @@ export const USDC_ADDRESS = (process.env.USDC_ADDRESS ||
 export const RELIEF_POOL_ADDRESS = (process.env.RELIEF_POOL_ADDRESS || "") as `0x${string}`;
 
 export const DEMO_PROVIDER_SETTLEMENT_ADDRESS = (process.env.DEMO_PROVIDER_SETTLEMENT_ADDRESS ||
-  "0x0000000000000000000000000000000000000000") as `0x${string}`;
+  "") as `0x${string}`;
 
 export const reliefPoolAbi = [
   {
@@ -100,7 +100,22 @@ export const erc20Abi = [
   },
 ] as const;
 
+export function explorerBase() {
+  return process.env.ARC_EXPLORER_URL || "https://testnet.arcscan.app";
+}
+
 export function explorerTx(hash?: string) {
   if (!hash) return undefined;
-  return `${process.env.ARC_EXPLORER_URL || "https://testnet.arcscan.app"}/tx/${hash}`;
+  return `${explorerBase()}/tx/${hash}`;
+}
+
+export function explorerAddress(address?: string | null) {
+  if (!address) return undefined;
+  return `${explorerBase()}/address/${address}`;
+}
+
+export function shortenAddress(value?: string | null) {
+  if (!value) return "Not configured";
+  if (value.length < 12) return value;
+  return `${value.slice(0, 6)}...${value.slice(-4)}`;
 }

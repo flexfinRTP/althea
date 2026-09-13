@@ -3,6 +3,7 @@ import { createOpenAI } from "@ai-sdk/openai";
 import { z } from "zod";
 import { ApiError } from "@/lib/errors";
 import {
+  duplicateRiskForCase,
   ensureCaseHash,
   getFullCase,
   getReliefRequest,
@@ -16,6 +17,7 @@ import { circleConfigured, circleWalletExecute } from "@/lib/circle/cli";
 import { readPoolBalance } from "@/lib/arc/balances";
 import { DEMO_PROVIDER_SETTLEMENT_ADDRESS, RELIEF_POOL_ADDRESS } from "@/lib/arc/chain";
 import { usdcToAtomic } from "@/lib/money";
+import { isDemoMode } from "@/lib/config";
 
 export type AgentTraceStep = {
   id: string;
@@ -25,47 +27,61 @@ export type AgentTraceStep = {
 };
 
 export async function getCaseReliefFacts(caseId: string) {
-  const bundle = getFullCase(caseId);
+  const bundle = await getFullCase(caseId);
+  const store = await getStore();
   return {
     fapCompleted: Boolean(
       bundle.packet?.status === "submitted" ||
         bundle.decision ||
-        ["application_submitted", "hospital_review", "hospital_approved", "residual_verified", "relief_requested", "world_check_complete", "relief_evaluated", "relief_review", "relief_approved", "grant_executed"].includes(
-          bundle.case.status,
-        ),
+        [
+          "application_submitted",
+          "hospital_review",
+          "hospital_approved",
+          "residual_verified",
+          "relief_requested",
+          "world_check_complete",
+          "relief_evaluated",
+          "relief_review",
+          "relief_approved",
+          "grant_executed",
+        ].includes(bundle.case.status),
     ),
     residualBalanceVerified: Boolean(bundle.decision && bundle.decision.remainingBalance > 0),
     residualBalance: bundle.decision?.remainingBalance ?? 0,
     worldStatus: bundle.world?.status ?? "not_started",
-    duplicateRisk: "low" as const,
+    duplicateRisk: duplicateRiskForCase(store, caseId),
     requestedAmount: bundle.reliefRequest?.requestedAmount ?? 0,
     hospitalDecisionSource: bundle.decision?.source,
   };
 }
 
-export function getProgramRules() {
-  const program = getStore().program;
+export async function getProgramRules() {
+  const program = (await getStore()).program;
   return {
     programId: program.id,
     name: program.name,
     maxGrant: program.maxGrant,
     autoApprovalCap: program.autoApprovalCap,
+    humanApprovalThreshold: program.humanApprovalThreshold,
+    minGrant: program.minGrant,
   };
 }
 
 export async function getPoolBalance() {
+  const program = (await getStore()).program;
   const onchain = await readPoolBalance();
+  const availableUsdc = onchain ?? (isDemoMode() ? program.demoAvailableCapital : 0);
   return {
-    availableUsdc: onchain ?? getStore().program.demoAvailableCapital,
+    availableUsdc,
     onchain,
-    demoFinancialModel: getStore().program.demoAvailableCapital,
+    demoFinancialModel: program.demoAvailableCapital,
   };
 }
 
 export async function evaluateReliefRequest(reliefRequestId: string, humanApproval = false) {
-  const request = getReliefRequest(reliefRequestId);
+  const request = await getReliefRequest(reliefRequestId);
   const facts = await getCaseReliefFacts(request.caseId);
-  const program = getProgramRules();
+  const program = await getProgramRules();
   const pool = await getPoolBalance();
   const result = evaluateReliefRules({
     fapCompleted: facts.fapCompleted,
@@ -89,7 +105,7 @@ export async function evaluateReliefRequest(reliefRequestId: string, humanApprov
     approvedBy: humanApproval ? "relief_reviewer" : undefined,
     createdAt: nowIso(),
   };
-  saveReliefDecision(row);
+  await saveReliefDecision(row);
   request.status =
     result.decision === "denied"
       ? "denied"
@@ -97,7 +113,7 @@ export async function evaluateReliefRequest(reliefRequestId: string, humanApprov
         ? "review_required"
         : "approved";
   request.updatedAt = nowIso();
-  const store = getStore();
+  const store = await getStore();
   const caseRow = store.cases.find((item) => item.id === request.caseId);
   if (caseRow) {
     caseRow.status =
@@ -108,35 +124,40 @@ export async function evaluateReliefRequest(reliefRequestId: string, humanApprov
           : "relief_evaluated";
     caseRow.updatedAt = nowIso();
   }
-  writeAudit({
+  await writeAudit({
     caseId: request.caseId,
     actorType: "agent",
     eventType: "RELIEF_RULES_EVALUATED",
     metadata: { decision: result.decision, reasonCodes: result.reasonCodes },
   });
-  saveStore();
+  await saveStore();
   return { ...result, rulesVersion: RELIEF_RULES_VERSION };
 }
 
+function providerConfigured(): boolean {
+  return Boolean(
+    DEMO_PROVIDER_SETTLEMENT_ADDRESS &&
+      DEMO_PROVIDER_SETTLEMENT_ADDRESS !== "0x0000000000000000000000000000000000000000",
+  );
+}
+
 export async function executeApprovedGrant(reliefRequestId: string, idempotencyKey?: string) {
-  const request = getReliefRequest(reliefRequestId);
+  const request = await getReliefRequest(reliefRequestId);
+  const store = await getStore();
   if (request.status === "executed") {
-    const existing = [...getStore().grants].reverse().find((row) => row.reliefRequestId === reliefRequestId);
-    return existing;
+    return [...store.grants].reverse().find((row) => row.reliefRequestId === reliefRequestId);
   }
   if (request.status === "executing") {
     throw new ApiError("IN_FLIGHT", "Settlement submitted. Waiting for confirmation.", 409);
   }
-  const latest = [...getStore().reliefDecisions]
-    .reverse()
-    .find((row) => row.reliefRequestId === reliefRequestId);
+  const latest = [...store.reliefDecisions].reverse().find((row) => row.reliefRequestId === reliefRequestId);
   if (!latest || (latest.decision !== "approved" && latest.decision !== "auto_approved")) {
     throw new ApiError("NOT_APPROVED", "This grant is not approved.");
   }
   if (idempotencyKey && request.executionKey === idempotencyKey) {
-    return [...getStore().grants].reverse().find((row) => row.reliefRequestId === reliefRequestId);
+    return [...store.grants].reverse().find((row) => row.reliefRequestId === reliefRequestId);
   }
-  if (!circleConfigured() || !RELIEF_POOL_ADDRESS || !DEMO_PROVIDER_SETTLEMENT_ADDRESS) {
+  if (!circleConfigured() || !RELIEF_POOL_ADDRESS || !providerConfigured()) {
     throw new ApiError(
       "AGENT_BLOCKED",
       "Relief review could not be completed automatically. This case requires manual review.",
@@ -146,9 +167,9 @@ export async function executeApprovedGrant(reliefRequestId: string, idempotencyK
   request.status = "executing";
   request.executionKey = idempotencyKey ?? request.id;
   request.updatedAt = nowIso();
-  saveStore();
+  await saveStore();
 
-  const hashMaterial = ensureCaseHash(request.caseId);
+  const hashMaterial = await ensureCaseHash(request.caseId);
   const dHash = decisionHash({
     reliefRequestId: request.id,
     grantAmount: latest.calculatedGrantAmount,
@@ -185,12 +206,12 @@ export async function executeApprovedGrant(reliefRequestId: string, idempotencyK
   if (executed.ok) {
     grant.status = executed.txHash ? "confirmed" : "submitted";
     request.status = "executed";
-    const caseRow = getStore().cases.find((item) => item.id === request.caseId);
+    const caseRow = (await getStore()).cases.find((item) => item.id === request.caseId);
     if (caseRow) {
       caseRow.status = "grant_executed";
       caseRow.updatedAt = nowIso();
     }
-    writeAudit({
+    await writeAudit({
       caseId: request.caseId,
       actorType: "agent",
       eventType: "ARC_TRANSACTION_CONFIRMED",
@@ -198,18 +219,18 @@ export async function executeApprovedGrant(reliefRequestId: string, idempotencyK
     });
   } else {
     request.status = "approved";
-    writeAudit({
+    await writeAudit({
       caseId: request.caseId,
       actorType: "agent",
       eventType: "ARC_TRANSACTION_SUBMITTED",
       metadata: { error: executed.error },
     });
-    saveGrant(grant);
-    saveStore();
+    await saveGrant(grant);
+    await saveStore();
     throw new ApiError("ARC_PENDING", "Settlement submitted. Waiting for confirmation.", 502);
   }
-  saveGrant(grant);
-  saveStore();
+  await saveGrant(grant);
+  await saveStore();
   return grant;
 }
 
@@ -244,7 +265,9 @@ export function agentTools(reliefRequestId: string) {
       description: "Return the latest grant transaction for this Relief request.",
       inputSchema: z.object({}),
       execute: async () => {
-        const grant = [...getStore().grants].reverse().find((row) => row.reliefRequestId === reliefRequestId);
+        const grant = [...(await getStore()).grants]
+          .reverse()
+          .find((row) => row.reliefRequestId === reliefRequestId);
         return grant ?? { status: "none" };
       },
     }),
@@ -252,9 +275,9 @@ export function agentTools(reliefRequestId: string) {
 }
 
 export async function runReliefAgent(reliefRequestId: string) {
-  const request = getReliefRequest(reliefRequestId);
+  const request = await getReliefRequest(reliefRequestId);
   const facts = await getCaseReliefFacts(request.caseId);
-  const program = getProgramRules();
+  const program = await getProgramRules();
   const pool = await getPoolBalance();
   const evaluation = await evaluateReliefRequest(reliefRequestId);
   const steps: AgentTraceStep[] = [
@@ -291,8 +314,8 @@ export async function runReliefAgent(reliefRequestId: string) {
     {
       id: "duplicate",
       label: "Checking duplicate risk...",
-      detail: "Low",
-      status: "complete",
+      detail: facts.duplicateRisk === "low" ? "Low" : "Manual review",
+      status: facts.duplicateRisk === "low" ? "complete" : "blocked",
     },
     {
       id: "funds",

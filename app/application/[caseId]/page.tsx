@@ -3,9 +3,11 @@
 import { useEffect, useState } from "react";
 import Link from "next/link";
 import { useParams } from "next/navigation";
+import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { api } from "@/lib/client/api";
+import { LOADER_STATUS } from "@/lib/ui/loader";
 
 type Packet = {
   requiredDocuments: Array<{ id: string; description: string; required: boolean }>;
@@ -39,7 +41,7 @@ export default function ApplicationPage() {
   }
 
   if (error) return <p>{error}</p>;
-  if (!packet) return <p>Loading...</p>;
+  if (!packet) return <AppLoader status={LOADER_STATUS.application} />;
 
   return (
     <div className="space-y-6">
@@ -61,7 +63,17 @@ export default function ApplicationPage() {
           <p key={line}>{line}</p>
         ))}
         {packet.applicationUrl ? <p>Hospital application: {packet.applicationUrl}</p> : null}
-        <p>Hospital contact: 555-010-2420 · 100 Demonstration Way, St. Louis, MO 63101</p>
+        {packet.generatedFields.billingPhone || packet.generatedFields.billingAddress ? (
+          <p>
+            Hospital contact:{" "}
+            {[packet.generatedFields.billingName, packet.generatedFields.billingPhone, packet.generatedFields.billingAddress]
+              .filter(Boolean)
+              .join(" · ")}
+          </p>
+        ) : null}
+        {packet.generatedFields.applicationMethods ? (
+          <p>Submission methods: {packet.generatedFields.applicationMethods}</p>
+        ) : null}
         <p>Important dates: first billing statement {packet.generatedFields.firstBillingDate || "not entered"}.</p>
       </Card>
       <Button onClick={markSubmitted} disabled={submitted}>
@@ -70,10 +82,10 @@ export default function ApplicationPage() {
       {submitted ? (
         <p>Recorded as submitted by you. Althea did not send this application to the hospital.</p>
       ) : null}
-      <Link className="block text-[#1f4a43]" href={`/application/${params.caseId}/print`}>
+      <Link className="block text-green" href={`/application/${params.caseId}/print`}>
         Print application packet
       </Link>
-      <Link className="block text-[#1f4a43]" href={`/case/${params.caseId}`}>
+      <Link className="block text-green" href={`/case/${params.caseId}`}>
         Continue to case
       </Link>
     </div>

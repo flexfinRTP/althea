@@ -6,8 +6,8 @@ export async function GET(_request: Request, context: { params: Promise<{ caseId
   try {
     const { caseId } = await context.params;
     const session = await readSession();
-    canAccessCase(session, caseId, getCase(caseId).userId);
-    return jsonOk(getCaseTimeline(caseId));
+    canAccessCase(session, caseId, (await getCase(caseId)).userId);
+    return jsonOk(await getCaseTimeline(caseId));
   } catch (error) {
     return jsonError(error);
   }

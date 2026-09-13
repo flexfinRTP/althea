@@ -2,9 +2,11 @@
 
 import { useEffect, useState } from "react";
 import Link from "next/link";
+import { AppLoader } from "@/components/ui/AppLoader";
 import { Card } from "@/components/ui/Card";
 import { api } from "@/lib/client/api";
 import { formatUsd } from "@/lib/money";
+import { LOADER_STATUS } from "@/lib/ui/loader";
 
 type Stats = {
   totalContributed: number;
@@ -14,7 +16,13 @@ type Stats = {
   platformGrantFeePercent: number;
   patientMedicalRecordsOnchain: number;
   demoLabeled: boolean;
-  testnet: { reliefDelivered: number; grantsCompleted: number };
+  demoFinancialModel?: {
+    availableCapital: number;
+    reliefDelivered: number;
+    grantsCompleted: number;
+    averageGrant: number;
+  };
+  testnet: { reliefDelivered: number; grantsCompleted: number; reliefPoolUsdc?: number | null; averageGrant?: number };
 };
 
 export default function FundPage() {
@@ -24,12 +32,12 @@ export default function FundPage() {
     api<Stats>("/api/public/relief-stats").then(setStats).catch(() => undefined);
   }, []);
 
-  if (!stats) return <p>Loading...</p>;
+  if (!stats) return <AppLoader status={LOADER_STATUS.fund} />;
 
   return (
     <div className="space-y-6">
       <h1 className="text-4xl">Althea Relief Fund</h1>
-      {stats.demoLabeled ? <p className="text-sm text-[#5c564c]">Demo statistics</p> : null}
+      {stats.demoLabeled ? <p className="text-sm text-muted">Demo financial model</p> : null}
       <div className="grid gap-4 md:grid-cols-2">
         <Stat label="Available Capital" value={formatUsd(stats.totalContributed)} />
         <Stat label="Relief Delivered" value={formatUsd(stats.totalReliefDelivered)} />
@@ -40,8 +48,10 @@ export default function FundPage() {
       </div>
       <Card>
         <h2 className="mb-2 text-2xl">Testnet</h2>
+        <p>Relief pool USDC: {stats.testnet.reliefPoolUsdc == null ? "not deployed" : formatUsd(stats.testnet.reliefPoolUsdc)}</p>
         <p>Relief delivered: {formatUsd(stats.testnet.reliefDelivered)}</p>
         <p>Grants completed: {stats.testnet.grantsCompleted}</p>
+        <p>Average grant: {formatUsd(stats.testnet.averageGrant ?? 0)}</p>
       </Card>
       <Link href="/fund/verify/demo">Verify Relief Transaction</Link>
     </div>
@@ -51,8 +61,8 @@ export default function FundPage() {
 function Stat({ label, value }: { label: string; value: string }) {
   return (
     <Card>
-      <p className="text-sm text-[#5c564c]">{label}</p>
-      <p className="mt-2 text-3xl tabular-nums">{value}</p>
+      <p className="text-sm text-muted">{label}</p>
+      <p className="mt-2 text-3xl tabular-nums text-gold-deep">{value}</p>
     </Card>
   );
 }
