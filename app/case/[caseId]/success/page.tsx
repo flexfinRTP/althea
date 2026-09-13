@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ActionRow, AppError, AppLink, AppPage, FactRow } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Card } from "@/components/ui/Card";
 import { BillReduction } from "@/components/bill/BillReduction";
@@ -31,58 +31,63 @@ export default function SuccessPage() {
       .catch((err) => setError(err.message));
   }, [params.caseId]);
 
-  if (error) return <p>{error}</p>;
+  if (error && !data) {
+    return (
+      <AppPage kicker="Final amount" title="Final amount">
+        <AppError>{error}</AppError>
+      </AppPage>
+    );
+  }
   if (!data?.financialInput || !data.decision) return <AppLoader status={LOADER_STATUS.success} />;
 
   const original = data.financialInput.billAmount;
   const hospital = data.decision.approvedAssistance;
   const grantReady = data.grant?.status === "confirmed" || data.grant?.status === "submitted";
   const relief = data.grant?.amount ?? data.reliefDecision?.calculatedGrantAmount ?? 0;
+  const proofHref = data.grant ? `/fund/verify/${data.grant.id}` : "/fund/verify/demo";
+  const txHref = data.grant?.arcTransactionHash ? explorerTx(data.grant.arcTransactionHash) : null;
 
   return (
-    <div className="space-y-8">
+    <AppPage
+      kicker="Final amount"
+      title="The hospital already had the assistance program."
+      lead="Althea made it usable."
+    >
       <Card>
         <BillReduction original={original} hospital={hospital} relief={relief} />
       </Card>
       {!grantReady ? (
-        <p className="text-sm text-muted">Settlement submitted. Waiting for confirmation.</p>
+        <p className="rounded-2xl bg-cream-2 px-5 py-4 text-sm text-muted">
+          Settlement submitted. Waiting for confirmation.
+        </p>
       ) : null}
       {data.route?.selected?.length ? (
-        <Card>
+        <Card className="space-y-3">
           {data.route.selected.map((row) => (
-            <p key={row.name}>
-              {row.name}: {formatUsd(row.amount)}
-            </p>
+            <FactRow key={row.name} label={row.name} value={formatUsd(row.amount)} />
           ))}
-          <p className="mt-2">Total relief: {formatUsd(data.route.total)}</p>
+          <FactRow emphasize label="Total relief" value={formatUsd(data.route.total)} />
         </Card>
       ) : null}
-      <h1 className="text-4xl">The hospital already had the assistance program.</h1>
-      <h2 className="text-3xl">Althea made it usable.</h2>
       <p className="text-muted">
         And when that assistance stopped short, Althea carried transparent charitable relief the rest of the way.
       </p>
       <p className="text-sm text-muted">
         Settlement destination: Example Medical Center Demo Settlement Account
       </p>
-      {data.grant?.arcTransactionHash ? (
-        <p>
-          Confirmed on Arc.{" "}
-          <a href={explorerTx(data.grant.arcTransactionHash)} className="underline">
-            View transaction
-          </a>
-        </p>
-      ) : null}
+      {data.grant?.arcTransactionHash ? <p>Confirmed on Arc.</p> : null}
       <p className="text-sm text-muted">We don&apos;t tokenize the patient.</p>
-      {data.grant ? (
-        <Link className="inline-flex rounded-md bg-green px-5 py-3 text-white" href={`/fund/verify/${data.grant.id}`}>
-          View Relief Proof
-        </Link>
-      ) : (
-        <Link className="inline-flex rounded-md bg-green px-5 py-3 text-white" href="/fund/verify/demo">
-          View Relief Proof
-        </Link>
-      )}
-    </div>
+      <ActionRow>
+        <AppLink href={proofHref}>View Relief Proof</AppLink>
+        {txHref ? (
+          <AppLink href={txHref} variant="ghost" external>
+            View transaction
+          </AppLink>
+        ) : null}
+        <AppLink variant="ghost" href={`/case/${params.caseId}`}>
+          Case
+        </AppLink>
+      </ActionRow>
+    </AppPage>
   );
 }

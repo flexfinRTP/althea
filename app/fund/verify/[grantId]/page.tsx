@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ActionRow, AppError, AppLink, AppPage } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Badge } from "@/components/ui/Badge";
 import { api } from "@/lib/client/api";
@@ -38,16 +38,12 @@ export default function ProofPage() {
 
   if (error && !proof) {
     return (
-      <div className="space-y-4">
-        <p className={labelClass}>Relief Fund</p>
-        <h1 className="text-4xl tracking-tight text-green">Althea Relief Grant</h1>
-        <p className="text-danger" role="alert">
-          {error}
-        </p>
-        <Link href="/fund" className="underline decoration-line underline-offset-4">
+      <AppPage kicker="Relief Fund" title="Althea Relief Grant">
+        <AppError>{error}</AppError>
+        <AppLink href="/fund" variant="ghost">
           Relief Fund
-        </Link>
-      </div>
+        </AppLink>
+      </AppPage>
     );
   }
   if (!proof) return <AppLoader status={LOADER_STATUS.proof} />;
@@ -130,9 +126,11 @@ export default function ProofPage() {
         ) : null}
       </section>
 
-      <Link href="/fund" className="inline-block underline decoration-line underline-offset-4">
-        Relief Fund
-      </Link>
+      <ActionRow>
+        <AppLink href="/fund" variant="ghost">
+          Relief Fund
+        </AppLink>
+      </ActionRow>
     </div>
   );
 }

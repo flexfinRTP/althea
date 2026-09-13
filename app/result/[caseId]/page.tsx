@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ActionRow, AppError, AppLink, AppPage, FactRow } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -58,7 +58,13 @@ export default function ResultPage() {
       .catch((err) => setError(err.message));
   }, [params.caseId]);
 
-  if (error) return <p>{error}</p>;
+  if (error) {
+    return (
+      <AppPage kicker="Estimate" title="Estimate">
+        <AppError>{error}</AppError>
+      </AppPage>
+    );
+  }
   if (!data?.estimate || !data.financialInput) return <AppLoader status={LOADER_STATUS.estimate} />;
 
   const citations = data.policy?.structuredPolicy.citations ?? [];
@@ -76,29 +82,22 @@ export default function ResultPage() {
         : "You may qualify for financial assistance.";
 
   return (
-    <div className="space-y-6">
-      <p className="text-sm uppercase tracking-[0.16em] text-muted">Estimate</p>
-      <h1 className="text-4xl">{heading}</h1>
+    <AppPage kicker="Estimate" title={heading}>
       <Card className="space-y-5">
-        <div className="flex items-baseline justify-between">
-          <span>Original bill</span>
-          <Money amount={data.financialInput.billAmount} />
-        </div>
-        <div className="flex items-baseline justify-between">
-          <span>Potential assistance</span>
-          <Money amount={data.estimate.estimatedAssistance ?? 0} />
-        </div>
-        <div className="flex items-baseline justify-between border-t border-line pt-4">
-          <span>Potential remaining</span>
-          <Money amount={data.estimate.estimatedRemaining ?? 0} />
-        </div>
+        <FactRow label="Original bill" value={<Money amount={data.financialInput.billAmount} />} />
+        <FactRow label="Potential assistance" value={<Money amount={data.estimate.estimatedAssistance ?? 0} />} />
+        <FactRow
+          emphasize
+          label="Potential remaining"
+          value={<Money amount={data.estimate.estimatedRemaining ?? 0} />}
+        />
       </Card>
       <p className="text-sm text-muted">{data.disclaimer}</p>
       <Button variant="ghost" onClick={() => setOpen(true)}>
         Why am I seeing this?
       </Button>
       <ExplainDrawer open={open} onClose={() => setOpen(false)}>
-        <h2 className="text-2xl">Why</h2>
+        <h2 className="text-2xl tracking-tight text-green">Why</h2>
         <p className="mt-4">Household: {data.financialInput.householdSize}</p>
         <p>Income: {formatUsd(data.financialInput.householdAnnualIncome)}</p>
         <p>Insurance: {data.financialInput.insuranceStatus === "insured" ? "Insured" : "Uninsured"}</p>
@@ -120,12 +119,14 @@ export default function ResultPage() {
             </p>
           ))}
         </div>
-        <p className="mt-4 text-sm">
-          View policy source:{" "}
-          <Link className="underline" href={hospitalId ? `/policy/${hospitalId}` : "/check"}>
-            Demonstration Policy, {data.hospital?.name ?? "hospital"} FAP.
-          </Link>
-        </p>
+        <p className="mt-4 text-sm">View policy source</p>
+        <AppLink
+          className="mt-3"
+          variant="ghost"
+          href={hospitalId ? `/policy/${hospitalId}` : "/check"}
+        >
+          Demonstration Policy, {data.hospital?.name ?? "hospital"} FAP.
+        </AppLink>
         <Button className="mt-6" variant="ghost" onClick={() => setOpen(false)}>
           Close
         </Button>
@@ -138,12 +139,9 @@ export default function ResultPage() {
           messages={data.timeline.messages}
         />
       ) : null}
-      <Link
-        href={`/application/${params.caseId}`}
-        className="inline-flex rounded-md bg-green px-5 py-3 text-white"
-      >
-        Prepare Application
-      </Link>
-    </div>
+      <ActionRow>
+        <AppLink href={`/application/${params.caseId}`}>Prepare Application</AppLink>
+      </ActionRow>
+    </AppPage>
   );
 }

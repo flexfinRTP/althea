@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { AppError, AppLink, AppPage, FactRow } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -48,24 +49,38 @@ export default function ReviewPage() {
     }
   }
 
-  if (error && !data) return <p>{error}</p>;
+  if (error && !data) {
+    return (
+      <AppPage kicker="Review" title="Human review required">
+        <AppError>{error}</AppError>
+      </AppPage>
+    );
+  }
   if (!data) return <AppLoader status={LOADER_STATUS.review} />;
 
   const grant = data.reliefDecision?.calculatedGrantAmount ?? data.reliefRequest.requestedAmount;
   const residual = data.facts.residualBalance || data.reliefRequest.residualBalance;
 
   return (
-    <Card className="space-y-3">
-      <h1 className="text-3xl">Human review required</h1>
-      <p>Relief request: {data.reliefRequest.id}</p>
-      <p>Residual Balance: {formatUsd(residual)}</p>
-      <p>Althea Grant: {formatUsd(grant)}</p>
-      <p>Program: {data.program.name}</p>
-      <p>Rule checks: {data.reliefDecision?.reasonCodes.join(", ") || data.reliefRequest.status}</p>
-      <Button onClick={approve} disabled={busy}>
-        Approve {formatUsd(grant)}
-      </Button>
-      {error ? <p className="text-danger">{error}</p> : null}
-    </Card>
+    <AppPage kicker="Review" title="Human review required">
+      <Card className="space-y-4">
+        <FactRow label="Relief request" value={data.reliefRequest.id} />
+        <FactRow label="Residual Balance" value={formatUsd(residual)} />
+        <FactRow label="Althea Grant" value={formatUsd(grant)} />
+        <FactRow label="Program" value={data.program.name} />
+        <FactRow
+          emphasize
+          label="Rule checks"
+          value={data.reliefDecision?.reasonCodes.join(", ") || data.reliefRequest.status}
+        />
+        <Button onClick={approve} disabled={busy}>
+          Approve {formatUsd(grant)}
+        </Button>
+      </Card>
+      <AppError>{error}</AppError>
+      <AppLink variant="ghost" href="/admin">
+        Admin
+      </AppLink>
+    </AppPage>
   );
 }

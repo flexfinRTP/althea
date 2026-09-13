@@ -2,6 +2,7 @@
 
 import { FormEvent, useEffect, useState } from "react";
 import { usePrivy } from "@privy-io/react-auth";
+import { AppError, AppPage } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -136,11 +137,7 @@ export default function GivePage() {
   const recorded = result?.donation.status === "deposited" || result?.donation.status === "matched";
 
   return (
-    <div className="space-y-8">
-      <header>
-        <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">Give</p>
-        <h1 className="mt-3 text-4xl tracking-tight text-green">Donate USDC</h1>
-      </header>
+    <AppPage kicker="Give" title="Donate USDC">
 
       {campaign ? (
         <Card>
@@ -154,7 +151,7 @@ export default function GivePage() {
 
       {privyEnabled ? <DonorSignIn onEmail={setEmail} /> : null}
 
-      <form className="space-y-4 border border-ink bg-cream-elev p-6" noValidate onSubmit={donate}>
+      <form className="space-y-4 rounded-[2rem] border border-line/80 bg-cream-elev p-6 md:p-8" noValidate onSubmit={donate}>
         <Field id="email" label="Email" error={emailError}>
           <input
             id="email"
@@ -222,11 +219,7 @@ export default function GivePage() {
         </Button>
       </form>
 
-      {error ? (
-        <p className="text-danger" role="alert">
-          {error}
-        </p>
-      ) : null}
+      <AppError>{error}</AppError>
 
       {result ? (
         <Card>
@@ -264,6 +257,6 @@ export default function GivePage() {
       ) : null}
 
       {!campaigns.length && !result ? <AppLoader variant="inline" status={LOADER_STATUS.donate} /> : null}
-    </div>
+    </AppPage>
   );
 }

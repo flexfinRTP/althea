@@ -1,11 +1,12 @@
-import Link from "next/link";
+import { AppNavCard, AppPage } from "@/components/app/AppChrome";
 
 export default function AdminHome() {
   return (
-    <div className="space-y-4">
-      <h1 className="text-4xl">Admin</h1>
-      <Link href="/admin/treasury">Treasury</Link>
-      <Link href="/funders">Funders</Link>
-    </div>
+    <AppPage kicker="Admin" title="Admin">
+      <div className="grid gap-4 md:grid-cols-2">
+        <AppNavCard href="/admin/treasury" kicker="01" label="Treasury" />
+        <AppNavCard href="/funders" kicker="02" label="Funders" />
+      </div>
+    </AppPage>
   );
 }

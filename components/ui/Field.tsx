@@ -43,8 +43,7 @@ export function Field({
   );
 }
 
-export const inputClass =
-  "w-full rounded-md border border-line bg-cream-elev px-3 py-2 text-ink aria-[invalid=true]:border-danger";
+export { inputClass } from "@/components/app/chrome";
 
 export function fieldDescribedBy(id: string, error?: string, hint?: string) {
   const ids = [hint && !error ? `${id}-hint` : null, error ? `${id}-error` : null].filter(Boolean);

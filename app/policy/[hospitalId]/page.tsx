@@ -1,6 +1,7 @@
 import { readFileSync } from "fs";
 import path from "path";
 import { notFound } from "next/navigation";
+import { ActionRow, AppLink, AppPage } from "@/components/app/AppChrome";
 import { getHospital } from "@/lib/db/cases";
 
 export default async function PolicySourcePage({
@@ -18,12 +19,15 @@ export default async function PolicySourcePage({
   if (!hospital.policySourcePath) notFound();
   const source = readFileSync(path.join(process.cwd(), hospital.policySourcePath), "utf8");
   return (
-    <article className="space-y-4">
-      <p className="text-sm uppercase tracking-[0.16em] text-muted">Policy source</p>
-      <h1 className="text-4xl">Demonstration Policy, {hospital.name} FAP</h1>
-      <pre className="overflow-x-auto whitespace-pre-wrap rounded-xl border border-line bg-cream-elev p-6 font-sans text-sm leading-6">
+    <AppPage kicker="Policy source" title={`Demonstration Policy, ${hospital.name} FAP`}>
+      <ActionRow>
+        <AppLink variant="ghost" href="/check">
+          Check My Bill
+        </AppLink>
+      </ActionRow>
+      <pre className="overflow-x-auto whitespace-pre-wrap rounded-[2rem] border border-line/80 bg-cream-elev p-6 font-sans text-sm leading-6 md:p-8">
         {source}
       </pre>
-    </article>
+    </AppPage>
   );
 }

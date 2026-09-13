@@ -2,6 +2,7 @@
 
 import { useEffect, useState } from "react";
 import { useParams } from "next/navigation";
+import { ActionRow, AppLink, AppPage } from "@/components/app/AppChrome";
 import { Logo } from "@/components/brand/Logo";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
@@ -29,16 +30,18 @@ export default function ApplicationPrintPage() {
   if (!packet) return <AppLoader status={LOADER_STATUS.print} />;
 
   return (
-    <div className="space-y-6 print:max-w-none">
-      <div className="flex items-center justify-between print:hidden">
-        <h1 className="text-3xl">Application packet</h1>
-        <Button type="button" onClick={() => window.print()}>
-          Print
-        </Button>
+    <AppPage kicker="Application packet" title="Hospital financial assistance packet">
+      <div className="flex flex-wrap items-center justify-between gap-3 print:hidden">
+        <ActionRow>
+          <Button type="button" onClick={() => window.print()}>
+            Print
+          </Button>
+          <AppLink variant="ghost" href={`/application/${params.caseId}`}>
+            Application
+          </AppLink>
+        </ActionRow>
       </div>
       <Logo variant="lockup" size="md" href={null} />
-      <p className="text-sm uppercase tracking-[0.16em] text-gold-deep">Althea Care</p>
-      <h2 className="text-4xl">Hospital financial assistance packet</h2>
       <Card className="space-y-2">
         <p>Hospital: {packet.generatedFields.hospital}</p>
         <p>Household size: {packet.generatedFields.householdSize}</p>
@@ -48,10 +51,10 @@ export default function ApplicationPrintPage() {
         <p>First billing statement: {packet.generatedFields.firstBillingDate || "not entered"}</p>
       </Card>
       <Card className="space-y-2">
-        <h3 className="text-2xl">Required documents</h3>
-        <ul className="list-disc pl-5">
+        <h3 className="text-2xl tracking-tight text-green">Required documents</h3>
+        <ul className="space-y-2">
           {packet.requiredDocuments.map((doc) => (
-            <li key={doc.id}>
+            <li key={doc.id} className="rounded-2xl bg-cream px-4 py-3">
               {doc.description}
               {doc.required ? " (required)" : ""}
             </li>
@@ -59,7 +62,7 @@ export default function ApplicationPrintPage() {
         </ul>
       </Card>
       <Card className="space-y-2">
-        <h3 className="text-2xl">Submission</h3>
+        <h3 className="text-2xl tracking-tight text-green">Submission</h3>
         {packet.submissionInstructions.map((line) => (
           <p key={line}>{line}</p>
         ))}
@@ -76,6 +79,6 @@ export default function ApplicationPrintPage() {
       <p className="text-sm text-muted">
         Educational packet. Althea does not submit this application to the hospital and does not guarantee eligibility.
       </p>
-    </div>
+    </AppPage>
   );
 }

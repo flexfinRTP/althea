@@ -1,3 +1,6 @@
+import { twMerge } from "tailwind-merge";
+import { cardSurfaceClass } from "@/components/app/chrome";
+
 export function Card({
   children,
   className = "",
@@ -5,9 +8,5 @@ export function Card({
   children: React.ReactNode;
   className?: string;
 }) {
-  return (
-    <section className={`rounded-xl border border-line bg-cream-elev p-6 ${className}`}>
-      {children}
-    </section>
-  );
+  return <section className={twMerge(cardSurfaceClass, className)}>{children}</section>;
 }

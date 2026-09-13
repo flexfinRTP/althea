@@ -1,24 +1,21 @@
 import { ButtonHTMLAttributes } from "react";
 import { twMerge } from "tailwind-merge";
+import { pillGhostClass, pillGoldClass, pillPrimaryClass } from "@/components/app/chrome";
+
+type Variant = "primary" | "ghost" | "gold";
 
 export function Button({
   className,
+  variant = "primary",
   ...props
-}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: "primary" | "ghost" }) {
-  const variant = props.variant ?? "primary";
-  const { variant: _ignored, ...rest } = props as ButtonHTMLAttributes<HTMLButtonElement> & {
-    variant?: string;
-  };
+}: ButtonHTMLAttributes<HTMLButtonElement> & { variant?: Variant }) {
   return (
     <button
       className={twMerge(
-        "inline-flex items-center justify-center rounded-md px-4 py-2.5 text-sm font-medium transition disabled:opacity-50",
-        variant === "primary"
-          ? "bg-green text-cream-elev hover:bg-green-2"
-          : "border border-line bg-cream-elev text-ink hover:bg-cream",
+        variant === "ghost" ? pillGhostClass : variant === "gold" ? pillGoldClass : pillPrimaryClass,
         className,
       )}
-      {...rest}
+      {...props}
     />
   );
 }

@@ -26,6 +26,7 @@
 
 ### Changed
 
+- Demo flow and app pages share one cream / olive / gold chrome: pill actions, rounded cards, gold kickers, and card nav instead of plain text links. `/check`, `/result`, `/application`, `/case/*`, `/policy`, `/admin`, `/fund`, `/fund/give`, `/fund/verify`, and `/funders` keep the same buttons, forms, and destinations.
 - Root Privy provider skips or catches an invalid `NEXT_PUBLIC_PRIVY_APP_ID` (including a World `app_` prefix) so `/check` and other pages do not 500.
 - Money and household fields drop letters as you type. Donate and funder amounts use the same sanitizer and Zod rules as Check My Bill instead of `Number()`.
 - `not-found` Home control uses Next `Link` so `next build` lint passes.

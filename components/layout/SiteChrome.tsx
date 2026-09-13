@@ -18,11 +18,21 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
         <div className="mx-auto flex max-w-6xl items-center justify-between gap-4 px-6 py-2.5">
           <Logo variant="lockup" size="md" />
           <nav className="hidden items-center gap-7 text-sm text-muted md:flex" aria-label="Primary">
-            <Link href="/how">How Althea works</Link>
-            <Link href="/fund">Relief Fund</Link>
-            <Link href="/fund/give">Give</Link>
-            <Link href="/funders">Funders</Link>
-            <Link href="/admin/treasury">Treasury</Link>
+            <Link href="/how" className="hover:text-green">
+              How Althea works
+            </Link>
+            <Link href="/fund" className="hover:text-green">
+              Relief Fund
+            </Link>
+            <Link href="/fund/give" className="hover:text-green">
+              Give
+            </Link>
+            <Link href="/funders" className="hover:text-green">
+              Funders
+            </Link>
+            <Link href="/admin/treasury" className="hover:text-green">
+              Treasury
+            </Link>
           </nav>
           <Link
             href="/check"
@@ -35,11 +45,21 @@ export function SiteChrome({ children }: { children: React.ReactNode }) {
           className="mx-auto flex max-w-6xl gap-5 overflow-x-auto px-6 pb-3 text-sm text-muted md:hidden"
           aria-label="Mobile"
         >
-          <Link href="/how">How Althea works</Link>
-          <Link href="/fund">Relief Fund</Link>
-          <Link href="/fund/give">Give</Link>
-          <Link href="/funders">Funders</Link>
-          <Link href="/admin/treasury">Treasury</Link>
+          <Link href="/how" className="hover:text-green">
+            How Althea works
+          </Link>
+          <Link href="/fund" className="hover:text-green">
+            Relief Fund
+          </Link>
+          <Link href="/fund/give" className="hover:text-green">
+            Give
+          </Link>
+          <Link href="/funders" className="hover:text-green">
+            Funders
+          </Link>
+          <Link href="/admin/treasury" className="hover:text-green">
+            Treasury
+          </Link>
         </nav>
       </header>
       {children}

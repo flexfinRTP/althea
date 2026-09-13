@@ -36,12 +36,15 @@ export function AgentTrace({
   return (
     <ol className="space-y-4">
       {all.slice(0, visible).map((step) => (
-        <li key={step.id} className="flex items-start justify-between gap-4 border-b border-line pb-3 last:border-0">
+        <li key={step.id} className="flex items-start justify-between gap-4 rounded-2xl bg-cream px-4 py-3">
           <div>
             <p>{step.label}</p>
             {step.detail ? <p className="text-sm text-muted">{step.detail}</p> : null}
           </div>
-          <span aria-label={step.status === "complete" ? "complete" : step.status}>
+          <span
+            className={step.status === "complete" ? "text-green" : "text-gold-deep"}
+            aria-label={step.status === "complete" ? "complete" : step.status}
+          >
             {step.status === "complete" ? "✓" : "•"}
           </span>
         </li>

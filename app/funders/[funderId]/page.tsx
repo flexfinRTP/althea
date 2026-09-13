@@ -1,8 +1,8 @@
 "use client";
 
 import { FormEvent, useCallback, useEffect, useState } from "react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ActionRow, AppError, AppLink, AppPage } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -159,20 +159,17 @@ export default function FunderConsolePage() {
   }
 
   if (!data && !error) return <AppLoader status={LOADER_STATUS.funders} />;
-  if (!data) return <p className="text-danger">{error}</p>;
+  if (!data) {
+    return (
+      <AppPage kicker="Funders" title="Relief programs">
+        <AppError>{error}</AppError>
+      </AppPage>
+    );
+  }
 
   return (
-    <div className="space-y-10">
-      <header>
-        <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">Funders</p>
-        <h1 className="mt-3 text-4xl tracking-tight text-green">{data.name}</h1>
-        <p className="mt-2 text-sm text-muted">{data.kind}</p>
-      </header>
-      {error ? (
-        <p className="text-danger" role="alert">
-          {error}
-        </p>
-      ) : null}
+    <AppPage kicker="Funders" title={data.name} lead={data.kind}>
+      <AppError>{error}</AppError>
 
       <section className="grid gap-4 md:grid-cols-4">
         <Card>
@@ -193,7 +190,7 @@ export default function FunderConsolePage() {
         </Card>
       </section>
 
-      <section className="border border-ink bg-cream-elev p-6">
+      <section className="rounded-[2rem] border border-line/80 bg-cream-elev p-6 md:p-8">
         <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">Policy</p>
         <ul className="mt-4 space-y-2 text-sm">
           <li>{data.policy.arcOnly ? "Arc only" : "Network not restricted"}</li>
@@ -242,7 +239,7 @@ export default function FunderConsolePage() {
       </section>
 
       <div className="grid gap-6 lg:grid-cols-2">
-        <form className="space-y-4 border border-ink bg-cream-elev p-6" noValidate onSubmit={createProgram}>
+        <form className="space-y-4 rounded-[2rem] border border-line/80 bg-cream-elev p-6 md:p-8" noValidate onSubmit={createProgram}>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">Create relief program</p>
           <Field id="programName" label="Program name" required error={nameError}>
             <input
@@ -293,7 +290,7 @@ export default function FunderConsolePage() {
           </Button>
         </form>
 
-        <form className="space-y-4 border border-ink bg-cream-elev p-6" noValidate onSubmit={fundProgram}>
+        <form className="space-y-4 rounded-[2rem] border border-line/80 bg-cream-elev p-6 md:p-8" noValidate onSubmit={fundProgram}>
           <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">Fund program</p>
           <Field id="fundProgram" label="Program">
             <select
@@ -331,9 +328,11 @@ export default function FunderConsolePage() {
         </form>
       </div>
 
-      <Link href="/funders" className="underline decoration-line underline-offset-4">
-        All funders
-      </Link>
-    </div>
+      <ActionRow>
+        <AppLink href="/funders" variant="ghost">
+          All funders
+        </AppLink>
+      </ActionRow>
+    </AppPage>
   );
 }

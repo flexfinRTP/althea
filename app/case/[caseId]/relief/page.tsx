@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useParams, useRouter } from "next/navigation";
+import { ActionRow, AppError, AppLink, AppPage, FactRow } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -44,28 +44,50 @@ export default function ReliefPage() {
     }
   }
 
-  if (error && !data) return <p>{error}</p>;
+  if (error && !data) {
+    return (
+      <AppPage kicker="Relief" title="Hospital assistance helped.">
+        <AppError>{error}</AppError>
+      </AppPage>
+    );
+  }
   if (!data) return <AppLoader status={LOADER_STATUS.reliefRequest} />;
 
   const remaining = data.decision?.remainingBalance;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl">Hospital assistance helped.</h1>
-      <h2 className="text-3xl">
-        But {remaining !== undefined ? <Money amount={remaining} /> : "..."} remains.
-      </h2>
-      <Card className="space-y-3">
-        <p>{data.program?.name ?? "Program"}</p>
-        {data.program ? <p>Demo available capital: {formatUsd(data.program.demoAvailableCapital)}</p> : null}
-        {data.program ? <p>Maximum standard grant: {formatUsd(data.program.maxGrant)}</p> : null}
-        <p>Patient fee: $0</p>
+    <AppPage
+      kicker="Relief"
+      title="Hospital assistance helped."
+      lead={
+        remaining !== undefined ? (
+          <>
+            Remaining <Money amount={remaining} />
+          </>
+        ) : (
+          "Remaining ..."
+        )
+      }
+    >
+      <Card className="space-y-4">
+        <FactRow label="Program" value={data.program?.name ?? "Program"} />
+        {data.program ? (
+          <FactRow label="Demo available capital" value={formatUsd(data.program.demoAvailableCapital)} />
+        ) : null}
+        {data.program ? (
+          <FactRow label="Maximum standard grant" value={formatUsd(data.program.maxGrant)} />
+        ) : null}
+        <FactRow emphasize label="Patient fee" value="$0" />
       </Card>
-      {error ? <p className="text-danger">{error}</p> : null}
-      <Button onClick={requestRelief} disabled={!data.program || remaining == null}>
-        Check Althea Relief
-      </Button>
-      <Link href={`/case/${params.caseId}`}>Back to case</Link>
-    </div>
+      <AppError>{error}</AppError>
+      <ActionRow>
+        <Button onClick={requestRelief} disabled={!data.program || remaining == null}>
+          Check Althea Relief
+        </Button>
+        <AppLink variant="ghost" href={`/case/${params.caseId}`}>
+          Back to case
+        </AppLink>
+      </ActionRow>
+    </AppPage>
   );
 }

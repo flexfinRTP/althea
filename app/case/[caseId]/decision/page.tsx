@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ActionRow, AppError, AppLink, AppPage, FactRow } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -64,36 +64,45 @@ export default function DecisionPage() {
     }
   }
 
-  if (!data) return <AppLoader status={LOADER_STATUS.decision} />;
+  if (!data && !error) return <AppLoader status={LOADER_STATUS.decision} />;
+  if (!data) {
+    return (
+      <AppPage kicker="Hospital" title="Hospital Decision Recorded">
+        <AppError>{error}</AppError>
+      </AppPage>
+    );
+  }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl">Hospital Decision Recorded</h1>
-      {data.decision?.source === "simulated_demo" ? <Badge>SIMULATED FOR DEMO</Badge> : null}
+    <AppPage
+      kicker="Hospital"
+      title="Hospital Decision Recorded"
+      aside={data.decision?.source === "simulated_demo" ? <Badge>SIMULATED FOR DEMO</Badge> : null}
+    >
       {data.decision ? (
         <Card className="space-y-4">
-          <div className="flex justify-between">
-            <span>Original balance</span>
-            <Money amount={data.decision.originalBalance} />
-          </div>
-          <div className="flex justify-between">
-            <span>Hospital assistance</span>
-            <Money amount={-data.decision.approvedAssistance} />
-          </div>
-          <div className="flex justify-between border-t border-line pt-4">
-            <span>Remaining</span>
-            <Money amount={data.decision.remainingBalance} />
-          </div>
+          <FactRow label="Original balance" value={<Money amount={data.decision.originalBalance} />} />
+          <FactRow label="Hospital assistance" value={<Money amount={-data.decision.approvedAssistance} />} />
+          <FactRow
+            emphasize
+            label="Remaining"
+            value={<Money amount={data.decision.remainingBalance} />}
+          />
         </Card>
       ) : (
-        <Button onClick={recordDecision}>Simulate Hospital Approval</Button>
+        <ActionRow>
+          <Button onClick={recordDecision}>Simulate Hospital Approval</Button>
+        </ActionRow>
       )}
-      {error ? <p className="text-danger">{error}</p> : null}
-      {data.decision ? (
-        <Link className="inline-flex rounded-md bg-green px-5 py-3 text-white" href={`/case/${params.caseId}/relief`}>
-          Continue
-        </Link>
-      ) : null}
-    </div>
+      <AppError>{error}</AppError>
+      <ActionRow>
+        {data.decision ? (
+          <AppLink href={`/case/${params.caseId}/relief`}>Continue</AppLink>
+        ) : null}
+        <AppLink variant="ghost" href={`/case/${params.caseId}`}>
+          Case
+        </AppLink>
+      </ActionRow>
+    </AppPage>
   );
 }

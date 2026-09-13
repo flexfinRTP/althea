@@ -1,8 +1,8 @@
 "use client";
 
 import { useEffect, useState } from "react";
-import Link from "next/link";
 import { useParams } from "next/navigation";
+import { ActionRow, AppError, AppLink, AppPage } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -40,17 +40,22 @@ export default function ApplicationPage() {
     }
   }
 
-  if (error) return <p>{error}</p>;
+  if (error && !packet) {
+    return (
+      <AppPage kicker="Application" title="Application">
+        <AppError>{error}</AppError>
+      </AppPage>
+    );
+  }
   if (!packet) return <AppLoader status={LOADER_STATUS.application} />;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl">Application</h1>
-      <Card className="space-y-3">
-        <h2 className="text-2xl">Required documents</h2>
-        <ul className="list-disc space-y-1 pl-5">
+    <AppPage kicker="Application" title="Application">
+      <Card className="space-y-4">
+        <h2 className="text-2xl tracking-tight text-green">Required documents</h2>
+        <ul className="space-y-2">
           {packet.requiredDocuments.map((doc) => (
-            <li key={doc.id}>
+            <li key={doc.id} className="rounded-2xl bg-cream px-4 py-3">
               {doc.description}
               {doc.required ? " (required)" : ""}
             </li>
@@ -58,7 +63,7 @@ export default function ApplicationPage() {
         </ul>
       </Card>
       <Card className="space-y-3">
-        <h2 className="text-2xl">Submission methods</h2>
+        <h2 className="text-2xl tracking-tight text-green">Submission methods</h2>
         {packet.submissionInstructions.map((line) => (
           <p key={line}>{line}</p>
         ))}
@@ -76,18 +81,21 @@ export default function ApplicationPage() {
         ) : null}
         <p>Important dates: first billing statement {packet.generatedFields.firstBillingDate || "not entered"}.</p>
       </Card>
-      <Button onClick={markSubmitted} disabled={submitted}>
-        Mark as Submitted
-      </Button>
+      <ActionRow>
+        <Button onClick={markSubmitted} disabled={submitted}>
+          Mark as Submitted
+        </Button>
+        <AppLink variant="ghost" href={`/application/${params.caseId}/print`}>
+          Print application packet
+        </AppLink>
+        <AppLink href={`/case/${params.caseId}`}>Continue to case</AppLink>
+      </ActionRow>
       {submitted ? (
-        <p>Recorded as submitted by you. Althea did not send this application to the hospital.</p>
+        <p className="rounded-2xl bg-gold-soft/40 px-5 py-4 text-sm">
+          Recorded as submitted by you. Althea did not send this application to the hospital.
+        </p>
       ) : null}
-      <Link className="block text-green" href={`/application/${params.caseId}/print`}>
-        Print application packet
-      </Link>
-      <Link className="block text-green" href={`/case/${params.caseId}`}>
-        Continue to case
-      </Link>
-    </div>
+      <AppError>{error}</AppError>
+    </AppPage>
   );
 }

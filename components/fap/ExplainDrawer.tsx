@@ -11,9 +11,9 @@ export function ExplainDrawer({
 }) {
   if (!open) return null;
   return (
-    <div className="fixed inset-0 z-40 flex justify-end bg-black/20" role="dialog" aria-modal="true" aria-label="Why am I seeing this?">
+    <div className="fixed inset-0 z-40 flex justify-end bg-green-dark/30" role="dialog" aria-modal="true" aria-label="Why am I seeing this?">
       <button className="h-full flex-1 cursor-default" onClick={onClose} aria-label="Close explanation" />
-      <aside className="h-full w-full max-w-md overflow-y-auto border-l border-line bg-cream-elev p-6">
+      <aside className="h-full w-full max-w-md overflow-y-auto border-l border-line bg-cream-elev p-8">
         {children}
       </aside>
     </div>

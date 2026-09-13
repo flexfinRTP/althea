@@ -3,6 +3,7 @@
 import { useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { IDKitRequestWidget, selfieCheckLegacy, type RpContext } from "@worldcoin/idkit";
+import { ActionRow, AppError, AppLink, AppPage } from "@/components/app/AppChrome";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { api } from "@/lib/client/api";
@@ -41,8 +42,7 @@ export default function VerifyPage() {
   }
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl">Althea Relief liveness check</h1>
+    <AppPage kicker="Liveness" title="Althea Relief liveness check">
       <Card className="space-y-4">
         <p>
           Althea Relief is supported by limited charitable funds. We use World Selfie Check as one liveness signal to help reduce automated abuse of this separate fund.
@@ -51,14 +51,16 @@ export default function VerifyPage() {
           This does not determine your eligibility for your hospital&apos;s financial-assistance program.
         </p>
       </Card>
-      {complete ? <p>Liveness check complete.</p> : null}
-      {error ? <p className="text-danger">{error}</p> : null}
+      {complete ? (
+        <p className="rounded-2xl bg-gold-soft/40 px-5 py-4">Liveness check complete.</p>
+      ) : null}
+      <AppError>{error}</AppError>
       {!configured ? (
-        <p className="text-sm text-muted">
+        <p className="rounded-2xl bg-cream-2 px-5 py-4 text-sm text-muted">
           World app credentials are not configured. Request Manual Review to continue the demo path without faking a Selfie Check proof.
         </p>
       ) : null}
-      <div className="flex flex-wrap gap-3">
+      <ActionRow>
         <Button onClick={start} disabled={!configured}>
           Continue
         </Button>
@@ -68,7 +70,10 @@ export default function VerifyPage() {
         <Button variant="ghost" onClick={start} disabled={!configured}>
           Try Again
         </Button>
-      </div>
+        <AppLink variant="ghost" href={`/case/${params.caseId}`}>
+          Case
+        </AppLink>
+      </ActionRow>
       {rp && process.env.NEXT_PUBLIC_WORLD_APP_ID ? (
         <IDKitRequestWidget
           open={open}
@@ -99,6 +104,6 @@ export default function VerifyPage() {
           }}
         />
       ) : null}
-    </div>
+    </AppPage>
   );
 }

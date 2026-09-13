@@ -2,6 +2,7 @@
 
 import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
+import { ActionRow, AppError, AppLink, AppPage, FactRow } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -155,12 +156,17 @@ export default function ReliefStatusPage() {
     }
   }
 
-  if (error && !trace) return <p>{error}</p>;
+  if (error && !trace) {
+    return (
+      <AppPage kicker="Relief Agent" title="Althea Relief Agent">
+        <AppError>{error}</AppError>
+      </AppPage>
+    );
+  }
   if (!trace) return <AppLoader status={LOADER_STATUS.relief} />;
 
   return (
-    <div className="space-y-6">
-      <h1 className="text-4xl">Althea Relief Agent</h1>
+    <AppPage kicker="Relief Agent" title="Althea Relief Agent">
       {route ? (
         <Card>
           <ReliefAssembly
@@ -175,28 +181,33 @@ export default function ReliefStatusPage() {
         <AgentTrace steps={trace.steps} executionSteps={executionSteps} />
       </Card>
       {trace.evaluation.decision === "human_review_required" && phase === "eval" ? (
-        <Card className="space-y-3">
-          <h2 className="text-2xl">Human review required</h2>
-          <p>Residual Balance: {remaining !== null ? formatUsd(remaining) : "..."}</p>
-          <p>Assembled Relief: {formatUsd(route?.total ?? trace.evaluation.grantAmount)}</p>
-          <p>Program: {programName || trace.program?.name}</p>
-          <p>Rule checks: {trace.evaluation.reasonCodes.join(", ")}</p>
+        <Card className="space-y-4">
+          <h2 className="text-2xl tracking-tight text-green">Human review required</h2>
+          <FactRow label="Residual Balance" value={remaining !== null ? formatUsd(remaining) : "..."} />
+          <FactRow label="Assembled Relief" value={formatUsd(route?.total ?? trace.evaluation.grantAmount)} />
+          <FactRow label="Program" value={programName || trace.program?.name} />
+          <FactRow label="Rule checks" value={trace.evaluation.reasonCodes.join(", ")} />
           <Button onClick={approve} disabled={busy}>
             Approve {formatUsd(route?.total ?? trace.evaluation.grantAmount)}
           </Button>
         </Card>
       ) : null}
-      {phase === "eval" && trace.evaluation.decision !== "human_review_required" ? (
-        <Button onClick={approve} disabled={busy}>
-          Continue
-        </Button>
-      ) : null}
-      {phase === "reserved" ? (
-        <Button onClick={confirmSettlement} disabled={busy}>
-          Confirm provider settlement
-        </Button>
-      ) : null}
-      {error ? <p className="text-danger">{error}</p> : null}
-    </div>
+      <ActionRow>
+        {phase === "eval" && trace.evaluation.decision !== "human_review_required" ? (
+          <Button onClick={approve} disabled={busy}>
+            Continue
+          </Button>
+        ) : null}
+        {phase === "reserved" ? (
+          <Button onClick={confirmSettlement} disabled={busy}>
+            Confirm provider settlement
+          </Button>
+        ) : null}
+        <AppLink variant="ghost" href={`/case/${params.caseId}`}>
+          Case
+        </AppLink>
+      </ActionRow>
+      <AppError>{error}</AppError>
+    </AppPage>
   );
 }

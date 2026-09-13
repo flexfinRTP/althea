@@ -3,6 +3,7 @@
 import { FormEvent, useCallback, useEffect, useState } from "react";
 import Link from "next/link";
 import { useRouter } from "next/navigation";
+import { ActionRow, AppLink } from "@/components/app/AppChrome";
 import { AppLoader } from "@/components/ui/AppLoader";
 import { Badge } from "@/components/ui/Badge";
 import { Button } from "@/components/ui/Button";
@@ -218,17 +219,14 @@ export default function FundPage() {
                 onChange={(e) => setGrantId(e.target.value)}
               />
             </Field>
-            <div className="flex flex-wrap gap-3">
+            <ActionRow>
               <Button type="submit" disabled={!grantId.trim()}>
                 Verify Relief Transaction
               </Button>
-              <Link
-                href="/fund/verify/demo"
-                className="inline-flex items-center justify-center rounded-md border border-line bg-cream-elev px-4 py-2.5 text-sm font-medium text-ink hover:bg-cream"
-              >
+              <AppLink href="/fund/verify/demo" variant="ghost">
                 Demo proof
-              </Link>
-            </div>
+              </AppLink>
+            </ActionRow>
           </form>
         </section>
       </div>
@@ -314,7 +312,10 @@ export default function FundPage() {
                         )}
                       </td>
                       <td className="px-4 py-4">
-                        <Link href={`/fund/verify/${row.id}`} className="underline decoration-line underline-offset-4">
+                        <Link
+                          href={`/fund/verify/${row.id}`}
+                          className="font-medium text-green hover:text-green-2"
+                        >
                           Verify Relief Transaction
                         </Link>
                       </td>
@@ -349,14 +350,14 @@ export default function FundPage() {
         </section>
       ) : null}
 
-      <div className="flex flex-wrap gap-4 text-sm">
-        <Link href="/fund/give" className="underline decoration-line underline-offset-4">
+      <ActionRow>
+        <AppLink href="/fund/give" variant="ghost">
           Give from any chain
-        </Link>
-        <Link href="/funders" className="underline decoration-line underline-offset-4">
+        </AppLink>
+        <AppLink href="/funders" variant="ghost">
           Funder console
-        </Link>
-      </div>
+        </AppLink>
+      </ActionRow>
     </div>
   );
 }

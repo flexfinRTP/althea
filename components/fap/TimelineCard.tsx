@@ -17,8 +17,8 @@ export function TimelineCard({
   const label = formatIsoDate(firstBillingDate);
 
   return (
-    <section className="rounded-xl border border-line bg-cream-elev p-6">
-      <h2 className="mb-3 text-2xl">Federal timeline</h2>
+    <section className="rounded-[2rem] border border-line/80 bg-cream-elev p-6 md:p-8">
+      <h2 className="mb-4 text-2xl tracking-tight text-green">Federal timeline</h2>
       <p>First billing statement: {label}</p>
       <p className="mt-1">
         Approximate federal FAP application-period status: Day {day} of 240
