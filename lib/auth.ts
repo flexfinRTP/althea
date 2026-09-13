@@ -43,7 +43,7 @@ export function canAccessCase(session: Session, caseId: string, ownerId?: string
   if (session.role !== "patient") return true;
   if (session.caseIds.includes(caseId)) return true;
   if (ownerId && ownerId === session.userId) return true;
-  if (isDemoMode() && session.userId === "anon") return true;
+  if (isDemoMode() && (session.userId === "anon" || caseId === "demo")) return true;
   throw new ApiError("FORBIDDEN", "You can only view your own case.", 403);
 }
 

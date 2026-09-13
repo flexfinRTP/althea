@@ -18,7 +18,7 @@ import {
 import { calculateFapEstimate } from "@/lib/fap/calculate";
 import { FapPolicy } from "@/lib/fap/schema";
 import { calculateFapTimeline } from "@/lib/fap/timeline";
-import { demoReferenceDate } from "@/lib/config";
+import { DEMO_HOSPITAL_ID, demoReferenceDate } from "@/lib/config";
 import { generateCaseHashMaterial } from "@/lib/relief/case-hash";
 
 export function listHospitals(search?: string, state?: string) {
@@ -103,10 +103,61 @@ export function createCase(input: {
   return row;
 }
 
+export function ensureDemoCase(): StoredCase {
+  const store = getStore();
+  const existing = store.cases.find((item) => item.id === "demo");
+  if (existing) return existing;
+  const created = nowIso();
+  const row: StoredCase = {
+    id: "demo",
+    userId: "demo_patient",
+    hospitalId: DEMO_HOSPITAL_ID,
+    status: "draft",
+    createdAt: created,
+    updatedAt: created,
+  };
+  store.cases.push(row);
+  store.financialInputs.push({
+    caseId: "demo",
+    billAmount: 18420,
+    householdSize: 3,
+    householdAnnualIncome: 51000,
+    insuranceStatus: "insured",
+    firstPostDischargeBillDate: "2026-08-20",
+  });
+  saveStore();
+  calculateCaseEstimate("demo");
+  writeAudit({ caseId: "demo", actorType: "system", eventType: "CASE_CREATED", metadata: { demo: true } });
+  return getCase("demo");
+}
+
 export function getCase(caseId: string): StoredCase {
+  if (caseId === "demo") {
+    const existing = getStore().cases.find((item) => item.id === "demo");
+    if (!existing) return ensureDemoCase();
+    return existing;
+  }
   const row = getStore().cases.find((item) => item.id === caseId);
   if (!row) throw new ApiError("CASE_NOT_FOUND", "Case not found.", 404);
   return row;
+}
+
+export function updateCaseInputs(
+  caseId: string,
+  patch: Partial<{
+    billAmount: number;
+    householdSize: number;
+    householdAnnualIncome: number;
+    insuranceStatus: "insured" | "uninsured";
+    firstPostDischargeBillDate?: string;
+    state?: string;
+  }>,
+) {
+  const input = getStore().financialInputs.find((row) => row.caseId === caseId);
+  if (!input) throw new ApiError("INPUT_MISSING", "Financial inputs are missing.");
+  Object.assign(input, patch);
+  saveStore();
+  return input;
 }
 
 export function getCaseBundle(caseId: string) {
@@ -393,6 +444,16 @@ export function publicReliefStats() {
 }
 
 export function publicGrant(grantId: string) {
+  if (grantId === "demo") {
+    return {
+      program: getStore().program.name,
+      amount: 500,
+      status: "demonstration",
+      network: "Arc",
+      providerLabel: "Example Medical Center Demo Settlement Account",
+      demoLabeled: true,
+    };
+  }
   const grant = getStore().grants.find((row) => row.id === grantId);
   if (!grant) throw new ApiError("GRANT_NOT_FOUND", "Grant not found.", 404);
   return {
@@ -402,5 +463,6 @@ export function publicGrant(grantId: string) {
     transactionHash: grant.arcTransactionHash,
     timestamp: grant.confirmedAt ?? grant.submittedAt,
     network: "Arc",
+    providerLabel: "Example Medical Center Demo Settlement Account",
   };
 }

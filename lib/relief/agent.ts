@@ -279,8 +279,14 @@ export async function runReliefAgent(reliefRequestId: string) {
     {
       id: "world",
       label: "Checking human/liveness risk signal...",
-      detail: facts.worldStatus === "passed" ? "Passed" : "Missing",
-      status: facts.worldStatus === "passed" ? "complete" : "blocked",
+      detail:
+        facts.worldStatus === "passed"
+          ? "Passed"
+          : facts.worldStatus === "manual_review"
+            ? "Manual review"
+            : "Missing",
+      status:
+        facts.worldStatus === "passed" || facts.worldStatus === "manual_review" ? "complete" : "blocked",
     },
     {
       id: "duplicate",

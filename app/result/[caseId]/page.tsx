@@ -6,6 +6,8 @@ import { useParams } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
 import { Money } from "@/components/bill/Money";
+import { ExplainDrawer } from "@/components/fap/ExplainDrawer";
+import { TimelineCard } from "@/components/fap/TimelineCard";
 import { api } from "@/lib/client/api";
 import { formatUsd } from "@/lib/money";
 
@@ -29,11 +31,13 @@ type ResultPayload = {
     structuredPolicy: {
       citations: Array<{ id: string; page?: number; section?: string; shortExcerpt?: string }>;
       discountedCareRules: Array<{ id: string; minFplPercent?: number; maxFplPercent?: number }>;
+      freeCareRules: Array<{ id: string; minFplPercent?: number; maxFplPercent?: number }>;
     };
   };
-  hospital?: { name: string };
+  hospital?: { id: string; name: string };
   timeline?: {
     applicationPeriodDay?: number;
+    notificationPeriodDay?: number;
     firstBillingDate?: string;
     messages: string[];
   };
@@ -56,9 +60,12 @@ export default function ResultPage() {
   if (!data?.estimate || !data.financialInput) return <p>Loading...</p>;
 
   const citations = data.policy?.structuredPolicy.citations ?? [];
-  const matched = data.policy?.structuredPolicy.discountedCareRules.find((rule) =>
-    data.estimate?.matchedRuleIds.includes(rule.id),
-  );
+  const rules = [
+    ...(data.policy?.structuredPolicy.freeCareRules ?? []),
+    ...(data.policy?.structuredPolicy.discountedCareRules ?? []),
+  ];
+  const matched = rules.find((rule) => data.estimate?.matchedRuleIds.includes(rule.id));
+  const hospitalId = data.hospital?.id ?? "hosp_demo_001";
 
   return (
     <div className="space-y-6">
@@ -82,49 +89,46 @@ export default function ResultPage() {
       <Button variant="ghost" onClick={() => setOpen(true)}>
         Why am I seeing this?
       </Button>
-      {open ? (
-        <Card className="space-y-3" aria-label="Estimate explanation">
-          <h2 className="text-2xl">Why</h2>
-          <p>Household: {data.financialInput.householdSize}</p>
-          <p>Income: {formatUsd(data.financialInput.householdAnnualIncome)}</p>
-          <p>Insurance: {data.financialInput.insuranceStatus === "insured" ? "Insured" : "Uninsured"}</p>
-          <p>
-            Applicable policy bracket:{" "}
-            {matched ? `${matched.minFplPercent}–${matched.maxFplPercent}% FPL matched` : "matched"}
+      <ExplainDrawer open={open} onClose={() => setOpen(false)}>
+        <h2 className="text-2xl">Why</h2>
+        <p className="mt-4">Household: {data.financialInput.householdSize}</p>
+        <p>Income: {formatUsd(data.financialInput.householdAnnualIncome)}</p>
+        <p>Insurance: {data.financialInput.insuranceStatus === "insured" ? "Insured" : "Uninsured"}</p>
+        <p className="mt-3">
+          Applicable policy bracket:{" "}
+          {matched ? `${matched.minFplPercent}–${matched.maxFplPercent}% FPL matched` : "matched"}
+        </p>
+        <p>Source: hospital Financial Assistance Policy</p>
+        {data.estimate.reasons.map((reason) => (
+          <p key={reason} className="mt-2">
+            {reason}
           </p>
-          <p>Source: hospital Financial Assistance Policy</p>
-          {data.estimate.reasons.map((reason) => (
-            <p key={reason}>{reason}</p>
-          ))}
-          <div className="space-y-2 text-sm text-[#5c564c]">
-            {citations
-              .filter((citation) => data.estimate?.matchedRuleIds.length)
-              .map((citation) => (
-                <p key={citation.id}>
-                  {citation.section}
-                  {citation.page ? `, page ${citation.page}` : ""}: {citation.shortExcerpt}
-                </p>
-              ))}
-          </div>
-          <p className="text-sm">View policy source: Demonstration Policy, Example Medical Center 2026 FAP.</p>
-          <Button variant="ghost" onClick={() => setOpen(false)}>
-            Close
-          </Button>
-        </Card>
-      ) : null}
-      {data.timeline ? (
-        <Card>
-          <h2 className="mb-3 text-2xl">Federal timeline</h2>
-          <p>First billing statement: {data.timeline.firstBillingDate === "2026-08-20" ? "August 20, 2026" : data.timeline.firstBillingDate}</p>
-          <p>
-            Approximate federal FAP application-period status: Day {data.timeline.applicationPeriodDay} of 240
-          </p>
-          {data.timeline.messages.map((message) => (
-            <p key={message} className="mt-2 text-sm text-[#5c564c]">
-              {message}
+        ))}
+        <div className="mt-4 space-y-2 text-sm text-[#5c564c]">
+          {citations.map((citation) => (
+            <p key={citation.id}>
+              {citation.section}
+              {citation.page ? `, page ${citation.page}` : ""}: {citation.shortExcerpt}
             </p>
           ))}
-        </Card>
+        </div>
+        <p className="mt-4 text-sm">
+          View policy source:{" "}
+          <Link className="underline" href={`/policy/${hospitalId}`}>
+            Demonstration Policy, {data.hospital?.name ?? "Example Medical Center"} 2026 FAP.
+          </Link>
+        </p>
+        <Button className="mt-6" variant="ghost" onClick={() => setOpen(false)}>
+          Close
+        </Button>
+      </ExplainDrawer>
+      {data.timeline ? (
+        <TimelineCard
+          firstBillingDate={data.timeline.firstBillingDate}
+          applicationPeriodDay={data.timeline.applicationPeriodDay}
+          notificationPeriodDay={data.timeline.notificationPeriodDay}
+          messages={data.timeline.messages}
+        />
       ) : null}
       <Link
         href={`/application/${params.caseId}`}

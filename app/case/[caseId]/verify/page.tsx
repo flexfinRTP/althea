@@ -36,7 +36,7 @@ export default function VerifyPage() {
       setRp(signature);
       setOpen(true);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "We couldn't complete the liveness check. Try again or request manual review.");
+      setError(err instanceof Error ? err.message : "Verification service unavailable. Try again.");
     }
   }
 

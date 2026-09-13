@@ -70,6 +70,9 @@ export default function ApplicationPage() {
       {submitted ? (
         <p>Recorded as submitted by you. Althea did not send this application to the hospital.</p>
       ) : null}
+      <Link className="block text-[#1f4a43]" href={`/application/${params.caseId}/print`}>
+        Print application packet
+      </Link>
       <Link className="block text-[#1f4a43]" href={`/case/${params.caseId}`}>
         Continue to case
       </Link>

@@ -59,7 +59,7 @@ export default function DecisionPage() {
           </div>
           <div className="flex justify-between">
             <span>Hospital assistance</span>
-            <span className="text-2xl tabular-nums">-{MoneyAmount(data.decision.approvedAssistance)}</span>
+            <Money amount={-data.decision.approvedAssistance} />
           </div>
           <div className="flex justify-between border-t border-[#e3d9c8] pt-4">
             <span>Remaining</span>
@@ -77,8 +77,4 @@ export default function DecisionPage() {
       ) : null}
     </div>
   );
-}
-
-function MoneyAmount(amount: number) {
-  return amount.toLocaleString("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 }

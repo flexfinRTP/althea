@@ -37,6 +37,7 @@ export default function ProofPage() {
           <p>Amount: {formatUsd(proof.amount)}</p>
           <p>Status: {proof.status}</p>
           <p>Network: {proof.network ?? "Arc"}</p>
+          <p>Settlement: Example Medical Center Demo Settlement Account</p>
           <p>Transaction hash: {proof.transactionHash ?? "pending"}</p>
           {proof.transactionHash ? (
             <a className="underline" href={explorerTx(proof.transactionHash)}>

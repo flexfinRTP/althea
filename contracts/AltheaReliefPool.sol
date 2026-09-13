@@ -7,7 +7,9 @@ import {Ownable} from "@openzeppelin/contracts/access/Ownable.sol";
 import {Pausable} from "@openzeppelin/contracts/utils/Pausable.sol";
 import {ReentrancyGuard} from "@openzeppelin/contracts/utils/ReentrancyGuard.sol";
 
-contract AltheaReliefPool is Ownable, Pausable, ReentrancyGuard {
+import {IAltheaReliefPool} from "./interfaces/IAltheaReliefPool.sol";
+
+contract AltheaReliefPool is Ownable, Pausable, ReentrancyGuard, IAltheaReliefPool {
     using SafeERC20 for IERC20;
 
     IERC20 public immutable usdc;
@@ -15,17 +17,6 @@ contract AltheaReliefPool is Ownable, Pausable, ReentrancyGuard {
     mapping(bytes32 => bool) public paidCases;
     mapping(bytes32 => uint256) public programGrantCaps;
     mapping(address => bool) public authorizedExecutors;
-
-    event PoolFunded(address indexed funder, uint256 amount);
-    event GrantReleased(
-        bytes32 indexed caseHash,
-        bytes32 indexed programId,
-        address indexed provider,
-        uint256 amount,
-        bytes32 decisionHash
-    );
-    event ExecutorUpdated(address indexed executor, bool authorized);
-    event ProgramCapUpdated(bytes32 indexed programId, uint256 cap);
 
     error UnauthorizedExecutor();
     error AlreadyPaid();

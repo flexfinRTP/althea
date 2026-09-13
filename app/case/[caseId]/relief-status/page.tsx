@@ -1,13 +1,14 @@
 "use client";
 
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useParams, useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
+import { AgentTrace, AgentStep } from "@/components/relief/AgentTrace";
 import { api } from "@/lib/client/api";
 
 type Trace = {
-  steps: Array<{ id: string; label: string; detail?: string; status: string }>;
+  steps: AgentStep[];
   evaluation: { decision: string; grantAmount: number; reasonCodes: string[] };
 };
 
@@ -23,6 +24,7 @@ export default function ReliefStatusPage() {
   const [reliefId, setReliefId] = useState<string | null>(null);
   const [error, setError] = useState("");
   const [busy, setBusy] = useState(false);
+  const [phase, setPhase] = useState<"eval" | "approved" | "settling" | "sent" | "blocked">("eval");
 
   useEffect(() => {
     api<CasePayload>(`/api/cases/${params.caseId}`)
@@ -35,22 +37,65 @@ export default function ReliefStatusPage() {
       .catch((err) => setError(err.message));
   }, [params.caseId]);
 
+  const executionSteps = useMemo<AgentStep[]>(() => {
+    const steps: AgentStep[] = [];
+    if (phase === "eval") return steps;
+    steps.push({
+      id: "human-approved",
+      label: "Human approval required...",
+      detail: "Approved",
+      status: "complete",
+    });
+    if (phase === "approved") return steps;
+    steps.push({
+      id: "prep",
+      label: "Preparing settlement...",
+      status: "complete",
+    });
+    if (phase === "settling") return steps;
+    if (phase === "sent") {
+      steps.push({
+        id: "send",
+        label: "Sending 500 USDC...",
+        detail: "Confirmed",
+        status: "complete",
+      });
+    }
+    if (phase === "blocked") {
+      steps.push({
+        id: "send",
+        label: "Sending 500 USDC...",
+        detail: "Relief review could not be completed automatically. This case requires manual review.",
+        status: "blocked",
+      });
+    }
+    return steps;
+  }, [phase]);
+
   async function approve() {
     if (!reliefId) return;
     setBusy(true);
     setError("");
     try {
+      setPhase("approved");
       await api(`/api/relief/${reliefId}/approve`, {
         method: "POST",
         body: JSON.stringify({ approvedAmount: 500 }),
       });
+      setPhase("settling");
       await api(`/api/relief/${reliefId}/execute`, {
         method: "POST",
         headers: { "Idempotency-Key": reliefId },
       });
-      router.push(`/case/${params.caseId}/success`);
+      setPhase("sent");
+      window.setTimeout(() => router.push(`/case/${params.caseId}/success`), 900);
     } catch (err) {
-      setError(err instanceof Error ? err.message : "Relief review could not be completed automatically. This case requires manual review.");
+      setPhase("blocked");
+      setError(
+        err instanceof Error
+          ? err.message
+          : "Relief review could not be completed automatically. This case requires manual review.",
+      );
     } finally {
       setBusy(false);
     }
@@ -61,18 +106,10 @@ export default function ReliefStatusPage() {
   return (
     <div className="space-y-6">
       <h1 className="text-4xl">Althea Relief Agent</h1>
-      <Card className="space-y-4">
-        {trace.steps.map((step) => (
-          <div key={step.id} className="flex items-start justify-between gap-4 border-b border-[#e3d9c8] pb-3 last:border-0">
-            <div>
-              <p>{step.label}</p>
-              {step.detail ? <p className="text-sm text-[#5c564c]">{step.detail}</p> : null}
-            </div>
-            <span aria-label={step.status}>{step.status === "complete" ? "✓" : "•"}</span>
-          </div>
-        ))}
+      <Card>
+        <AgentTrace steps={trace.steps} executionSteps={executionSteps} />
       </Card>
-      {trace.evaluation.decision === "human_review_required" ? (
+      {trace.evaluation.decision === "human_review_required" && phase === "eval" ? (
         <Card className="space-y-3">
           <h2 className="text-2xl">Human review required</h2>
           <p>Residual Balance: $2,470</p>
@@ -83,11 +120,12 @@ export default function ReliefStatusPage() {
             Approve $500
           </Button>
         </Card>
-      ) : (
+      ) : null}
+      {phase === "eval" && trace.evaluation.decision !== "human_review_required" ? (
         <Button onClick={approve} disabled={busy}>
           Continue
         </Button>
-      )}
+      ) : null}
       {error ? <p className="text-[#8a2f2f]">{error}</p> : null}
     </div>
   );

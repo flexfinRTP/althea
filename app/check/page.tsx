@@ -1,6 +1,6 @@
 "use client";
 
-import { FormEvent, useState } from "react";
+import { FormEvent, useEffect, useState } from "react";
 import { useRouter } from "next/navigation";
 import { Button } from "@/components/ui/Button";
 import { Card } from "@/components/ui/Card";
@@ -8,9 +8,12 @@ import { Field, inputClass } from "@/components/ui/Field";
 import { api } from "@/lib/client/api";
 import demo from "@/data/demo/example-medical-center.json";
 
+type Hospital = { id: string; name: string; state?: string };
+
 export default function CheckPage() {
   const router = useRouter();
-  const [hospital, setHospital] = useState("Example Medical Center");
+  const [hospitals, setHospitals] = useState<Hospital[]>([]);
+  const [hospitalId, setHospitalId] = useState("hosp_demo_001");
   const [billAmount, setBillAmount] = useState("");
   const [householdSize, setHouseholdSize] = useState("");
   const [income, setIncome] = useState("");
@@ -19,8 +22,14 @@ export default function CheckPage() {
   const [error, setError] = useState("");
   const [pending, setPending] = useState(false);
 
+  useEffect(() => {
+    api<{ hospitals: Hospital[] }>("/api/hospitals")
+      .then((data) => setHospitals(data.hospitals))
+      .catch(() => undefined);
+  }, []);
+
   function loadDemo() {
-    setHospital(demo.hospital);
+    setHospitalId("hosp_demo_001");
     setBillAmount(String(demo.billAmount));
     setHouseholdSize(String(demo.householdSize));
     setIncome(String(demo.income));
@@ -33,10 +42,21 @@ export default function CheckPage() {
     setError("");
     setPending(true);
     try {
+      const isDemo =
+        hospitalId === "hosp_demo_001" &&
+        Number(billAmount) === 18420 &&
+        Number(householdSize) === 3 &&
+        Number(income) === 51000 &&
+        insurance === "insured";
+      if (isDemo) {
+        await api("/api/demo/bootstrap", { method: "POST" });
+        router.push("/result/demo");
+        return;
+      }
       const created = await api<{ caseId: string }>("/api/cases", {
         method: "POST",
         body: JSON.stringify({
-          hospitalId: "hosp_demo_001",
+          hospitalId,
           billAmount: Number(billAmount),
           householdSize: Number(householdSize),
           householdAnnualIncome: Number(income),
@@ -66,7 +86,20 @@ export default function CheckPage() {
       </Button>
       <form className="space-y-4" onSubmit={onSubmit}>
         <Field label="Hospital">
-          <input className={inputClass} value={hospital} onChange={(e) => setHospital(e.target.value)} required />
+          <select
+            className={inputClass}
+            value={hospitalId}
+            onChange={(e) => setHospitalId(e.target.value)}
+            required
+          >
+            {hospitals.length === 0 ? <option value="hosp_demo_001">Example Medical Center</option> : null}
+            {hospitals.map((hospital) => (
+              <option key={hospital.id} value={hospital.id}>
+                {hospital.name}
+                {hospital.state ? ` (${hospital.state})` : ""}
+              </option>
+            ))}
+          </select>
         </Field>
         <Field label="Bill amount">
           <input

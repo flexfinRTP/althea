@@ -3,6 +3,7 @@ import { mkdirSync, readFileSync, writeFileSync } from "fs";
 import path from "path";
 import { DEMO_HOSPITAL_ID, DEMO_POLICY_VERSION_ID, DEMO_PROGRAM_ID, DEMO_PROGRAM_NAME } from "@/lib/config";
 import fixture from "@/data/hospitals/example-medical-center/fap-2026.json";
+import riverside from "@/data/hospitals/riverside-community/fap-2026.json";
 import { FapPolicy } from "@/lib/fap/schema";
 
 export type CaseStatus =
@@ -239,6 +240,17 @@ function emptyStore(): StoreShape {
         applicationUrl: fixture.hospital.applicationUrl,
         activePolicyVersionId: DEMO_POLICY_VERSION_ID,
       },
+      {
+        id: riverside.hospital.id,
+        name: riverside.hospital.name,
+        systemName: riverside.hospital.systemName,
+        city: riverside.hospital.city,
+        state: riverside.hospital.state,
+        organizationType: riverside.hospital.organizationType,
+        fapLandingPageUrl: riverside.hospital.fapLandingPageUrl,
+        applicationUrl: riverside.hospital.applicationUrl,
+        activePolicyVersionId: riverside.id,
+      },
     ],
     policies: [
       {
@@ -248,6 +260,15 @@ function emptyStore(): StoreShape {
         versionLabel: fixture.versionLabel,
         effectiveDate: fixture.effectiveDate,
         structuredPolicy: fixture.structuredPolicy as FapPolicy,
+        validationStatus: "approved",
+      },
+      {
+        id: riverside.id,
+        hospitalId: riverside.hospitalId,
+        documentId: riverside.documentId,
+        versionLabel: riverside.versionLabel,
+        effectiveDate: riverside.effectiveDate,
+        structuredPolicy: riverside.structuredPolicy as FapPolicy,
         validationStatus: "approved",
       },
     ],
@@ -288,11 +309,30 @@ function load(): StoreShape {
   if (memory) return memory;
   try {
     memory = JSON.parse(readFileSync(DATA_PATH, "utf8")) as StoreShape;
+    ensureSeededHospitals(memory);
   } catch {
     memory = emptyStore();
     persist();
   }
   return memory;
+}
+
+function ensureSeededHospitals(store: StoreShape) {
+  const seed = emptyStore();
+  let changed = false;
+  for (const hospital of seed.hospitals) {
+    if (!store.hospitals.some((row) => row.id === hospital.id)) {
+      store.hospitals.push(hospital);
+      changed = true;
+    }
+  }
+  for (const policy of seed.policies) {
+    if (!store.policies.some((row) => row.id === policy.id)) {
+      store.policies.push(policy);
+      changed = true;
+    }
+  }
+  if (changed) persist();
 }
 
 function persist() {

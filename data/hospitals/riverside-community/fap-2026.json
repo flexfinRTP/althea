@@ -1,0 +1,94 @@
+{
+  "id": "fap_riverside_2026",
+  "hospitalId": "hosp_riverside_001",
+  "documentId": "doc_riverside_fap_2026",
+  "versionLabel": "2026-demo",
+  "effectiveDate": "2026-01-01",
+  "demonstrationPolicy": true,
+  "hospital": {
+    "id": "hosp_riverside_001",
+    "name": "Riverside Community Hospital",
+    "systemName": "Riverside Health",
+    "city": "Kansas City",
+    "state": "MO",
+    "organizationType": "nonprofit",
+    "fapLandingPageUrl": "https://riverside-community.invalid/financial-assistance",
+    "applicationUrl": "https://riverside-community.invalid/financial-assistance/apply"
+  },
+  "structuredPolicy": {
+    "hospitalName": "Riverside Community Hospital",
+    "policyScope": {
+      "emergencyCare": true,
+      "medicallyNecessaryCare": true,
+      "insuredPatientsEligible": false
+    },
+    "householdDefinition": "Persons claimed as household members on a federal tax return.",
+    "freeCareRules": [
+      {
+        "id": "rch-free-0-200",
+        "minFplPercent": 0,
+        "maxFplPercent": 200,
+        "assistanceType": "free",
+        "citationIds": ["cit-rch-free"]
+      }
+    ],
+    "discountedCareRules": [
+      {
+        "id": "rch-discount-201-300",
+        "minFplPercent": 201,
+        "maxFplPercent": 300,
+        "assistanceType": "percentage_discount",
+        "discountPercent": 60,
+        "citationIds": ["cit-rch-discount"]
+      }
+    ],
+    "residency": {
+      "required": false,
+      "description": "This demonstration policy does not impose a state-residency test."
+    },
+    "assets": {
+      "evaluated": false,
+      "description": "This demonstration policy does not apply an asset test."
+    },
+    "requiredDocuments": [
+      {
+        "id": "doc-income",
+        "type": "proof_of_income",
+        "required": true,
+        "description": "Proof of household income.",
+        "citationIds": ["cit-rch-docs"]
+      }
+    ],
+    "applicationMethods": ["mail", "in_person"],
+    "applicationUrl": "https://riverside-community.invalid/financial-assistance/apply",
+    "plainLanguageSummaryUrl": "https://riverside-community.invalid/financial-assistance/summary",
+    "billingOffice": {
+      "name": "Patient Financial Services",
+      "phone": "555-010-8800",
+      "address": "200 River Road, Kansas City, MO 64108"
+    },
+    "citations": [
+      {
+        "id": "cit-rch-free",
+        "documentId": "doc_riverside_fap_2026",
+        "page": 2,
+        "section": "Free Care",
+        "shortExcerpt": "Uninsured households at or below 200% of the Federal Poverty Guidelines may receive free care."
+      },
+      {
+        "id": "cit-rch-discount",
+        "documentId": "doc_riverside_fap_2026",
+        "page": 3,
+        "section": "Discounted Care",
+        "shortExcerpt": "Uninsured households from 201% through 300% of FPL may receive a 60% discount."
+      },
+      {
+        "id": "cit-rch-docs",
+        "documentId": "doc_riverside_fap_2026",
+        "page": 4,
+        "section": "How to Apply",
+        "shortExcerpt": "Submit proof of income with the hospital application."
+      }
+    ]
+  }
+}

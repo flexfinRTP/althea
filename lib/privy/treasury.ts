@@ -36,6 +36,12 @@ export function treasuryPolicyRules(reliefPool: string) {
           operator: "eq" as const,
           value: USDC_ADDRESS,
         },
+        {
+          field_source: "ethereum_transaction" as const,
+          field: "chain_id" as const,
+          operator: "eq" as const,
+          value: String(arcTestnet.id),
+        },
       ],
     },
     {
@@ -48,6 +54,12 @@ export function treasuryPolicyRules(reliefPool: string) {
           field: "to" as const,
           operator: "eq" as const,
           value: reliefPool,
+        },
+        {
+          field_source: "ethereum_transaction" as const,
+          field: "chain_id" as const,
+          operator: "eq" as const,
+          value: String(arcTestnet.id),
         },
       ],
     },

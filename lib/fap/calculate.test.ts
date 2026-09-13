@@ -92,3 +92,11 @@ describe("calculateFapEstimate", () => {
     expect(result.estimatedRemaining).toBe(3684);
   });
 });
+
+describe("Riverside Community Hospital fixture", () => {
+  it("does not treat insured patients as eligible", async () => {
+    const riverside = (await import("@/data/hospitals/riverside-community/fap-2026.json")).default;
+    const result = calculateFapEstimate(demoInput, riverside.structuredPolicy as FapPolicy);
+    expect(result.outcome).toBe("potentially_ineligible");
+  });
+});

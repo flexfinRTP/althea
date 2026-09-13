@@ -46,8 +46,12 @@ export default function CasePage() {
         </ol>
       </Card>
       <div className="flex flex-wrap gap-4">
-        <Link href={`/case/${params.caseId}/decision`}>Hospital decision</Link>
         <Link href={`/application/${params.caseId}`}>Application</Link>
+        <Link href={`/case/${params.caseId}/decision`}>Hospital decision</Link>
+        <Link href={`/case/${params.caseId}/relief`}>Althea Relief</Link>
+        <Link href={`/case/${params.caseId}/verify`}>Liveness check</Link>
+        <Link href={`/case/${params.caseId}/relief-status`}>Relief Agent</Link>
+        <Link href={`/case/${params.caseId}/success`}>Final amount</Link>
       </div>
     </div>
   );

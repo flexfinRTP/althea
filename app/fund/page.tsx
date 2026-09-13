@@ -31,7 +31,7 @@ export default function FundPage() {
       <h1 className="text-4xl">Althea Relief Fund</h1>
       {stats.demoLabeled ? <p className="text-sm text-[#5c564c]">Demo statistics</p> : null}
       <div className="grid gap-4 md:grid-cols-2">
-        <Stat label="Available Relief Capital" value={formatUsd(stats.totalContributed)} />
+        <Stat label="Available Capital" value={formatUsd(stats.totalContributed)} />
         <Stat label="Relief Delivered" value={formatUsd(stats.totalReliefDelivered)} />
         <Stat label="Grants Completed" value={String(stats.grantsCompleted)} />
         <Stat label="Average Grant" value={formatUsd(stats.averageGrant)} />
