@@ -1,0 +1,56 @@
+@import "tailwindcss";
+
+:root {
+  --bg: #f6f1e8;
+  --bg-elev: #fffdf8;
+  --ink: #1c1915;
+  --muted: #5c564c;
+  --line: #e3d9c8;
+  --accent: #1f4a43;
+  --accent-2: #2f6a60;
+  --warn: #8a5a12;
+  --danger: #8a2f2f;
+  --focus: #1f4a43;
+}
+
+* {
+  box-sizing: border-box;
+}
+
+html,
+body {
+  min-height: 100%;
+}
+
+body {
+  margin: 0;
+  background: var(--bg);
+  color: var(--ink);
+  font-family: var(--font-sans), "IBM Plex Sans", system-ui, sans-serif;
+}
+
+h1,
+h2,
+h3 {
+  font-family: var(--font-serif), "Source Serif 4", Georgia, serif;
+  font-weight: 560;
+  letter-spacing: -0.02em;
+}
+
+a {
+  color: inherit;
+}
+
+:focus-visible {
+  outline: 2px solid var(--focus);
+  outline-offset: 3px;
+}
+
+@media (prefers-reduced-motion: reduce) {
+  *,
+  *::before,
+  *::after {
+    animation: none !important;
+    transition: none !important;
+  }
+}

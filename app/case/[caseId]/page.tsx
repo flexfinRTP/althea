@@ -1,0 +1,54 @@
+"use client";
+
+import { useEffect, useState } from "react";
+import Link from "next/link";
+import { useParams } from "next/navigation";
+import { Card } from "@/components/ui/Card";
+import { api } from "@/lib/client/api";
+
+type CasePayload = {
+  case: { status: string };
+  timeline?: { applicationPeriodDay?: number; firstBillingDate?: string };
+};
+
+const STEPS = [
+  "draft",
+  "fap_analyzed",
+  "application_prepared",
+  "application_submitted",
+  "residual_verified",
+  "relief_requested",
+  "world_check_complete",
+  "relief_review",
+  "grant_executed",
+];
+
+export default function CasePage() {
+  const params = useParams<{ caseId: string }>();
+  const [data, setData] = useState<CasePayload | null>(null);
+
+  useEffect(() => {
+    api<CasePayload>(`/api/cases/${params.caseId}`).then(setData).catch(() => undefined);
+  }, [params.caseId]);
+
+  if (!data) return <p>Loading...</p>;
+
+  return (
+    <div className="space-y-6">
+      <h1 className="text-4xl">Case</h1>
+      <Card>
+        <ol className="space-y-2">
+          {STEPS.map((step) => (
+            <li key={step} className={data.case.status === step ? "font-medium" : "text-[#5c564c]"}>
+              {step.replaceAll("_", " ")}
+            </li>
+          ))}
+        </ol>
+      </Card>
+      <div className="flex flex-wrap gap-4">
+        <Link href={`/case/${params.caseId}/decision`}>Hospital decision</Link>
+        <Link href={`/application/${params.caseId}`}>Application</Link>
+      </div>
+    </div>
+  );
+}
