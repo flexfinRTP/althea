@@ -522,6 +522,40 @@ Althea uses blockchain only to improve the transparency and programmability of c
               Provider Settlement
 ```
 
+Independent funders sit behind that settlement:
+
+```text
+                  ALTHEA RELIEF NETWORK
+
+                    PATIENT
+                       │
+               Hospital FAP
+                       │
+                 $2,470 remains
+                       │
+                 World Check
+                       │
+                       ▼
+                RELIEF AGENT
+                       │
+                       │ discovers programs
+                       ▼
+       ┌───────────────┼────────────────┐
+       │               │                │
+       ▼               ▼                ▼
+ Althea Fund    Foundation Match   Employer Fund
+     $250             $250               -
+       │               │
+       ▼               ▼
+    ARC RELIEF NETWORK
+              $500 RESERVED
+                     │
+             provider confirms
+                     │
+                     ▼
+              $500 SETTLED
+```
+
 ---
 
 # Technology Stack
@@ -811,6 +845,11 @@ ARC_CHAIN_ID
 
 USDC_ADDRESS
 RELIEF_POOL_ADDRESS
+RELIEF_NETWORK_ADDRESS
+PRIVY_AGENT_WALLET_ID
+GRAPH_SUBGRAPH_URL
+CCTP_IRIS_URL
+DEMO_MATCH_PROGRAM_ID
 
 CIRCLE_API_KEY
 CIRCLE_ENTITY_SECRET
@@ -844,6 +883,7 @@ Deploy to Arc testnet:
 
 ```bash
 npm run deploy:arc:testnet
+npm run deploy:network:arc:testnet
 ```
 
 Record deployment addresses locally after deploy. Do not commit keys or operator identifiers.
@@ -876,6 +916,20 @@ unpause restores execution
 grant event is emitted
 
 recipient receives correct USDC
+```
+
+The Relief Network test suite must verify:
+
+```text
+restricted program funding and accounting
+
+1:1 match reserve then settle ($250 + $250)
+
+expired reservation refunds to the program
+
+unauthorized / over-cap / duplicate reserve fail
+
+three-program reserveGrant emits GrantAllocated
 ```
 
 ---

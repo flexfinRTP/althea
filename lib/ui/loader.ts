@@ -12,8 +12,9 @@ export const LOADER_STATUS = {
   reliefRequest: "Loading relief",
   proof: "Loading grant proof",
   treasury: "Loading treasury",
+  funders: "Loading funders",
+  donate: "Loading donation",
 } as const;
-
 export type LoaderStatus = (typeof LOADER_STATUS)[keyof typeof LOADER_STATUS];
 
 export const LOADER_RAIL = {

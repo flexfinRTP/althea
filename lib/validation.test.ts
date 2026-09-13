@@ -10,6 +10,8 @@ import {
   programPatchSchema,
   todayIsoDate,
   treasuryFundSchema,
+  donateSchema,
+  funderProgramSchema,
   visibleFieldError,
 } from "@/lib/validation";
 import demo from "@/data/demo/example-medical-center.json";
@@ -103,6 +105,26 @@ describe("treasuryFundSchema", () => {
     expect(treasuryFundSchema.parse({ amount: "1,000" }).amount).toBe(1000);
     expect(treasuryFundSchema.safeParse({ amount: 0 }).success).toBe(false);
     expect(treasuryFundSchema.safeParse({ amount: "" }).success).toBe(false);
+  });
+});
+
+describe("donateSchema", () => {
+  it("accepts a source chain and amount", () => {
+    expect(donateSchema.parse({ amount: "50", sourceChain: "ethereum" })).toMatchObject({
+      amount: 50,
+      sourceChain: "ethereum",
+    });
+    expect(donateSchema.safeParse({ amount: 50, sourceChain: "bitcoin" }).success).toBe(false);
+  });
+});
+
+describe("funderProgramSchema", () => {
+  it("requires a grant cap", () => {
+    expect(
+      funderProgramSchema.parse({ name: "Medical Hardship Match", grantCap: 250, matchRatioNum: 1, matchRatioDen: 1 })
+        .grantCap,
+    ).toBe(250);
+    expect(funderProgramSchema.safeParse({ name: "Match" }).success).toBe(false);
   });
 });
 

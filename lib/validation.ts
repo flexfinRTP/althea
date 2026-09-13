@@ -296,6 +296,53 @@ export const reliefApproveSchema = z.object({
   approvedAmount: requestedAmountSchema.optional(),
 });
 
+export const funderProgramSchema = z.object({
+  name: z.string().trim().min(1, "Enter a program name.").max(120, "Program name is too long."),
+  kind: z.enum(["general", "match", "employer", "community", "campaign"]).optional(),
+  budget: nonnegativeMoneySchema.optional(),
+  grantCap: requestedAmountSchema,
+  matchRatioNum: z.number().int().min(0).max(100).optional(),
+  matchRatioDen: z.number().int().min(1).max(100).optional(),
+  maxMatchPerCase: requestedAmountSchema.optional(),
+  expiresAt: z.string().trim().optional(),
+  eligibleSourceProgramId: entityIdSchema.optional(),
+});
+
+export const fundProgramSchema = z.object({
+  amount: treasuryAmountSchema,
+});
+
+export const donateSchema = z.object({
+  amount: treasuryAmountSchema,
+  sourceChain: z.enum(["arc", "ethereum", "base", "solana"], {
+    errorMap: () => ({ message: "Select a source chain." }),
+  }),
+  destinationProgramId: entityIdSchema.optional(),
+  email: z.string().email("Enter a valid email.").optional(),
+  campaignId: entityIdSchema.optional(),
+  donorWallet: z.string().trim().optional(),
+});
+
+export const donateCompleteSchema = z.object({
+  sourceTxHash: z.string().trim().optional(),
+  gatewayTransferId: z.string().trim().optional(),
+});
+
+export const policyProbeSchema = z.object({
+  amount: treasuryAmountSchema,
+});
+
+export const campaignSchema = z.object({
+  name: z.string().trim().min(1, "Enter a campaign name.").max(120),
+  programId: entityIdSchema,
+  recipientProgramId: entityIdSchema,
+  budget: treasuryAmountSchema,
+  matchRatioNum: z.number().int().min(1).max(100).default(1),
+  matchRatioDen: z.number().int().min(1).max(100).default(1),
+  startsAt: z.string().trim().min(1, "Enter a start date."),
+  endsAt: z.string().trim().min(1, "Enter an end date."),
+});
+
 export const worldVerifySchema = z.object({
   caseId: entityIdSchema,
   rp_id: z.string().trim().min(1, "Missing rp id.").max(200, "rp id is too long.").optional(),
@@ -318,7 +365,7 @@ export const hospitalListQuerySchema = z.object({
 });
 
 export const authRoleSchema = z.object({
-  role: z.enum(["patient", "relief_reviewer", "program_admin", "treasury_admin"], {
+  role: z.enum(["patient", "relief_reviewer", "program_admin", "treasury_admin", "funder"], {
     errorMap: () => ({ message: "Select a valid role." }),
   }),
 });

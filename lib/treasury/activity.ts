@@ -1,4 +1,12 @@
-export type TreasuryActivityType = "fund_relief_pool" | "grant_release" | "refund" | "admin_transfer";
+export type TreasuryActivityType =
+  | "fund_relief_pool"
+  | "fund_program"
+  | "grant_reserve"
+  | "grant_release"
+  | "refund"
+  | "donation"
+  | "match"
+  | "admin_transfer";
 export type TreasuryActivityStatus = "pending" | "confirmed" | "failed";
 
 export type TreasuryActivity = {
@@ -27,19 +35,21 @@ export type ActivitySourceGrant = {
   id: string;
   amount: number;
   providerSettlementAddress: string;
-  status: "prepared" | "submitted" | "confirmed" | "failed";
-  arcTransactionHash?: string;
+  status: "prepared" | "reserved" | "submitted" | "confirmed" | "failed";  arcTransactionHash?: string;
   submittedAt?: string;
   confirmedAt?: string;
 };
 
 export const TREASURY_TYPE_LABEL: Record<TreasuryActivityType, string> = {
   fund_relief_pool: "Fund",
+  fund_program: "Fund program",
+  grant_reserve: "Reserve",
   grant_release: "Grant",
   refund: "Refund",
+  donation: "Donation",
+  match: "Match",
   admin_transfer: "Transfer",
 };
-
 export const TREASURY_STATUS_LABEL: Record<TreasuryActivityStatus, string> = {
   pending: "Pending",
   confirmed: "Confirmed",
@@ -55,11 +65,10 @@ export function allocation(treasuryUsdc: number, poolUsdc: number) {
 
 function grantStatus(status: ActivitySourceGrant["status"]): TreasuryActivityStatus | null {
   if (status === "prepared") return null;
-  if (status === "submitted") return "pending";
+  if (status === "reserved" || status === "submitted") return "pending";
   if (status === "failed") return "failed";
   return "confirmed";
 }
-
 export function mergeTreasuryActivity(
   txs: ActivitySourceTx[],
   grants: ActivitySourceGrant[],

@@ -5,6 +5,7 @@ export default function AdminHome() {
     <div className="space-y-4">
       <h1 className="text-4xl">Admin</h1>
       <Link href="/admin/treasury">Treasury</Link>
+      <Link href="/funders">Funders</Link>
     </div>
   );
 }

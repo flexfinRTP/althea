@@ -1,7 +1,7 @@
 export type PublicGrantSource = {
   id: string;
   amount: number;
-  status: "prepared" | "submitted" | "confirmed" | "failed";
+  status: "prepared" | "reserved" | "submitted" | "confirmed" | "failed";
   arcTransactionHash?: string;
   submittedAt?: string;
   confirmedAt?: string;
@@ -10,7 +10,7 @@ export type PublicGrantSource = {
 export type PublicGrantListItem = {
   id: string;
   amount: number;
-  status: "submitted" | "confirmed" | "failed";
+  status: "reserved" | "submitted" | "confirmed" | "failed";
   timestamp?: string;
   transactionHash?: string;
   program: string;
@@ -18,6 +18,7 @@ export type PublicGrantListItem = {
 
 export const GRANT_STATUS_LABEL: Record<string, string> = {
   prepared: "Prepared",
+  reserved: "Reserved",
   submitted: "Submitted",
   confirmed: "Confirmed",
   failed: "Failed",
@@ -26,7 +27,13 @@ export const GRANT_STATUS_LABEL: Record<string, string> = {
 
 export function toPublicGrantList(grants: PublicGrantSource[], program: string): PublicGrantListItem[] {
   return grants
-    .filter((row): row is PublicGrantSource & { status: PublicGrantListItem["status"] } => row.status !== "prepared")
+    .filter(
+      (row): row is PublicGrantSource & { status: PublicGrantListItem["status"] } =>
+        row.status === "reserved" ||
+        row.status === "submitted" ||
+        row.status === "confirmed" ||
+        row.status === "failed",
+    )
     .map((row) => ({
       id: row.id,
       amount: row.amount,

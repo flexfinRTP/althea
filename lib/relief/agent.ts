@@ -16,8 +16,12 @@ import { decisionHash, programIdBytes32 } from "@/lib/relief/case-hash";
 import { circleConfigured, circleWalletExecute } from "@/lib/circle/cli";
 import { readPoolBalance } from "@/lib/arc/balances";
 import { DEMO_PROVIDER_SETTLEMENT_ADDRESS, RELIEF_POOL_ADDRESS } from "@/lib/arc/chain";
+import { RELIEF_NETWORK_ADDRESS } from "@/lib/arc/network";
 import { usdcToAtomic } from "@/lib/money";
 import { isDemoMode } from "@/lib/config";
+import { assembleForRelief, reserveRelief, settleRelief } from "@/lib/network/service";
+import { availableAmount } from "@/lib/network/accounting";
+import { getReliefNetworkIndex } from "@/lib/graph/relief-index";
 
 export type AgentTraceStep = {
   id: string;
@@ -68,14 +72,21 @@ export async function getProgramRules() {
 }
 
 export async function getPoolBalance() {
-  const program = (await getStore()).program;
+  const store = await getStore();
+  const program = store.program;
   const onchain = await readPoolBalance();
-  const availableUsdc = onchain ?? (isDemoMode() ? program.demoAvailableCapital : 0);
+  const networkAvailable = store.networkPrograms.reduce((sum, row) => sum + availableAmount(row), 0);
+  const availableUsdc = onchain ?? (networkAvailable > 0 ? networkAvailable : isDemoMode() ? program.demoAvailableCapital : 0);
   return {
     availableUsdc,
     onchain,
+    networkAvailable,
     demoFinancialModel: program.demoAvailableCapital,
   };
+}
+
+export async function getEligibleReliefPools() {
+  return getReliefNetworkIndex();
 }
 
 export async function evaluateReliefRequest(reliefRequestId: string, humanApproval = false) {
@@ -83,13 +94,15 @@ export async function evaluateReliefRequest(reliefRequestId: string, humanApprov
   const facts = await getCaseReliefFacts(request.caseId);
   const program = await getProgramRules();
   const pool = await getPoolBalance();
+  const route = await assembleForRelief(reliefRequestId);
+  const assembled = route.total > 0 ? route.total : request.requestedAmount;
   const result = evaluateReliefRules({
     fapCompleted: facts.fapCompleted,
     residualBalanceVerified: facts.residualBalanceVerified,
     residualBalance: facts.residualBalance,
     worldStatus: facts.worldStatus as "passed" | "failed" | "not_started" | "pending" | "manual_review",
     duplicateRisk: facts.duplicateRisk,
-    requestedAmount: request.requestedAmount,
+    requestedAmount: assembled,
     maxGrant: program.maxGrant,
     autoApprovalCap: program.autoApprovalCap,
     fundBalance: pool.availableUsdc,
@@ -131,7 +144,7 @@ export async function evaluateReliefRequest(reliefRequestId: string, humanApprov
     metadata: { decision: result.decision, reasonCodes: result.reasonCodes },
   });
   await saveStore();
-  return { ...result, rulesVersion: RELIEF_RULES_VERSION };
+  return { ...result, rulesVersion: RELIEF_RULES_VERSION, route };
 }
 
 function providerConfigured(): boolean {
@@ -156,6 +169,17 @@ export async function executeApprovedGrant(reliefRequestId: string, idempotencyK
   }
   if (idempotencyKey && request.executionKey === idempotencyKey) {
     return [...store.grants].reverse().find((row) => row.reliefRequestId === reliefRequestId);
+  }
+  const canUseNetwork = Boolean(RELIEF_NETWORK_ADDRESS || (await getStore()).networkPrograms.length);
+  if (canUseNetwork) {
+    const reserved = await reserveRelief(reliefRequestId);
+    const settled = await settleRelief(reliefRequestId);
+    return [...(await getStore()).grants].reverse().find((row) => row.reliefRequestId === reliefRequestId) ?? {
+      ...reserved.escrow,
+      amount: reserved.route.total,
+      status: settled.escrow.status === "settled" ? "confirmed" : "reserved",
+      arcTransactionHash: settled.transactionHash ?? reserved.transactionHash,
+    };
   }
   if (!circleConfigured() || !RELIEF_POOL_ADDRESS || !providerConfigured()) {
     throw new ApiError(
@@ -251,6 +275,16 @@ export function agentTools(reliefRequestId: string) {
       inputSchema: z.object({}),
       execute: async () => getPoolBalance(),
     }),
+    getEligibleReliefPools: tool({
+      description: "Read live eligible relief pools from The Graph or onchain program accounting.",
+      inputSchema: z.object({}),
+      execute: async () => getEligibleReliefPools(),
+    }),
+    assembleReliefRoute: tool({
+      description: "Discover which authorized programs can contribute to this verified obligation.",
+      inputSchema: z.object({}),
+      execute: async () => assembleForRelief(reliefRequestId),
+    }),
     evaluateReliefRequest: tool({
       description: "Run the deterministic Relief rules engine. Does not move money.",
       inputSchema: z.object({ humanApproval: z.boolean().optional() }),
@@ -280,7 +314,20 @@ export async function runReliefAgent(reliefRequestId: string) {
   const program = await getProgramRules();
   const pool = await getPoolBalance();
   const evaluation = await evaluateReliefRequest(reliefRequestId);
+  const route = evaluation.route;
   const steps: AgentTraceStep[] = [
+    {
+      id: "discover",
+      label: "Finding available relief...",
+      detail: `${route.selected.length} programs · ${route.total} USDC`,
+      status: route.total > 0 ? "complete" : "blocked",
+    },
+    ...route.sources.map((source) => ({
+      id: `pool-${source.programId}`,
+      label: source.name,
+      detail: source.eligible ? `${source.amount} USDC · ${source.reason}` : source.reason,
+      status: (source.eligible ? "complete" : "blocked") as AgentTraceStep["status"],
+    })),
     {
       id: "fap",
       label: "Checking hospital assistance...",
@@ -353,5 +400,5 @@ export async function runReliefAgent(reliefRequestId: string) {
     }
   }
 
-  return { steps, evaluation, explanation, facts, program, pool };
+  return { steps, evaluation, explanation, facts, program, pool, route };
 }

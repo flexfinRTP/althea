@@ -16,6 +16,7 @@
     "contracts:compile": "hardhat compile",
     "contracts:test": "hardhat test",
     "deploy:arc:testnet": "hardhat run scripts/deploy-relief-pool.ts --network arcTestnet",
+    "deploy:network:arc:testnet": "hardhat run scripts/deploy-relief-network.ts --network arcTestnet",
     "deploy:arc:mainnet": "hardhat run scripts/deploy-relief-pool.ts --network arcMainnet",
     "fund:arc:testnet": "hardhat run scripts/fund-pool.ts --network arcTestnet",
     "db:generate": "prisma generate",

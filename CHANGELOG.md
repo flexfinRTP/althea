@@ -4,6 +4,9 @@
 
 ### Added
 
+- Althea Relief Network: match vaults, grant escrow (`approved → reserved → settled` / `refunded`), multi-funder waterfall, restricted fund accounting, foundation console (`/funders`), give-from-any-chain (`/fund/give`), automatic match campaigns, Privy policy-caged funder and agent wallets, Circle CCTP/Gateway, and optional The Graph index when `GRAPH_SUBGRAPH_URL` is set.
+- `AltheaReliefNetwork` contract, `npm run deploy:network:arc:testnet`, and subgraph events for program, reserve, match, settle, and refund.
+- Patient relief assembly `$250` general + `$250` Community Health Match = `$500`. Program max grant stays `$500`.
 - Shared Zod validation for Check My Bill, treasury amount, and all request bodies. Per-field errors on blur and submit. Same rules on the API.
 - Homepage and `/how` section photographs in `public/marketing/`: bill, policy, application, relief, privacy, architecture still-life, and CTA. Cream still-life, no extra copy.
 - Official Althea lockup and mark (`althea-16-no-tagline`) on header, footer, print packet, loader, favicon, and Open Graph.
@@ -16,11 +19,15 @@
 - `PATCH /api/cases/:id`, `/api/demo/bootstrap`, IAltheaReliefPool, deploy `setProgramCap` / `setAuthorizedExecutor`, IERC20 fund script.
 - Riverside Community Hospital fixture (insured patients not eligible).
 - Prisma SQL init migration, skip-link, `error.tsx` / `not-found.tsx`.
+- `GET /api/public/grants` lists public grant proofs (amount, status, hash). No case or patient fields.
 - `GET /api/treasury/transactions` returns stored fund txs plus grant releases for the treasury ledger.
 
 ### Changed
 
+- Homepage Relief Rail sits above the No loans section. No loans uses cream-2 so the bands still alternate.
+- Homepage copy and number layout restored: hero is the bill-reduction estimate again. Section photos stay in `public/marketing/` and on `/how`. No copy rewrite.
 - Demo mode banner is removed from site chrome. Header starts at the logo row.
+- Relief Fund is a public-style ledger: available capital, delivered split, pool facts, testnet, grant proofs, and verify. Matches Endaoment / GiveDirectly layout, Althea type and color.
 - Treasury is a public-style ledger: total USDC, allocation bar, holdings with copy/explorer, policy, activity, and fund controls. `GET /api/treasury/transactions` lists fund txs and grant releases.
 - Type is Plus Jakarta Sans on marketing and the app. One family, no serif pair. Body sits at 17px with open leading.
 - Brand palette is cream `#F3EDDD`, olive green `#5C5C38`, and logo gold `#C9A45A` / `#EDD4A4` on the app and marketing site.

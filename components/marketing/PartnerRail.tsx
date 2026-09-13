@@ -56,6 +56,9 @@ export function PartnerRail() {
         <p className="mt-10 text-sm leading-6 text-muted">
           Hospital financial assistance never touches these rails. The patient never holds a wallet.
         </p>
+        <p className="mt-4 text-sm leading-6 text-muted">
+          Althea turns independent charitable funds into a programmable relief network.
+        </p>
       </div>
     </section>
   );

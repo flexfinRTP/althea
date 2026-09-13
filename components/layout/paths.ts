@@ -4,5 +4,12 @@ export function isMarketingPath(pathname: string | null): boolean {
 
 export function isWideAppPath(pathname: string | null): boolean {
   if (!pathname) return false;
-  return pathname === "/admin/treasury" || pathname === "/fund" || pathname.startsWith("/fund/verify/");
+  return (
+    pathname === "/admin/treasury" ||
+    pathname === "/fund" ||
+    pathname === "/fund/give" ||
+    pathname.startsWith("/fund/verify/") ||
+    pathname === "/funders" ||
+    pathname.startsWith("/funders/")
+  );
 }

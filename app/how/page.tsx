@@ -239,6 +239,50 @@ export default function HowPage() {
         </div>
       </section>
 
+      <section className="bg-cream-2 py-20 md:py-24">
+        <div className={wrap}>
+          <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">Programmable relief</p>
+          <h2 className="mt-4 max-w-3xl text-3xl leading-tight tracking-tight md:text-5xl">
+            Independent funds. One settlement.
+          </h2>
+          <p className="mt-5 max-w-2xl text-lg leading-7 text-muted">
+            Althea turns independent charitable funds into a programmable relief network. The patient
+            path does not change. Behind it, matching programs, restricted vaults, and escrowed USDC
+            combine on Arc.
+          </p>
+          <div className="mt-12 grid gap-5 md:grid-cols-2">
+            <article className="rounded-[2rem] bg-cream-elev p-8">
+              <h3 className="text-2xl">Foundation match</h3>
+              <p className="mt-3 text-base leading-6 text-muted">
+                A foundation commits capital to a 1:1 match with a per-case cap. It does not choose
+                the patient. Privy policy keeps the wallet on Arc, USDC, and Althea contracts only.
+              </p>
+            </article>
+            <article className="rounded-[2rem] bg-cream-elev p-8">
+              <h3 className="text-2xl">Reserve, then settle</h3>
+              <p className="mt-3 text-base leading-6 text-muted">
+                Approved USDC is reserved against the program and provider destination, then released
+                only after settlement confirmation. Expired reservations return to the fund.
+              </p>
+            </article>
+            <article className="rounded-[2rem] bg-cream-elev p-8">
+              <h3 className="text-2xl">Restricted fund accounting</h3>
+              <p className="mt-3 text-base leading-6 text-muted">
+                Budget, committed, settled, reserved, and remaining balances are independently
+                auditable. Patient evidence stays offchain.
+              </p>
+            </article>
+            <article className="rounded-[2rem] bg-cream-elev p-8">
+              <h3 className="text-2xl">Give from any chain</h3>
+              <p className="mt-3 text-base leading-6 text-muted">
+                Donors sign in with email. Circle CCTP and Gateway move USDC to Arc. Automatic match
+                campaigns can double a gift without putting the donor on MetaMask.
+              </p>
+            </article>
+          </div>
+        </div>
+      </section>
+
       <section className="bg-green py-20 text-cream-elev md:py-24">
         <div className={wrap}>
           <h2 className="max-w-3xl text-3xl leading-tight tracking-tight md:text-5xl">

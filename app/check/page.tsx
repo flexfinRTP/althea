@@ -8,6 +8,7 @@ import { Field, fieldDescribedBy, inputClass } from "@/components/ui/Field";
 import { api } from "@/lib/client/api";
 import {
   CASE_FIELD_ORDER,
+  MIN_BILL_DATE,
   caseCreateSchema,
   fieldErrors,
   todayIsoDate,
@@ -222,7 +223,7 @@ export default function CheckPage() {
             name="firstPostDischargeBillDate"
             className={inputClass}
             type="date"
-            min="2010-01-01"
+            min={MIN_BILL_DATE}
             max={maxDate}
             value={billDate}
             aria-invalid={Boolean(dateError)}

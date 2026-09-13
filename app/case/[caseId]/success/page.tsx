@@ -8,6 +8,7 @@ import { Card } from "@/components/ui/Card";
 import { BillReduction } from "@/components/bill/BillReduction";
 import { api } from "@/lib/client/api";
 import { explorerTx } from "@/lib/arc/chain";
+import { formatUsd } from "@/lib/money";
 import { LOADER_STATUS } from "@/lib/ui/loader";
 
 type Payload = {
@@ -15,6 +16,8 @@ type Payload = {
   decision?: { approvedAssistance: number; remainingBalance: number };
   grant?: { amount: number; id: string; arcTransactionHash?: string; status: string };
   reliefDecision?: { calculatedGrantAmount: number };
+  allocations?: Array<{ programId: string; amount: number; role: string }>;
+  route?: { selected: Array<{ name: string; amount: number }>; total: number };
 };
 
 export default function SuccessPage() {
@@ -43,6 +46,16 @@ export default function SuccessPage() {
       </Card>
       {!grantReady ? (
         <p className="text-sm text-muted">Settlement submitted. Waiting for confirmation.</p>
+      ) : null}
+      {data.route?.selected?.length ? (
+        <Card>
+          {data.route.selected.map((row) => (
+            <p key={row.name}>
+              {row.name}: {formatUsd(row.amount)}
+            </p>
+          ))}
+          <p className="mt-2">Total relief: {formatUsd(data.route.total)}</p>
+        </Card>
       ) : null}
       <h1 className="text-4xl">The hospital already had the assistance program.</h1>
       <h2 className="text-3xl">Althea made it usable.</h2>

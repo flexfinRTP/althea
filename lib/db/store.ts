@@ -7,6 +7,16 @@ import riverside from "@/data/hospitals/riverside-community/fap-2026.json";
 import { FapPolicy } from "@/lib/fap/schema";
 import { prisma } from "@/lib/db/prisma";
 import { hydrateFromPrisma, persistToPrisma } from "@/lib/db/prisma-sync";
+import { seedCampaigns, seedFunders, seedNetworkPrograms } from "@/lib/network/seed";
+import type {
+  StoredDonation,
+  StoredDonor,
+  StoredFunder,
+  StoredGrantAllocation,
+  StoredGrantEscrow,
+  StoredMatchCampaign,
+  StoredNetworkProgram,
+} from "@/lib/network/types";
 
 export type CaseStatus =
   | "draft"
@@ -33,8 +43,8 @@ export type Role =
   | "program_admin"
   | "treasury_admin"
   | "auditor"
-  | "system_agent";
-
+  | "system_agent"
+  | "funder";
 export type StoredCase = {
   id: string;
   userId?: string;
@@ -120,6 +130,7 @@ export type StoredReliefRequest = {
     | "approved"
     | "denied"
     | "executing"
+    | "reserved"
     | "executed";
   executionKey?: string;
   createdAt: string;
@@ -146,7 +157,8 @@ export type StoredGrant = {
   currency: "USDC";
   providerSettlementAddress: string;
   decisionHash: string;
-  status: "prepared" | "submitted" | "confirmed" | "failed";
+  status: "prepared" | "reserved" | "submitted" | "confirmed" | "failed";
+  escrowId?: string;
   arcTransactionHash?: string;
   submittedAt?: string;
   confirmedAt?: string;
@@ -154,7 +166,15 @@ export type StoredGrant = {
 
 export type StoredTreasuryTx = {
   id: string;
-  type: "fund_relief_pool" | "grant_release" | "refund" | "admin_transfer";
+  type:
+    | "fund_relief_pool"
+    | "fund_program"
+    | "grant_reserve"
+    | "grant_release"
+    | "refund"
+    | "donation"
+    | "match"
+    | "admin_transfer";
   amount: number;
   currency: "USDC";
   sourceAddress?: string;
@@ -211,6 +231,13 @@ export type StoreShape = {
   treasury: StoredTreasuryTx[];
   audits: StoredAudit[];
   nullifiers: Array<{ nullifier: string; action: string }>;
+  funders: StoredFunder[];
+  networkPrograms: StoredNetworkProgram[];
+  escrows: StoredGrantEscrow[];
+  allocations: StoredGrantAllocation[];
+  donations: StoredDonation[];
+  campaigns: StoredMatchCampaign[];
+  donors: StoredDonor[];
   program: {
     id: string;
     name: string;
@@ -233,6 +260,7 @@ export type StoreShape = {
 const DATA_PATH = path.join(process.cwd(), ".data", "althea-store.json");
 
 function emptyStore(): StoreShape {
+  const seededAt = new Date().toISOString();
   return {
     hospitals: [
       {
@@ -293,6 +321,13 @@ function emptyStore(): StoreShape {
     treasury: [],
     audits: [],
     nullifiers: [],
+    funders: seedFunders(seededAt),
+    networkPrograms: seedNetworkPrograms(seededAt),
+    escrows: [],
+    allocations: [],
+    donations: [],
+    campaigns: seedCampaigns(seededAt),
+    donors: [],
     program: {
       id: DEMO_PROGRAM_ID,
       name: DEMO_PROGRAM_NAME,
@@ -337,6 +372,22 @@ function ensureSeededHospitals(store: StoreShape) {
   }
   if (!store.program?.id) {
     store.program = seed.program;
+  }
+  store.funders ??= [];
+  store.networkPrograms ??= [];
+  store.escrows ??= [];
+  store.allocations ??= [];
+  store.donations ??= [];
+  store.campaigns ??= [];
+  store.donors ??= [];
+  for (const funder of seed.funders) {
+    if (!store.funders.some((row) => row.id === funder.id)) store.funders.push(funder);
+  }
+  for (const program of seed.networkPrograms) {
+    if (!store.networkPrograms.some((row) => row.id === program.id)) store.networkPrograms.push(program);
+  }
+  for (const campaign of seed.campaigns) {
+    if (!store.campaigns.some((row) => row.id === campaign.id)) store.campaigns.push(campaign);
   }
 }
 

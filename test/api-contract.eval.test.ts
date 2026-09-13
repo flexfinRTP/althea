@@ -43,6 +43,22 @@ describe("documented API routes exist on disk", () => {
       "/api/public/grants",
       "/api/public/grants/[grantId]",
       "/api/relief/program",
+      "/api/funders",
+      "/api/funders/[funderId]",
+      "/api/funders/[funderId]/programs",
+      "/api/funders/[funderId]/programs/[programId]/fund",
+      "/api/funders/[funderId]/policy-probe",
+      "/api/network/programs",
+      "/api/network/programs/[programId]",
+      "/api/network/index",
+      "/api/relief/[reliefRequestId]/route",
+      "/api/relief/[reliefRequestId]/reserve",
+      "/api/relief/[reliefRequestId]/settle",
+      "/api/relief/[reliefRequestId]/refund",
+      "/api/donate",
+      "/api/donate/[donationId]",
+      "/api/campaigns",
+      "/api/public/network",
     ];
     for (const route of required) {
       expect(found).toContain(route);

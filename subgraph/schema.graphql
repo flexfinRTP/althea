@@ -1,0 +1,31 @@
+type Program @entity(immutable: false) {
+  id: ID!
+  funder: Bytes!
+  grantCap: BigInt!
+  ruleHash: Bytes!
+  budget: BigInt!
+  reserved: BigInt!
+  spent: BigInt!
+  available: BigInt!
+  active: Boolean!
+  createdAt: BigInt!
+}
+
+type GrantEscrow @entity(immutable: false) {
+  id: ID!
+  provider: Bytes!
+  totalAmount: BigInt!
+  expiresAt: BigInt!
+  decisionHash: Bytes!
+  state: String!
+  createdAt: BigInt!
+}
+
+type MatchEvent @entity(immutable: true) {
+  id: ID!
+  caseHash: Bytes!
+  matchProgramId: Bytes!
+  sourceProgramId: Bytes!
+  matchAmount: BigInt!
+  createdAt: BigInt!
+}

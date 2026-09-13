@@ -16,6 +16,8 @@ import {
   StoredWorld,
   writeAudit,
 } from "@/lib/db/store";
+import { programAccounting } from "@/lib/network/accounting";
+import { assembleReliefRoute } from "@/lib/network/waterfall";
 import { calculateFapEstimate } from "@/lib/fap/calculate";
 import { FapPolicy } from "@/lib/fap/schema";
 import { calculateFapTimeline } from "@/lib/fap/timeline";
@@ -236,7 +238,30 @@ export async function getFullCase(caseId: string) {
   const grant = bundle.reliefRequest
     ? [...store.grants].reverse().find((row) => row.reliefRequestId === bundle.reliefRequest?.id)
     : undefined;
-  return { ...bundle, reliefDecision, grant };
+  const escrow = bundle.reliefRequest
+    ? [...store.escrows].reverse().find((row) => row.reliefRequestId === bundle.reliefRequest?.id)
+    : undefined;
+  const allocations = escrow ? (store.allocations ?? []).filter((row) => row.escrowId === escrow.id) : [];
+  const route = assembleReliefRoute({
+    residualBalance: bundle.decision?.remainingBalance ?? bundle.reliefRequest?.residualBalance ?? 0,
+    requestedAmount: bundle.reliefRequest?.requestedAmount ?? store.program.maxGrant,
+    programs: store.networkPrograms ?? [],
+    funders: store.funders ?? [],
+  });
+  return {
+    ...bundle,
+    reliefDecision,
+    grant,
+    escrow,
+    allocations,
+    route,
+    networkPrograms: store.networkPrograms.map((program) =>
+      programAccounting(
+        program,
+        store.funders.find((funder) => funder.id === program.funderId),
+      ),
+    ),
+  };
 }
 
 async function setStatus(caseId: string, status: CaseStatus) {
@@ -582,6 +607,13 @@ export async function publicReliefStats() {
       grantsCompleted: liveCount,
       averageGrant,
     },
+    vaults: (store.networkPrograms ?? []).map((program) =>
+      programAccounting(
+        program,
+        (store.funders ?? []).find((funder) => funder.id === program.funderId),
+      ),
+    ),
+    campaigns: store.campaigns ?? [],
   };
 }
 
@@ -608,8 +640,22 @@ export async function publicGrant(grantId: string) {
       demoLabeled: true,
     };
   }
-  const grant = (await getStore()).grants.find((row) => row.id === grantId);
+  const store = await getStore();
+  const grant = store.grants.find((row) => row.id === grantId);
   if (!grant) throw new ApiError("GRANT_NOT_FOUND", "Grant not found.", 404);
+  const escrow = store.escrows.find((row) => row.id === grant.escrowId);
+  const allocations = escrow
+    ? store.allocations
+        .filter((row) => row.escrowId === escrow.id)
+        .map((row) => {
+          const networkProgram = store.networkPrograms.find((item) => item.id === row.programId);
+          return {
+            program: networkProgram?.name ?? row.programId,
+            amount: row.amount,
+            role: row.role,
+          };
+        })
+    : [];
   return {
     program: program.name,
     amount: grant.amount,
@@ -618,5 +664,7 @@ export async function publicGrant(grantId: string) {
     timestamp: grant.confirmedAt ?? grant.submittedAt,
     network: "Arc",
     providerLabel: "Example Medical Center Demo Settlement Account",
+    allocations,
+    escrowStatus: escrow?.status,
   };
 }

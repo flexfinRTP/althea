@@ -16,6 +16,15 @@ import type {
   Role,
   CaseStatus,
 } from "@/lib/db/store";
+import type {
+  StoredDonation,
+  StoredDonor,
+  StoredFunder,
+  StoredGrantAllocation,
+  StoredGrantEscrow,
+  StoredMatchCampaign,
+  StoredNetworkProgram,
+} from "@/lib/network/types";
 
 function asStringArray(value: Prisma.JsonValue | null | undefined): string[] {
   return Array.isArray(value) ? value.filter((item): item is string => typeof item === "string") : [];
@@ -66,6 +75,13 @@ export async function hydrateFromPrisma(
     audits,
     nullifiers,
     programs,
+    funders,
+    networkPrograms,
+    escrows,
+    allocations,
+    donations,
+    campaigns,
+    donors,
   ] = await Promise.all([
     client.hospital.findMany(),
     client.fapPolicyVersion.findMany(),
@@ -83,6 +99,13 @@ export async function hydrateFromPrisma(
     client.auditEvent.findMany(),
     client.worldNullifier.findMany(),
     client.reliefProgram.findMany(),
+    client.funderOrganization.findMany(),
+    client.networkProgram.findMany(),
+    client.grantEscrow.findMany(),
+    client.grantAllocation.findMany(),
+    client.donation.findMany(),
+    client.matchCampaign.findMany(),
+    client.donor.findMany(),
   ]);
 
   const seed = fallback();
@@ -246,6 +269,7 @@ export async function hydrateFromPrisma(
         providerSettlementAddress: row.providerSettlementAddress,
         decisionHash: row.decisionHash,
         status: row.status as StoredGrant["status"],
+        escrowId: row.escrowId ?? undefined,
         arcTransactionHash: row.arcTransactionHash ?? undefined,
         submittedAt: iso(row.submittedAt),
         confirmedAt: iso(row.confirmedAt),
@@ -278,6 +302,118 @@ export async function hydrateFromPrisma(
       }),
     ),
     nullifiers: nullifiers.map((row) => ({ nullifier: row.nullifier, action: row.action })),
+    funders: funders.map(
+      (row): StoredFunder => ({
+        id: row.id,
+        name: row.name,
+        kind: row.kind as StoredFunder["kind"],
+        email: row.email ?? undefined,
+        privyWalletId: row.privyWalletId ?? undefined,
+        privyWalletAddress: row.privyWalletAddress ?? undefined,
+        policyId: row.policyId ?? undefined,
+        treasuryUsdc: row.treasuryUsdc,
+        dailyLimitUsdc: row.dailyLimitUsdc,
+        perMatchLimitUsdc: row.perMatchLimitUsdc,
+        createdAt: row.createdAt.toISOString(),
+        updatedAt: row.updatedAt.toISOString(),
+      }),
+    ),
+    networkPrograms: networkPrograms.map(
+      (row): StoredNetworkProgram => ({
+        id: row.id,
+        funderId: row.funderId,
+        name: row.name,
+        kind: row.kind as StoredNetworkProgram["kind"],
+        status: row.status as StoredNetworkProgram["status"],
+        currency: "USDC",
+        budget: row.budget,
+        spentAmount: row.spentAmount,
+        reservedAmount: row.reservedAmount,
+        grantCap: row.grantCap,
+        matchRatioNum: row.matchRatioNum,
+        matchRatioDen: row.matchRatioDen,
+        maxMatchPerCase: row.maxMatchPerCase,
+        expiresAt: iso(row.expiresAt),
+        ruleHash: row.ruleHash,
+        eligibleSourceProgramId: row.eligibleSourceProgramId ?? undefined,
+        allowedRecipientMode: "verified_settlement_only",
+        requiresWorldCheck: row.requiresWorldCheck,
+        requiresFapCompletion: row.requiresFapCompletion,
+        requiresVerifiedResidual: row.requiresVerifiedResidual,
+        createdAt: row.createdAt.toISOString(),
+        updatedAt: row.updatedAt.toISOString(),
+      }),
+    ),
+    escrows: escrows.map(
+      (row): StoredGrantEscrow => ({
+        id: row.id,
+        reliefRequestId: row.reliefRequestId,
+        caseId: row.caseId,
+        caseHash: row.caseHash,
+        provider: row.provider,
+        totalAmount: row.totalAmount,
+        expiresAt: row.expiresAt.toISOString(),
+        decisionHash: row.decisionHash,
+        status: row.status as StoredGrantEscrow["status"],
+        reserveTxHash: row.reserveTxHash ?? undefined,
+        settleTxHash: row.settleTxHash ?? undefined,
+        refundTxHash: row.refundTxHash ?? undefined,
+        createdAt: row.createdAt.toISOString(),
+        updatedAt: row.updatedAt.toISOString(),
+      }),
+    ),
+    allocations: allocations.map(
+      (row): StoredGrantAllocation => ({
+        id: row.id,
+        escrowId: row.escrowId,
+        programId: row.programId,
+        amount: row.amount,
+        role: row.role as StoredGrantAllocation["role"],
+      }),
+    ),
+    donations: donations.map(
+      (row): StoredDonation => ({
+        id: row.id,
+        donorId: row.donorId ?? undefined,
+        email: row.email ?? undefined,
+        amount: row.amount,
+        sourceChain: row.sourceChain as StoredDonation["sourceChain"],
+        destinationProgramId: row.destinationProgramId,
+        campaignId: row.campaignId ?? undefined,
+        matchedAmount: row.matchedAmount,
+        status: row.status as StoredDonation["status"],
+        sourceTxHash: row.sourceTxHash ?? undefined,
+        attestation: row.attestation ?? undefined,
+        gatewayTransferId: row.gatewayTransferId ?? undefined,
+        arcTxHash: row.arcTxHash ?? undefined,
+        createdAt: row.createdAt.toISOString(),
+        updatedAt: row.updatedAt.toISOString(),
+      }),
+    ),
+    campaigns: campaigns.map(
+      (row): StoredMatchCampaign => ({
+        id: row.id,
+        programId: row.programId,
+        name: row.name,
+        matchRatioNum: row.matchRatioNum,
+        matchRatioDen: row.matchRatioDen,
+        budget: row.budget,
+        spent: row.spent,
+        startsAt: row.startsAt,
+        endsAt: row.endsAt,
+        recipientProgramId: row.recipientProgramId,
+        status: row.status as StoredMatchCampaign["status"],
+      }),
+    ),
+    donors: donors.map(
+      (row): StoredDonor => ({
+        id: row.id,
+        email: row.email ?? undefined,
+        privyUserId: row.privyUserId ?? undefined,
+        walletAddress: row.walletAddress ?? undefined,
+        createdAt: row.createdAt.toISOString(),
+      }),
+    ),
     program,
   };
 
@@ -606,6 +742,7 @@ export async function persistToPrisma(client: PrismaClient, store: StoreShape): 
           providerSettlementAddress: row.providerSettlementAddress,
           decisionHash: row.decisionHash,
           status: row.status,
+          escrowId: row.escrowId,
           arcTransactionHash: row.arcTransactionHash,
           submittedAt: row.submittedAt ? new Date(row.submittedAt) : null,
           confirmedAt: row.confirmedAt ? new Date(row.confirmedAt) : null,
@@ -620,6 +757,7 @@ export async function persistToPrisma(client: PrismaClient, store: StoreShape): 
           providerSettlementAddress: row.providerSettlementAddress,
           decisionHash: row.decisionHash,
           status: row.status,
+          escrowId: row.escrowId,
           arcTransactionHash: row.arcTransactionHash,
           submittedAt: row.submittedAt ? new Date(row.submittedAt) : null,
           confirmedAt: row.confirmedAt ? new Date(row.confirmedAt) : null,
@@ -684,6 +822,224 @@ export async function persistToPrisma(client: PrismaClient, store: StoreShape): 
         where: { nullifier_action: { nullifier: row.nullifier, action: row.action } },
         update: {},
         create: { nullifier: row.nullifier, action: row.action },
+      });
+    }
+
+    for (const row of store.funders ?? []) {
+      await tx.funderOrganization.upsert({
+        where: { id: row.id },
+        update: {
+          name: row.name,
+          kind: row.kind,
+          email: row.email,
+          privyWalletId: row.privyWalletId,
+          privyWalletAddress: row.privyWalletAddress,
+          policyId: row.policyId,
+          treasuryUsdc: row.treasuryUsdc,
+          dailyLimitUsdc: row.dailyLimitUsdc,
+          perMatchLimitUsdc: row.perMatchLimitUsdc,
+        },
+        create: {
+          id: row.id,
+          name: row.name,
+          kind: row.kind,
+          email: row.email,
+          privyWalletId: row.privyWalletId,
+          privyWalletAddress: row.privyWalletAddress,
+          policyId: row.policyId,
+          treasuryUsdc: row.treasuryUsdc,
+          dailyLimitUsdc: row.dailyLimitUsdc,
+          perMatchLimitUsdc: row.perMatchLimitUsdc,
+          createdAt: new Date(row.createdAt),
+        },
+      });
+    }
+
+    for (const row of store.networkPrograms ?? []) {
+      await tx.networkProgram.upsert({
+        where: { id: row.id },
+        update: {
+          funderId: row.funderId,
+          name: row.name,
+          kind: row.kind,
+          status: row.status,
+          currency: row.currency,
+          budget: row.budget,
+          spentAmount: row.spentAmount,
+          reservedAmount: row.reservedAmount,
+          grantCap: row.grantCap,
+          matchRatioNum: row.matchRatioNum,
+          matchRatioDen: row.matchRatioDen,
+          maxMatchPerCase: row.maxMatchPerCase,
+          expiresAt: row.expiresAt ? new Date(row.expiresAt) : null,
+          ruleHash: row.ruleHash,
+          eligibleSourceProgramId: row.eligibleSourceProgramId,
+          allowedRecipientMode: row.allowedRecipientMode,
+          requiresWorldCheck: row.requiresWorldCheck,
+          requiresFapCompletion: row.requiresFapCompletion,
+          requiresVerifiedResidual: row.requiresVerifiedResidual,
+        },
+        create: {
+          id: row.id,
+          funderId: row.funderId,
+          name: row.name,
+          kind: row.kind,
+          status: row.status,
+          currency: row.currency,
+          budget: row.budget,
+          spentAmount: row.spentAmount,
+          reservedAmount: row.reservedAmount,
+          grantCap: row.grantCap,
+          matchRatioNum: row.matchRatioNum,
+          matchRatioDen: row.matchRatioDen,
+          maxMatchPerCase: row.maxMatchPerCase,
+          expiresAt: row.expiresAt ? new Date(row.expiresAt) : null,
+          ruleHash: row.ruleHash,
+          eligibleSourceProgramId: row.eligibleSourceProgramId,
+          allowedRecipientMode: row.allowedRecipientMode,
+          requiresWorldCheck: row.requiresWorldCheck,
+          requiresFapCompletion: row.requiresFapCompletion,
+          requiresVerifiedResidual: row.requiresVerifiedResidual,
+          createdAt: new Date(row.createdAt),
+        },
+      });
+    }
+
+    for (const row of store.escrows ?? []) {
+      await tx.grantEscrow.upsert({
+        where: { id: row.id },
+        update: {
+          reliefRequestId: row.reliefRequestId,
+          caseId: row.caseId,
+          caseHash: row.caseHash,
+          provider: row.provider,
+          totalAmount: row.totalAmount,
+          expiresAt: new Date(row.expiresAt),
+          decisionHash: row.decisionHash,
+          status: row.status,
+          reserveTxHash: row.reserveTxHash,
+          settleTxHash: row.settleTxHash,
+          refundTxHash: row.refundTxHash,
+        },
+        create: {
+          id: row.id,
+          reliefRequestId: row.reliefRequestId,
+          caseId: row.caseId,
+          caseHash: row.caseHash,
+          provider: row.provider,
+          totalAmount: row.totalAmount,
+          expiresAt: new Date(row.expiresAt),
+          decisionHash: row.decisionHash,
+          status: row.status,
+          reserveTxHash: row.reserveTxHash,
+          settleTxHash: row.settleTxHash,
+          refundTxHash: row.refundTxHash,
+          createdAt: new Date(row.createdAt),
+        },
+      });
+    }
+
+    for (const row of store.allocations ?? []) {
+      await tx.grantAllocation.upsert({
+        where: { id: row.id },
+        update: {
+          escrowId: row.escrowId,
+          programId: row.programId,
+          amount: row.amount,
+          role: row.role,
+        },
+        create: {
+          id: row.id,
+          escrowId: row.escrowId,
+          programId: row.programId,
+          amount: row.amount,
+          role: row.role,
+        },
+      });
+    }
+
+    for (const row of store.campaigns ?? []) {
+      await tx.matchCampaign.upsert({
+        where: { id: row.id },
+        update: {
+          programId: row.programId,
+          name: row.name,
+          matchRatioNum: row.matchRatioNum,
+          matchRatioDen: row.matchRatioDen,
+          budget: row.budget,
+          spent: row.spent,
+          startsAt: row.startsAt,
+          endsAt: row.endsAt,
+          recipientProgramId: row.recipientProgramId,
+          status: row.status,
+        },
+        create: {
+          id: row.id,
+          programId: row.programId,
+          name: row.name,
+          matchRatioNum: row.matchRatioNum,
+          matchRatioDen: row.matchRatioDen,
+          budget: row.budget,
+          spent: row.spent,
+          startsAt: row.startsAt,
+          endsAt: row.endsAt,
+          recipientProgramId: row.recipientProgramId,
+          status: row.status,
+        },
+      });
+    }
+
+    for (const row of store.donations ?? []) {
+      await tx.donation.upsert({
+        where: { id: row.id },
+        update: {
+          donorId: row.donorId,
+          email: row.email,
+          amount: row.amount,
+          sourceChain: row.sourceChain,
+          destinationProgramId: row.destinationProgramId,
+          campaignId: row.campaignId,
+          matchedAmount: row.matchedAmount,
+          status: row.status,
+          sourceTxHash: row.sourceTxHash,
+          attestation: row.attestation,
+          gatewayTransferId: row.gatewayTransferId,
+          arcTxHash: row.arcTxHash,
+        },
+        create: {
+          id: row.id,
+          donorId: row.donorId,
+          email: row.email,
+          amount: row.amount,
+          sourceChain: row.sourceChain,
+          destinationProgramId: row.destinationProgramId,
+          campaignId: row.campaignId,
+          matchedAmount: row.matchedAmount,
+          status: row.status,
+          sourceTxHash: row.sourceTxHash,
+          attestation: row.attestation,
+          gatewayTransferId: row.gatewayTransferId,
+          arcTxHash: row.arcTxHash,
+          createdAt: new Date(row.createdAt),
+        },
+      });
+    }
+
+    for (const row of store.donors ?? []) {
+      await tx.donor.upsert({
+        where: { id: row.id },
+        update: {
+          email: row.email,
+          privyUserId: row.privyUserId,
+          walletAddress: row.walletAddress,
+        },
+        create: {
+          id: row.id,
+          email: row.email,
+          privyUserId: row.privyUserId,
+          walletAddress: row.walletAddress,
+          createdAt: new Date(row.createdAt),
+        },
       });
     }
   });

@@ -1,0 +1,40 @@
+specVersion: 1.0.0
+schema:
+  file: ./schema.graphql
+dataSources:
+  - kind: ethereum
+    name: AltheaReliefNetwork
+    network: arctestnet
+    source:
+      address: "0x0000000000000000000000000000000000000000"
+      abi: AltheaReliefNetwork
+      startBlock: 0
+    mapping:
+      kind: ethereum/events
+      apiVersion: 0.0.7
+      language: wasm/assemblyscript
+      entities:
+        - Program
+        - GrantEscrow
+        - MatchEvent
+      abis:
+        - name: AltheaReliefNetwork
+          file: ../artifacts/contracts/AltheaReliefNetwork.sol/AltheaReliefNetwork.json
+      eventHandlers:
+        - event: ProgramCreated(indexed bytes32,indexed address,uint256,bytes32)
+          handler: handleProgramCreated
+        - event: ProgramFunded(indexed bytes32,indexed address,uint256)
+          handler: handleProgramFunded
+        - event: GrantReserved(indexed bytes32,indexed address,uint256,uint256,bytes32)
+          handler: handleGrantReserved
+        - event: GrantAllocated(indexed bytes32,indexed bytes32,uint256)
+          handler: handleGrantAllocated
+        - event: GrantAllocationRefunded(indexed bytes32,indexed bytes32,uint256)
+          handler: handleGrantAllocationRefunded
+        - event: GrantReleased(indexed bytes32,indexed bytes32,indexed address,uint256,bytes32)
+          handler: handleGrantReleased
+        - event: GrantRefunded(indexed bytes32,uint256)
+          handler: handleGrantRefunded
+        - event: MatchTriggered(indexed bytes32,indexed bytes32,indexed bytes32,uint256)
+          handler: handleMatchTriggered
+      file: ./mapping.ts

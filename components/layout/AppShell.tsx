@@ -18,6 +18,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
           <nav className="hidden items-center gap-7 text-sm text-muted md:flex" aria-label="Primary">
             <Link href="/how">How Althea works</Link>
             <Link href="/fund">Relief Fund</Link>
+            <Link href="/fund/give">Give</Link>
+            <Link href="/funders">Funders</Link>
             <Link href="/admin/treasury">Treasury</Link>
           </nav>
           <Link
@@ -33,6 +35,8 @@ export function AppShell({ children }: { children: React.ReactNode }) {
         >
           <Link href="/how">How Althea works</Link>
           <Link href="/fund">Relief Fund</Link>
+          <Link href="/fund/give">Give</Link>
+          <Link href="/funders">Funders</Link>
           <Link href="/admin/treasury">Treasury</Link>
         </nav>
       </header>

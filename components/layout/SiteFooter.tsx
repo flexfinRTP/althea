@@ -14,8 +14,9 @@ export function SiteFooter() {
           <Link href="/#how-it-works">How it works</Link>
           <Link href="/how">How Althea works</Link>
           <Link href="/fund">Relief Fund</Link>
-          <Link href="/admin/treasury">Treasury</Link>
-        </nav>
+          <Link href="/fund/give">Give</Link>
+          <Link href="/funders">Funders</Link>
+          <Link href="/admin/treasury">Treasury</Link>        </nav>
       </div>
     </footer>
   );
