@@ -1,4 +1,4 @@
-# CareZero — ETHOnline 2026 Pre-Submission & Prize-Eligibility Checklist
+# Althea Care — ETHOnline 2026 Pre-Submission & Prize-Eligibility Checklist
 
 ## Purpose
 
@@ -44,7 +44,7 @@ at submission.
 
 ## Project Eligibility
 
-* [ ] CareZero qualifies for the intended **From Scratch / Classic** track.
+* [ ] Althea qualifies for the intended **From Scratch / Classic** track.
 * [ ] Project-specific submitted code was built within the permitted event window.
 * [ ] Any starter kits are disclosed.
 * [ ] Any pre-existing code, if any, is disclosed according to event rules.
@@ -69,7 +69,7 @@ Do not accidentally select:
 * [ ] ENS
 * [ ] another fourth partner
 
-CareZero's architecture is optimized specifically for Privy + Arc + World.
+Althea's architecture is optimized specifically for Privy + Arc + World.
 
 ---
 
@@ -103,7 +103,7 @@ Verify the video shows:
 * [ ] Household size 3.
 * [ ] $51,000 household income.
 * [ ] Insured.
-* [ ] CareZero searches/uses FAP.
+* [ ] Althea searches/uses FAP.
 * [ ] “You may qualify.”
 * [ ] $15,950 potential hospital assistance.
 * [ ] $2,470 potential remaining balance.
@@ -112,7 +112,7 @@ Verify the video shows:
 * [ ] Relevant timeline.
 * [ ] Simulated hospital approval.
 * [ ] $2,470 verified residual.
-* [ ] CareZero Relief.
+* [ ] Althea Relief.
 * [ ] World Selfie Check.
 * [ ] Relief Agent.
 * [ ] Human review for $500.
@@ -121,7 +121,7 @@ Verify the video shows:
 * [ ] Arc USDC transaction.
 * [ ] $500 Relief grant.
 * [ ] $1,970 final remaining balance.
-* [ ] final CareZero message.
+* [ ] final Althea message.
 
 ---
 
@@ -130,7 +130,7 @@ Verify the video shows:
 Final video includes:
 
 * [ ] **The hospital already had the assistance program.**
-* [ ] **CareZero made it usable.**
+* [ ] **Althea made it usable.**
 
 Preferably also:
 
@@ -156,7 +156,7 @@ Preferably also:
 
 ---
 
-# REQUIRED CAREZERO DOCUMENTS
+# REQUIRED ALTHEA DOCUMENTS
 
 Confirm repository contains:
 
@@ -197,7 +197,7 @@ Verify:
 
 # SPEC-DRIVEN DEVELOPMENT
 
-Because CareZero uses a spec-driven workflow:
+Because Althea uses a spec-driven workflow:
 
 * [ ] Specifications are preserved.
 * [ ] Master coding-harness prompt is preserved.
@@ -286,7 +286,7 @@ Verify visible disclaimer:
 
 * [ ] hospital determines final eligibility.
 * [ ] estimate is based on published/demo policy.
-* [ ] CareZero does not guarantee assistance.
+* [ ] Althea does not guarantee assistance.
 
 ---
 
@@ -329,7 +329,7 @@ Verify visible disclaimer:
 * [ ] It is visibly labeled simulated.
 * [ ] Assistance = $15,950.
 * [ ] Residual = $2,470.
-* [ ] CareZero does not claim it made this hospital decision.
+* [ ] Althea does not claim it made this hospital decision.
 
 ---
 
@@ -349,9 +349,9 @@ Selfie Check must be used meaningfully as a:
 * continuity;
 * or abuse-prevention signal.
 
-CareZero's use:
+Althea's use:
 
-# Abuse prevention for scarce CareZero Relief funds.
+# Abuse prevention for scarce Althea Relief funds.
 
 ---
 
@@ -365,7 +365,7 @@ CareZero's use:
 * [ ] Cancel state handled.
 * [ ] User is not stranded if verification fails.
 * [ ] Verification is stored minimally.
-* [ ] Raw selfie is not intentionally stored by CareZero.
+* [ ] Raw selfie is not intentionally stored by Althea.
 * [ ] World is used meaningfully.
 * [ ] World is not just generic login.
 
@@ -377,11 +377,11 @@ Hospital financial assistance:
 
 * [ ] does NOT require World.
 
-CareZero FAP search:
+Althea FAP search:
 
 * [ ] does NOT require World.
 
-CareZero estimate:
+Althea estimate:
 
 * [ ] does NOT require World.
 
@@ -389,7 +389,7 @@ Application preparation:
 
 * [ ] does NOT require World.
 
-CareZero Relief:
+Althea Relief:
 
 * [ ] may use World as one anti-abuse signal.
 
@@ -437,7 +437,7 @@ Additionally recommended:
 
 * [ ] user feedback.
 * [ ] camera-flow feedback.
-* [ ] CareZero-specific comprehension feedback.
+* [ ] Althea-specific comprehension feedback.
 * [ ] concrete improvement suggestions.
 
 ---
@@ -462,7 +462,7 @@ Verify:
 
 Submission clearly explains:
 
-> Selfie Check is one liveness/abuse-prevention signal protecting limited charitable funds. CareZero intentionally does not use it to gate hospital financial-assistance rights.
+> Selfie Check is one liveness/abuse-prevention signal protecting limited charitable funds. Althea intentionally does not use it to gate hospital financial-assistance rights.
 
 * [ ] explanation included.
 
@@ -489,7 +489,7 @@ Verify:
 
 * [ ] Privy is a core integration.
 * [ ] Privy wallet exists.
-* [ ] Wallet represents CareZero organizational treasury.
+* [ ] Wallet represents Althea organizational treasury.
 * [ ] Business/organization use case is clear.
 * [ ] B2B workflow works.
 * [ ] At least one real Privy control works.
@@ -523,11 +523,11 @@ __________________________
 Preferred:
 
 ```text
-CareZero Relief Treasury
+Althea Relief Treasury
 ↓
 Privy authorization
 ↓
-fund CareZero ReliefPool
+fund Althea ReliefPool
 ```
 
 Verify:
@@ -591,7 +591,7 @@ with no live qualifying wallet financial flow/control.
 
 Submission should communicate:
 
-> CareZero uses Privy as the institutional control layer. The nonprofit treasury is governed through a Privy wallet and explicit controls before funds reach the programmable ReliefPool. This prevents an AI agent from receiving unrestricted treasury authority.
+> Althea uses Privy as the institutional control layer. The nonprofit treasury is governed through a Privy wallet and explicit controls before funds reach the programmable ReliefPool. This prevents an AI agent from receiving unrestricted treasury authority.
 
 * [ ] explanation included.
 
@@ -617,7 +617,7 @@ Current criteria emphasize:
 
 Verify:
 
-* [ ] CareZero deployed on Arc test environment.
+* [ ] Althea deployed on Arc test environment.
 * [ ] USDC used.
 * [ ] ReliefPool deployed.
 * [ ] conditional logic exists.
@@ -752,7 +752,7 @@ Agent should consume:
 
 Submission should say:
 
-> CareZero's Relief Agent orchestrates a governed charitable settlement workflow. It reads real case and program signals, determines whether the deterministic rules require autonomous or human approval, and after authorization uses Circle Agent Stack to execute the USDC settlement through CareZero's Arc ReliefPool.
+> Althea's Relief Agent orchestrates a governed charitable settlement workflow. It reads real case and program signals, determines whether the deterministic rules require autonomous or human approval, and after authorization uses Circle Agent Stack to execute the USDC settlement through Althea's Arc ReliefPool.
 
 * [ ] explanation included.
 
@@ -813,7 +813,7 @@ Onchain information limited to things like:
 
 # WORLD PRIVACY
 
-* [ ] Raw selfie not stored by CareZero.
+* [ ] Raw selfie not stored by Althea.
 * [ ] World receives no medical bill.
 * [ ] World receives no income.
 * [ ] World receives no diagnosis.
@@ -953,10 +953,10 @@ Test:
 Ensure product does NOT claim:
 
 * [ ] guaranteed hospital forgiveness.
-* [ ] guaranteed CareZero grant.
+* [ ] guaranteed Althea grant.
 * [ ] legal advice.
 * [ ] medical advice.
-* [ ] CareZero determines hospital eligibility.
+* [ ] Althea determines hospital eligibility.
 * [ ] AI determines hospital eligibility.
 * [ ] World determines medical need.
 * [ ] universal 240-day collection prohibition.
@@ -974,7 +974,7 @@ Use:
 * [ ] “hospital determines final eligibility.”
 * [ ] “simulated hospital decision.”
 * [ ] “World is an anti-abuse/liveness signal.”
-* [ ] “CareZero Relief is separate from hospital financial assistance.”
+* [ ] “Althea Relief is separate from hospital financial assistance.”
 
 ---
 
@@ -986,7 +986,7 @@ Use:
 * [ ] Donors do not condition aid on product use.
 * [ ] Donors do not condition aid on a specific provider.
 * [ ] Broad general hardship fund used.
-* [ ] Patient pays no CareZero grant fee.
+* [ ] Patient pays no Althea grant fee.
 * [ ] No percentage of hospital assistance taken.
 * [ ] No medical debt tokenized.
 * [ ] No patient grant sold/traded.
@@ -1000,11 +1000,11 @@ If Dollar For is mentioned:
 * [ ] describe as market validation.
 * [ ] do not insult or criticize their website.
 * [ ] explain partnership possibility.
-* [ ] explain CareZero's full-rail differentiation.
+* [ ] explain Althea's full-rail differentiation.
 
 Approved explanation:
 
-> Dollar For validates the patient-navigation problem and could eventually be an upstream partner. CareZero extends the workflow into structured policy intelligence, deadlines, hospital decision tracking, verified residual hardship and transparent charitable settlement.
+> Dollar For validates the patient-navigation problem and could eventually be an upstream partner. Althea extends the workflow into structured policy intelligence, deadlines, hospital decision tracking, verified residual hardship and transparent charitable settlement.
 
 ---
 
@@ -1050,7 +1050,7 @@ If included:
 
 Short description ready:
 
-> CareZero turns hospital financial-assistance policy into an actionable patient workflow, then uses programmable charitable capital to help close verified remaining medical hardship.
+> Althea turns hospital financial-assistance policy into an actionable patient workflow, then uses programmable charitable capital to help close verified remaining medical hardship.
 
 * [ ] ready.
 
@@ -1334,7 +1334,7 @@ Do not submit until you can answer YES to all of these:
 
 ### PRODUCT
 
-* [ ] Does CareZero clearly solve a real human problem?
+* [ ] Does Althea clearly solve a real human problem?
 
 ### PATIENT
 
@@ -1378,4 +1378,4 @@ Do not submit until you can answer YES to all of these:
 
 If all ten answers are YES:
 
-# Submit CareZero.
+# Submit Althea Care.

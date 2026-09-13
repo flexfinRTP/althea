@@ -1,4 +1,4 @@
-# CareZero — ETHOnline 2026 Prize Strategy
+# Althea Care — ETHOnline 2026 Prize Strategy
 
 ## 1. Selected Partners
 
@@ -14,13 +14,13 @@ Do not select Hedera.
 
 Do not select ENS.
 
-Those technologies could potentially be used, but neither is as central to the CareZero architecture as the selected three.
+Those technologies could potentially be used, but neither is as central to the Althea architecture as the selected three.
 
 ETHOnline permits a project to select up to **three Partner Prizes**.
 
 When one selected partner has multiple tracks, the project may be eligible for multiple tracks from that partner while that partner still consumes only one of the three partner selections.
 
-CareZero is deliberately designed to create **five credible track-level submissions from three selected partners.**
+Althea is deliberately designed to create **five credible track-level submissions from three selected partners.**
 
 ---
 
@@ -30,9 +30,9 @@ CareZero is deliberately designed to create **five credible track-level submissi
 
 ### Best B2B Financial Product — $2,500 pool
 
-CareZero fit:
+Althea fit:
 
-**CareZero Relief Fund Treasury**
+**Althea Relief Fund Treasury**
 
 Use:
 
@@ -45,7 +45,7 @@ Use:
 
 ### Best Financial Flow — $2,500 pool
 
-CareZero fit:
+Althea fit:
 
 **Funding the ReliefPool and/or executing an approved financial operation through Privy.**
 
@@ -57,9 +57,9 @@ Show a real supported Privy wallet action.
 
 ### Best DeFi/Onchain Finance Application — $3,500 pool
 
-CareZero fit:
+Althea fit:
 
-**CareZero ReliefPool**
+**Althea ReliefPool**
 
 Use:
 
@@ -80,9 +80,9 @@ Preserve a mainnet deployment path.
 
 ### Best Agentic Economy Application with Circle Agent Stack — $3,500 pool
 
-CareZero fit:
+Althea fit:
 
-**CareZero Relief Agent**
+**Althea Relief Agent**
 
 Agent reads:
 
@@ -118,7 +118,7 @@ The same Arc September 30 mainnet condition applies to part of this prize.
 
 World indicates this track may award up to three teams.
 
-CareZero fit:
+Althea fit:
 
 **Relief Fund abuse prevention.**
 
@@ -134,13 +134,13 @@ World specifically wants realistic uses of Selfie Check as a signal for:
 * continuity;
 * abuse prevention.
 
-CareZero's implementation squarely fits abuse prevention/fairness around scarce charitable resources.
+Althea's implementation squarely fits abuse prevention/fairness around scarce charitable resources.
 
 ---
 
 # 3. Total Prize Surface
 
-The selected sponsor pools relevant to CareZero are:
+The selected sponsor pools relevant to Althea are:
 
 ```text
 Privy B2B                      $2,500
@@ -156,19 +156,19 @@ Relevant track pools          $15,500
 
 Do **not** claim:
 
-> CareZero can win $15,500.
+> Althea can win $15,500.
 
 World's track can be split among multiple teams, sponsors determine winners, and a project should never assume it can sweep every category.
 
 Use:
 
-> CareZero is purpose-built to qualify credibly for five track categories across our three selected partners.
+> Althea is purpose-built to qualify credibly for five track categories across our three selected partners.
 
 ---
 
 # 4. Why Not Hedera
 
-Hedera's current ETHOnline bounty is excellent, but CareZero does not possess a natural tokenized real-world asset.
+Hedera's current ETHOnline bounty is excellent, but Althea does not possess a natural tokenized real-world asset.
 
 Possible forced concepts would include:
 
@@ -176,7 +176,7 @@ Possible forced concepts would include:
 * tokenized grant entitlement;
 * tokenized patient case.
 
-Those would actively weaken CareZero.
+Those would actively weaken Althea.
 
 We do not want to tokenize medical debt.
 
@@ -195,14 +195,14 @@ Do not use it.
 ENSv2 could theoretically enable delegated permissions such as:
 
 ```text
-case123.carezero.eth
+case123.althea.eth
 ```
 
 with patient/advocate/hospital roles.
 
 But ENS's bounty expects ENSv2 to be central rather than cosmetic.
 
-CareZero can implement access control more directly within its application and Privy architecture.
+Althea can implement access control more directly within its application and Privy architecture.
 
 Adding ENS only to create a case name would look sponsor-driven rather than problem-driven.
 
@@ -222,14 +222,14 @@ ETHOnline's Privy B2B criteria require a project to:
 * provide working demo/source;
 * explain how Privy enables the product.
 
-CareZero should satisfy every criterion visibly.
+Althea should satisfy every criterion visibly.
 
-## CareZero implementation
+## Althea implementation
 
 ### Wallet
 
 ```text
-CareZero Relief Treasury
+Althea Relief Treasury
 ```
 
 ### Organization Use Case
@@ -263,7 +263,7 @@ Stronger:
 Admin page:
 
 ```text
-CareZero Relief Treasury
+Althea Relief Treasury
 Balance: 25,000 USDC
 
 Policy:
@@ -282,14 +282,14 @@ Button:
 
 Privy wants a functional financial flow using generally available features.
 
-CareZero flow:
+Althea flow:
 
 ```text
-Privy CareZero Treasury
+Privy Althea Treasury
 ↓
 1,000 USDC
 ↓
-Arc CareZeroReliefPool
+Arc AltheaReliefPool
 ```
 
 Why Privy matters:
@@ -309,7 +309,7 @@ Fund Relief Pool
 Amount: $1,000
 
 Destination:
-CareZero General Medical Hardship Program
+Althea General Medical Hardship Program
 
 [Review]
 
@@ -355,7 +355,7 @@ when policy allows only:
 
 Display:
 
-# Transaction blocked by CareZero treasury policy.
+# Transaction blocked by Althea treasury policy.
 
 Then execute valid funding.
 
@@ -365,7 +365,7 @@ This proves the security architecture is real.
 
 # 9. Privy Judge Pitch
 
-> CareZero's patient experience hides crypto completely, but charitable money requires institutional controls. Privy is the account and control layer for the CareZero Relief Fund. The nonprofit treasury uses a Privy-controlled wallet with explicit policies and approval controls, then funds our programmable Arc ReliefPool. Privy lets a real charity operate onchain without employees managing seed phrases or unrestricted private keys.
+> Althea's patient experience hides crypto completely, but charitable money requires institutional controls. Privy is the account and control layer for the Althea Relief Fund. The nonprofit treasury uses a Privy-controlled wallet with explicit policies and approval controls, then funds our programmable Arc ReliefPool. Privy lets a real charity operate onchain without employees managing seed phrases or unrestricted private keys.
 
 ---
 
@@ -380,7 +380,7 @@ Arc is looking for:
 * multi-step settlement;
 * financial infrastructure that demonstrates why stablecoin-native infrastructure changes what is possible.
 
-CareZero should emphasize:
+Althea should emphasize:
 
 **charitable settlement infrastructure.**
 
@@ -391,11 +391,11 @@ Not:
 Architecture:
 
 ```text
-DONOR / CAREZERO TREASURY
+DONOR / ALTHEA TREASURY
         ↓
      USDC
         ↓
-CAREZERO RELIEFPOOL
+ALTHEA RELIEFPOOL
         ↓
 Case verified
         ↓
@@ -440,7 +440,7 @@ Small, tested, explainable is stronger.
 
 # 12. Arc Judge Pitch
 
-> Arc is where charitable capital becomes programmable. CareZero doesn't put patient data onchain. Instead, our ReliefPool holds USDC and releases it only when a privacy-safe case reaches a verified state: hospital financial assistance has been processed, an eligible residual balance remains, program rules pass, and the appropriate approval path is satisfied. The blockchain proves what happened to the money without exposing why the patient needed help.
+> Arc is where charitable capital becomes programmable. Althea doesn't put patient data onchain. Instead, our ReliefPool holds USDC and releases it only when a privacy-safe case reaches a verified state: hospital financial assistance has been processed, an eligible residual balance remains, program rules pass, and the appropriate approval path is satisfied. The blockchain proves what happened to the money without exposing why the patient needed help.
 
 ---
 
@@ -456,7 +456,7 @@ Arc wants autonomous agents that:
 * make decisions based on real signals;
 * use Circle Agent Stack.
 
-CareZero Relief Agent receives:
+Althea Relief Agent receives:
 
 ```text
 case status
@@ -528,7 +528,7 @@ This separation creates a sophisticated technical story.
 Use an on-screen trace.
 
 ```text
-CareZero Relief Agent
+Althea Relief Agent
 
 Checking hospital assistance...
 ✓ Completed
@@ -536,7 +536,7 @@ Checking hospital assistance...
 Checking verified residual balance...
 ✓ $2,470
 
-Checking CareZero Relief limit...
+Checking Althea Relief limit...
 ✓ Maximum $500
 
 Checking anti-abuse signal...
@@ -591,7 +591,7 @@ Therefore:
 
 Use:
 
-* CareZero rules engine;
+* Althea rules engine;
 * ReliefPool contract limits;
 * authorization constraints;
 * minimal test funds.
@@ -646,7 +646,7 @@ World's Selfie Check bounty wants:
 * working app;
 * mandatory integration feedback document.
 
-CareZero's use is:
+Althea's use is:
 
 # Abuse protection for scarce charitable aid.
 
@@ -664,7 +664,7 @@ The patient should see:
 
 Then:
 
-> CareZero Relief is funded by limited charitable donations. A brief liveness check helps us reduce automated abuse and preserve more of the fund for real people.
+> Althea Relief is funded by limited charitable donations. A brief liveness check helps us reduce automated abuse and preserve more of the fund for real people.
 
 If the person cannot complete World:
 
@@ -682,7 +682,7 @@ This prevents the system from turning a biometric product into an absolute healt
 
 # 21. World Judge Pitch
 
-> We intentionally refuse to use World as a gate to hospital charity-care rights. Selfie Check is only used when a patient applies to CareZero's separate, scarce donor-funded Relief Fund. It's one low-friction anti-abuse signal before charitable money is released. That gives World a meaningful fairness and abuse-prevention role without putting identity or medical information onchain.
+> We intentionally refuse to use World as a gate to hospital charity-care rights. Selfie Check is only used when a patient applies to Althea's separate, scarce donor-funded Relief Fund. It's one low-friction anti-abuse signal before charitable money is released. That gives World a meaningful fairness and abuse-prevention role without putting identity or medical information onchain.
 
 ---
 
@@ -779,7 +779,7 @@ Hospital approval
 ↓
 Residual balance
 ↓
-CareZero Relief request
+Althea Relief request
 ↓
 World
 ↓
@@ -815,12 +815,12 @@ Residual Balance
 
 ----------------------------------------
 
-CAREZERO RELIEF RAIL
+ALTHEA RELIEF RAIL
 
 World
 anti-abuse signal
      ↓
-CareZero Rules
+Althea Rules
      ↓
 Circle Relief Agent
      ↓
@@ -845,7 +845,7 @@ ETHGlobal judges score:
 4. Usability
 5. Wow Factor
 
-CareZero should intentionally demonstrate each.
+Althea should intentionally demonstrate each.
 
 ## Technicality
 
@@ -871,7 +871,7 @@ That is false.
 
 Claim:
 
-> Existing navigation tools validate the need. CareZero extends the concept into a full patient financial-assistance rail: public-policy intelligence, application workflow, verified residual hardship, independently governed programmable charitable capital, and privacy-safe proof of disbursement.
+> Existing navigation tools validate the need. Althea extends the concept into a full patient financial-assistance rail: public-policy intelligence, application workflow, verified residual hardship, independently governed programmable charitable capital, and privacy-safe proof of disbursement.
 
 ## Practicality
 
@@ -911,7 +911,7 @@ Judge:
 
 Answer:
 
-> Dollar For is one of the organizations that proves how serious the problem is, and we'd rather partner with organizations like them than pretend they don't exist. CareZero goes beyond eligibility screening. We're building an infrastructure rail that structures the hospital policy, guides the application, tracks regulatory timelines, records the resulting hospital decision, verifies any remaining hardship, and then allows an independent charitable fund to transparently settle part of that remaining balance. Dollar For could eventually be an upstream case source for the CareZero Relief Rail.
+> Dollar For is one of the organizations that proves how serious the problem is, and we'd rather partner with organizations like them than pretend they don't exist. Althea goes beyond eligibility screening. We're building an infrastructure rail that structures the hospital policy, guides the application, tracks regulatory timelines, records the resulting hospital decision, verifies any remaining hardship, and then allows an independent charitable fund to transparently settle part of that remaining balance. Dollar For could eventually be an upstream case source for the Althea Relief Rail.
 
 Excellent answer.
 
@@ -931,7 +931,7 @@ Judge:
 
 Answer:
 
-> We don't use blockchain for the part that doesn't need it. Hospital eligibility stays offchain. Sensitive patient information stays offchain. Blockchain begins where independently donated money enters the system. It lets CareZero make conditional USDC grants and lets donors verify that program funds were actually disbursed without learning who the patient is or what medical condition they have.
+> We don't use blockchain for the part that doesn't need it. Hospital eligibility stays offchain. Sensitive patient information stays offchain. Blockchain begins where independently donated money enters the system. It lets Althea make conditional USDC grants and lets donors verify that program funds were actually disbursed without learning who the patient is or what medical condition they have.
 
 ---
 
@@ -943,7 +943,7 @@ Judge:
 
 Answer:
 
-> They don't need it to access hospital financial assistance, our policy navigator, or our application tools. World is only a risk signal for the separate, limited CareZero Relief Fund. In a production system we'd also support manual review. We designed the system specifically so a biometric credential never becomes the gatekeeper for a patient's hospital financial-assistance rights.
+> They don't need it to access hospital financial assistance, our policy navigator, or our application tools. World is only a risk signal for the separate, limited Althea Relief Fund. In a production system we'd also support manual review. We designed the system specifically so a biometric credential never becomes the gatekeeper for a patient's hospital financial-assistance rights.
 
 ---
 
@@ -967,7 +967,7 @@ Judge:
 
 Answer:
 
-> The hackathon uses fictional patients and testnet funds. A real deployment would require CareZero to operate through a properly structured independent charitable entity and obtain healthcare regulatory counsel. Our architecture already reflects key OIG principles: financial-need-based criteria, independence from donors, no donor selection of patients, no donor steering to a specific provider or product, and no patient medical data exposed to donors.
+> The hackathon uses fictional patients and testnet funds. A real deployment would require Althea to operate through a properly structured independent charitable entity and obtain healthcare regulatory counsel. Our architecture already reflects key OIG principles: financial-need-based criteria, independence from donors, no donor selection of patients, no donor steering to a specific provider or product, and no patient medical data exposed to donors.
 
 ---
 
@@ -995,7 +995,7 @@ Problem.
 
 Patient enters four facts.
 
-CareZero returns potential assistance.
+Althea returns potential assistance.
 
 Explain deterministic FAP rules.
 
@@ -1122,7 +1122,7 @@ Prize eligibility comes first.
 
 # 36. Final Prize Positioning
 
-CareZero should be described to sponsors as:
+Althea should be described to sponsors as:
 
 ## For Privy
 
@@ -1138,4 +1138,4 @@ CareZero should be described to sponsors as:
 
 And to ETHGlobal overall:
 
-# CareZero makes hospital financial assistance usable—and makes charitable relief accountable.
+# Althea makes hospital financial assistance usable—and makes charitable relief accountable.

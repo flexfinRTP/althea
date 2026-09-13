@@ -1,8 +1,8 @@
-# CareZero — Data Model & API Contract
+# Althea Care — Data Model & API Contract
 
 ## 1. Purpose
 
-This document defines the application data model, API boundaries, service responsibilities, validation requirements, and privacy constraints for the CareZero MVP.
+This document defines the application data model, API boundaries, service responsibilities, validation requirements, and privacy constraints for the Althea MVP.
 
 The goal is to let a coding harness or engineering team implement the application without re-interpreting the product architecture.
 
@@ -21,7 +21,7 @@ Hospital decision
 ↓
 Verified residual balance
 ↓
-CareZero Relief request
+Althea Relief request
 ↓
 World Selfie Check
 ↓
@@ -115,7 +115,7 @@ The MVP should avoid collecting HIGHLY SENSITIVE data entirely.
 
 # 3. Core Entities
 
-CareZero requires these primary entities:
+Althea requires these primary entities:
 
 ```text
 User
@@ -161,7 +161,7 @@ type User = {
 
 Do not store wallet address as the primary patient identity.
 
-Patients should be able to use CareZero without understanding or managing blockchain wallets.
+Patients should be able to use Althea without understanding or managing blockchain wallets.
 
 ---
 
@@ -732,7 +732,7 @@ ETHOnline demo fixture:
 
 ```text
 Name:
-CareZero General Medical Hardship Fund
+Althea General Medical Hardship Fund
 
 Max Grant:
 $500
@@ -1748,7 +1748,7 @@ Response:
 
 ```json
 {
-  "program": "CareZero General Medical Hardship Fund",
+  "program": "Althea General Medical Hardship Fund",
   "amount": 500,
   "status": "confirmed",
   "transactionHash": "0x...",
@@ -1837,7 +1837,7 @@ Agent only needs structured relief facts.
 Recommended Solidity interface:
 
 ```solidity
-interface ICareZeroReliefPool {
+interface IAltheaReliefPool {
     event GrantReleased(
         bytes32 indexed caseHash,
         bytes32 indexed programId,
@@ -2100,7 +2100,7 @@ agent → contract
 # 63. Final System Boundary
 
 ```text
-CareZero knows:
+Althea knows:
 what the hospital policy says
 what the patient entered
 what the hospital later decided
@@ -2108,7 +2108,7 @@ whether a residual balance exists
 whether Relief rules pass
 whether charitable money moved
 
-CareZero does NOT claim:
+Althea does NOT claim:
 what medical care is necessary
 whether treatment is appropriate
 whether insurance made the correct clinical decision

@@ -1,8 +1,8 @@
-# CareZero — ETHOnline 2026 Implementation Plan
+# Althea Care — ETHOnline 2026 Implementation Plan
 
 ## 1. Objective
 
-Build a complete CareZero MVP that demonstrates:
+Build a complete Althea MVP that demonstrates:
 
 ```text
 $18,420 hospital bill
@@ -15,7 +15,7 @@ $2,470 verified residual
 ↓
 World Selfie Check
 ↓
-CareZero Relief evaluation
+Althea Relief evaluation
 ↓
 Privy-controlled approval
 ↓
@@ -88,7 +88,7 @@ Build in that order of dependency.
 Create:
 
 ```text
-carezero/
+althea/
 ```
 
 Initialize:
@@ -165,7 +165,7 @@ $15,950
 Residual:
 $2,470
 
-CareZero Relief:
+Althea Relief:
 $500
 
 Final:
@@ -190,7 +190,7 @@ you owe $18,000.
 
 Subtext:
 
-> CareZero helps you find and understand hospital financial assistance before an unaffordable bill becomes debt.
+> Althea helps you find and understand hospital financial assistance before an unaffordable bill becomes debt.
 
 CTA:
 
@@ -469,12 +469,12 @@ Copy:
 
 ## But $2,470 remains.
 
-CareZero Relief may be able to help with part of the verified remaining balance.
+Althea Relief may be able to help with part of the verified remaining balance.
 
 Program:
 
 ```text
-CareZero General Medical Hardship Fund
+Althea General Medical Hardship Fund
 ```
 
 Available:
@@ -491,7 +491,7 @@ $500
 
 CTA:
 
-# Check CareZero Relief
+# Check Althea Relief
 
 ---
 
@@ -530,7 +530,7 @@ Implement:
 
 Pre-check explanation:
 
-> This is only for the CareZero Relief Fund.
+> This is only for the Althea Relief Fund.
 
 > It does not determine your hospital financial-assistance eligibility.
 
@@ -621,7 +621,7 @@ Do not wait until submission night.
 Create:
 
 ```text
-/contracts/CareZeroReliefPool.sol
+/contracts/AltheaReliefPool.sol
 ```
 
 Use OpenZeppelin.
@@ -726,7 +726,7 @@ Testnet pool balance: X test USDC
 Set up:
 
 ```text
-CareZero Relief Treasury
+Althea Relief Treasury
 ```
 
 Implement at least one real policy/control.
@@ -758,7 +758,7 @@ Route:
 Show:
 
 ```text
-CareZero Relief Treasury
+Althea Relief Treasury
 
 Balance
 
@@ -766,7 +766,7 @@ Network:
 Arc
 
 Approved Destination:
-CareZero ReliefPool
+Althea ReliefPool
 
 Policy:
 Active
@@ -796,7 +796,7 @@ unknown destination
 
 Expected:
 
-# Blocked by CareZero Treasury Policy
+# Blocked by Althea Treasury Policy
 
 Then execute correct ReliefPool funding.
 
@@ -925,7 +925,7 @@ Checking hospital assistance...
 Checking verified balance...
 ✓ $2,470
 
-Checking CareZero program...
+Checking Althea program...
 ✓ Maximum $500
 
 Checking liveness signal...
@@ -953,7 +953,7 @@ This is the technical wow moment.
 Agent calls:
 
 ```text
-CareZeroReliefPool.releaseGrant()
+AltheaReliefPool.releaseGrant()
 ```
 
 Inputs:
@@ -983,7 +983,7 @@ $18,420
 HOSPITAL FINANCIAL ASSISTANCE
 -$15,950
 
-CAREZERO RELIEF
+ALTHEA RELIEF
 -$500
 
 -----------------------------
@@ -996,11 +996,11 @@ Then:
 
 # The hospital already had the assistance program.
 
-# CareZero made it usable.
+# Althea made it usable.
 
 Secondary:
 
-> And when assistance stopped short, CareZero carried transparent charitable relief the rest of the way.
+> And when assistance stopped short, Althea carried transparent charitable relief the rest of the way.
 
 Button:
 
@@ -1013,7 +1013,7 @@ Button:
 Patient-safe:
 
 ```text
-CareZero Relief Grant
+Althea Relief Grant
 
 Amount:
 $500
@@ -1302,7 +1302,7 @@ Create meaningful commits.
 Examples:
 
 ```text
-feat: scaffold CareZero patient flow
+feat: scaffold Althea patient flow
 
 feat: add structured FAP schema and eligibility rules
 
@@ -1312,7 +1312,7 @@ feat: add application preparation workflow
 
 feat: integrate World Selfie Check
 
-feat: deploy CareZero ReliefPool on Arc testnet
+feat: deploy Althea ReliefPool on Arc testnet
 
 feat: add Privy treasury policies
 
@@ -1351,7 +1351,7 @@ Patient can:
 # 45. Definition of Done — Privy
 
 * Privy wallet exists.
-* It represents CareZero organizational treasury.
+* It represents Althea organizational treasury.
 * Real policy/control exists.
 * Real financial flow exists.
 * Policy role is visible.
@@ -1404,7 +1404,7 @@ $15,950 hospital assistance
 ↓
 $2,470
 ↓
-$500 CareZero Relief
+$500 Althea Relief
 ↓
 $1,970
 ```

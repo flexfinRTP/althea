@@ -1,10 +1,10 @@
-# CareZero — World Selfie Check Integration Feedback
+# Althea Care — World Selfie Check Integration Feedback
 
 ## Important Submission Note
 
 This document exists specifically to satisfy and exceed the ETHOnline 2026 World Selfie Check feedback requirement.
 
-The final version must contain **real observations from the actual CareZero implementation**.
+The final version must contain **real observations from the actual Althea implementation**.
 
 Do not submit invented developer feedback.
 
@@ -20,7 +20,7 @@ must be replaced with actual observations before submission.
 
 # 1. Product Context
 
-CareZero is a patient financial-advocacy platform.
+Althea is a patient financial-advocacy platform.
 
 It helps patients:
 
@@ -30,9 +30,9 @@ It helps patients:
 * track relevant timelines;
 * record the hospital's determination.
 
-CareZero also includes a separate:
+Althea also includes a separate:
 
-# CareZero Relief Fund
+# Althea Relief Fund
 
 This independent charitable fund may provide limited assistance toward a verified medical balance remaining after hospital financial assistance has been processed.
 
@@ -40,9 +40,9 @@ World Selfie Check is used only within this second layer.
 
 ---
 
-# 2. Why CareZero Uses Selfie Check
+# 2. Why Althea Uses Selfie Check
 
-CareZero Relief contains scarce charitable capital.
+Althea Relief contains scarce charitable capital.
 
 A malicious system could potentially attempt:
 
@@ -51,7 +51,7 @@ A malicious system could potentially attempt:
 * repeated fraudulent requests;
 * fabricated applicant sessions.
 
-CareZero therefore wanted a low-friction signal that:
+Althea therefore wanted a low-friction signal that:
 
 > a live human is actively participating in the Relief request.
 
@@ -72,7 +72,7 @@ It is not treated as:
 
 # 3. Critical Product Boundary
 
-CareZero deliberately separates:
+Althea deliberately separates:
 
 ## Hospital Financial Assistance
 
@@ -88,25 +88,25 @@ The patient can:
 
 without Selfie Check.
 
-## CareZero Relief
+## Althea Relief
 
 World Selfie Check is one risk-control signal used before limited independently donated charitable funds are released.
 
-This design matters because CareZero does not want a biometric credential to become the gatekeeper to a patient's hospital financial-assistance rights.
+This design matters because Althea does not want a biometric credential to become the gatekeeper to a patient's hospital financial-assistance rights.
 
 ---
 
 # 4. User-Facing Explanation
 
-Immediately before the World flow, CareZero displays:
+Immediately before the World flow, Althea displays:
 
-> CareZero Relief is supported by limited charitable funds. We use World Selfie Check as one liveness signal to help reduce automated abuse of this separate fund.
+> Althea Relief is supported by limited charitable funds. We use World Selfie Check as one liveness signal to help reduce automated abuse of this separate fund.
 
 And:
 
 > This check does not determine your eligibility for your hospital's financial-assistance program.
 
-Production CareZero should additionally offer:
+Production Althea should additionally offer:
 
 # Request Manual Review
 
@@ -118,7 +118,7 @@ for people who cannot or do not wish to complete Selfie Check.
 
 ## Product
 
-CareZero
+Althea
 
 ## Event
 
@@ -153,7 +153,7 @@ Record only safe public identifier if appropriate:
 ## World Action
 
 ```text
-CareZero Relief anti-abuse check
+Althea Relief anti-abuse check
 ```
 
 ## Environment Used
@@ -165,7 +165,11 @@ World Sandbox
 ## SDK / Integration Version
 
 ```text
-[FILL AFTER INTEGRATION]
+@worldcoin/idkit 4.2.x
+@worldcoin/idkit-core 4.2.x
+selfieCheckLegacy preset
+POST https://developer.world.org/api/v4/verify/{rp_id}
+RP signatures via @worldcoin/idkit-core/signing
 ```
 
 ## Date Tested
@@ -178,22 +182,22 @@ World Sandbox
 
 # 6. Integration Flow
 
-The intended CareZero flow is:
+The intended Althea flow is:
 
 ```text
 Patient receives hospital decision
         ↓
 Residual medical balance remains
         ↓
-Patient requests CareZero Relief
+Patient requests Althea Relief
         ↓
-CareZero explains limited-fund rules
+Althea explains limited-fund rules
         ↓
 Selfie Check
         ↓
 World returns verification result
         ↓
-CareZero backend verifies result
+Althea backend verifies result
         ↓
 worldCheckStatus = PASSED
         ↓
@@ -210,7 +214,7 @@ A successful World result is one input into the Relief rules system.
 
 # 7. Data-Minimization Approach
 
-CareZero does not need to send World:
+Althea does not need to send World:
 
 * hospital bill;
 * income;
@@ -223,9 +227,9 @@ CareZero does not need to send World:
 
 World receives only the data required for the credential/proof flow.
 
-CareZero stores the minimum result necessary to associate successful verification with the internal Relief case.
+Althea stores the minimum result necessary to associate successful verification with the internal Relief case.
 
-CareZero does not intentionally retain the selfie image.
+Althea does not intentionally retain the selfie image.
 
 ---
 
@@ -236,40 +240,49 @@ ETHOnline specifically asks for feedback about the Selfie Check documentation an
 ## What Was Clear
 
 ```text
-[FILL AFTER INTEGRATION]
-
-Examples to evaluate:
-
-- Was the difference between Selfie Check and Orb-based proof clear?
-- Was the intended assurance level clear?
-- Was SDK initialization obvious?
-- Were backend verification steps clear?
-- Were examples current?
-- Was Sandbox configuration easy to understand?
+Official docs distinguish Selfie Check (device-camera liveness / facial similarity,
+not a one-person-one-account guarantee) from Orb Proof of Human.
+The React widget is a controlled component (open / onOpenChange), not a render-prop.
+Backend verification is explicit: forward the IDKit payload as-is to
+POST https://developer.world.org/api/v4/verify/{rp_id}.
+RP signatures must be created server-side with the portal signing key.
+Sandbox vs production is selected with environment="staging" for the simulator.
 ```
 
 ## What Was Unclear
 
 ```text
-[FILL AFTER INTEGRATION]
+Selfie Check is documented as access-gated (email developers@toolsforhumanity.com).
+The credentials page still points new Selfie Check integrations at selfieCheckLegacy
+(World ID 3.0) while idkit-core also exports selfieCheck. Which preset ETHOnline
+judges expect should be stated on the prize page, not only in SDK READMEs.
+Nullifier storage guidance is written for uniqueness gating; Althea uses Selfie Check
+only as a liveness/abuse signal, so the uniqueness model needs a sentence on the
+Selfie Check page.
 ```
 
 ## Information We Had to Find Elsewhere
 
 ```text
-[FILL AFTER INTEGRATION]
+ETHOnline prize language, IDKit SKILL.md, and the idkit-core README disagreed slightly
+on preset names (selfieCheck vs selfieCheckLegacy). Circle/Arc and Privy docs were
+not needed here; World Developer Portal search is where app_id / rp_id / signing_key live.
 ```
 
 ## Missing Example We Would Have Wanted
 
 ```text
-[FILL AFTER INTEGRATION]
+A Next.js App Router example that signs RP requests in a Route Handler, opens
+IDKitRequestWidget with selfieCheckLegacy, and posts the unmodified result to
+/api/v4/verify/{rp_id}. Current snippets are split across integrate + credentials pages.
 ```
 
 ## Most Useful Documentation Section
 
 ```text
-[FILL AFTER INTEGRATION]
+https://docs.world.org/world-id/idkit/integrate
+https://docs.world.org/world-id/idkit/credentials
+https://docs.world.org/world-id/sandbox/testing-selfie-check
 ```
 
 ---
@@ -438,7 +451,7 @@ Browser:
 OS:
 SDK:
 World environment:
-CareZero environment:
+Althea environment:
 ```
 
 ### Steps to Reproduce
@@ -477,7 +490,7 @@ Record actual results.
 
 ## User Cancels
 
-Expected CareZero response:
+Expected Althea response:
 
 ```text
 Verification not completed.
@@ -499,7 +512,7 @@ Actual:
 
 Expected:
 
-CareZero does not crash.
+Althea does not crash.
 
 Actual:
 
@@ -547,7 +560,7 @@ Actual:
 
 Expected:
 
-Other CareZero duplicate-risk controls still apply.
+Other Althea duplicate-risk controls still apply.
 
 Selfie Check alone is not treated as sufficient duplicate prevention.
 
@@ -561,13 +574,13 @@ Actual:
 
 # 13. User Experience Feedback
 
-Although ETHOnline's current qualification language focuses heavily on developer feedback, CareZero should additionally document the actual user experience.
+Although ETHOnline's current qualification language focuses heavily on developer feedback, Althea should additionally document the actual user experience.
 
 ## Comprehension
 
 Question:
 
-Did the user understand why CareZero requested a selfie?
+Did the user understand why Althea requested a selfie?
 
 ```text
 [FILL AFTER USER TEST]
@@ -613,11 +626,11 @@ How many actions did the user take?
 
 ---
 
-# 14. CareZero-Specific UX Finding to Evaluate
+# 14. Althea-Specific UX Finding to Evaluate
 
 We specifically want to know whether the following explanation prevents the user from believing World controls their hospital financial assistance:
 
-> Selfie Check protects only the CareZero Relief Fund. It does not determine whether you qualify for your hospital's financial-assistance program.
+> Selfie Check protects only the Althea Relief Fund. It does not determine whether you qualify for your hospital's financial-assistance program.
 
 Test whether users understand this distinction.
 
@@ -631,7 +644,7 @@ Result:
 
 # 15. Why Selfie Check Instead of Generic Login?
 
-Email authentication tells CareZero:
+Email authentication tells Althea:
 
 > somebody controls this email session.
 
@@ -643,7 +656,7 @@ Selfie Check adds a stronger signal that:
 
 This matters when distributing a limited charitable resource.
 
-However, CareZero intentionally treats that as:
+However, Althea intentionally treats that as:
 
 # one signal.
 
@@ -651,7 +664,7 @@ Not absolute proof.
 
 ---
 
-# 16. Why CareZero Does Not Use World for Hospital Eligibility
+# 16. Why Althea Does Not Use World for Hospital Eligibility
 
 Hospital FAP eligibility can involve:
 
@@ -668,7 +681,7 @@ Using it to determine hospital FAP eligibility would therefore be both technical
 
 ---
 
-# 17. Why CareZero Does Not Claim Selfie Check Prevents All Fraud
+# 17. Why Althea Does Not Claim Selfie Check Prevents All Fraud
 
 Potential fraud can include:
 
@@ -679,7 +692,7 @@ Potential fraud can include:
 
 A liveness credential does not solve all of those.
 
-CareZero therefore combines it with:
+Althea therefore combines it with:
 
 ```text
 hospital decision state
@@ -709,7 +722,7 @@ Evaluate whether World documentation makes these questions easy for developers t
 * what should the developer not store?
 * what identifiers are stable/reusable?
 
-CareZero assessment:
+Althea assessment:
 
 ```text
 [FILL AFTER INTEGRATION]
@@ -870,7 +883,7 @@ Final rating:
 [FILL]
 ```
 
-## Would CareZero Continue Using Selfie Check?
+## Would Althea Continue Using Selfie Check?
 
 ```text
 [FILL YES/NO + WHY]
@@ -882,13 +895,13 @@ Final rating:
 
 Complete after testing:
 
-> Selfie Check was / was not sufficiently low-friction for CareZero's intended use because...
+> Selfie Check was / was not sufficiently low-friction for Althea's intended use because...
 
 ```text
 [FILL]
 ```
 
-> The assurance provided was / was not useful for making a CareZero Relief risk decision because...
+> The assurance provided was / was not useful for making a Althea Relief risk decision because...
 
 ```text
 [FILL]
@@ -902,15 +915,15 @@ Complete after testing:
 
 ---
 
-# 27. Final CareZero Position
+# 27. Final Althea Position
 
-Regardless of integration quality, CareZero's intended policy is:
+Regardless of integration quality, Althea's intended policy is:
 
 ```text
 Hospital financial-assistance access
 NEVER requires Selfie Check.
 
-CareZero Relief standard path
+Althea Relief standard path
 may use Selfie Check.
 
 Alternative manual review
@@ -952,10 +965,10 @@ Before committing final `WORLD_FEEDBACK.md`:
 
 # 29. Summary
 
-CareZero uses World Selfie Check for a narrow and intentional purpose:
+Althea uses World Selfie Check for a narrow and intentional purpose:
 
 > protecting a limited charitable medical-hardship fund from abuse while preserving unrestricted access to hospital financial-assistance navigation.
 
-That separation is core to both CareZero's product design and our evaluation of Selfie Check.
+That separation is core to both Althea's product design and our evaluation of Selfie Check.
 
 The final implementation feedback above documents whether the credential achieved that goal in practice.

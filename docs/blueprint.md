@@ -1,14 +1,14 @@
-# CareZero — Master Product Blueprint
+# Althea Care — Master Product Blueprint
 
 ## 1. Product Definition
 
-**CareZero is an open-source patient financial advocate and charitable relief rail designed to help people find hospital financial assistance before an unaffordable medical bill becomes debt.**
+**Althea is an open-source patient financial advocate and charitable relief rail designed to help people find hospital financial assistance before an unaffordable medical bill becomes debt.**
 
-CareZero combines two connected systems:
+Althea combines two connected systems:
 
 ### Layer 1 — Financial Assistance Navigator
 
-CareZero finds, interprets, and explains a hospital's publicly available Financial Assistance Policy, commonly called a FAP or charity-care policy.
+Althea finds, interprets, and explains a hospital's publicly available Financial Assistance Policy, commonly called a FAP or charity-care policy.
 
 It helps a patient understand:
 
@@ -23,7 +23,7 @@ It helps a patient understand:
 - what collection protections may apply during the process; and
 - what to do next.
 
-CareZero does **not** make the hospital's eligibility decision.
+Althea does **not** make the hospital's eligibility decision.
 
 The product language is:
 
@@ -35,24 +35,24 @@ Never:
 
 The hospital remains the decision-maker.
 
-### Layer 2 — CareZero Relief Rail
+### Layer 2 — Althea Relief Rail
 
-If the hospital processes the patient's financial-assistance application and a significant balance remains, CareZero can offer a separate pathway to **independent, donor-funded charitable assistance**.
+If the hospital processes the patient's financial-assistance application and a significant balance remains, Althea can offer a separate pathway to **independent, donor-funded charitable assistance**.
 
-The CareZero Relief Rail:
+The Althea Relief Rail:
 
 1. verifies that the hospital financial-assistance process occurred;
 2. verifies that an eligible residual medical balance remains;
-3. evaluates the case against objective CareZero Relief Fund rules;
+3. evaluates the case against objective Althea Relief Fund rules;
 4. uses World Selfie Check only as an anti-abuse/liveness signal;
-5. allows a constrained CareZero Relief Agent to initiate qualifying small grants;
+5. allows a constrained Althea Relief Agent to initiate qualifying small grants;
 6. settles grants in USDC on Arc;
 7. uses Privy-controlled organizational treasury infrastructure; and
 8. produces a transparent proof that donor funds were disbursed without exposing the patient's medical or financial information publicly.
 
 The key distinction is:
 
-**CareZero does not replace hospital charity care.**
+**Althea does not replace hospital charity care.**
 
 It makes hospital assistance easier to discover and use, and then provides a transparent charitable rail for the remaining gap.
 
@@ -81,7 +81,7 @@ Patients are nevertheless expected to:
 - navigate collections;
 - and seek additional help when hospital assistance is not enough.
 
-CareZero converts this fragmented process into one guided workflow.
+Althea converts this fragmented process into one guided workflow.
 
 The product is intentionally not another loan, credit card, debt purchaser, debt marketplace, or collection company.
 
@@ -91,15 +91,15 @@ The product is intentionally not another loan, credit card, debt purchaser, debt
 
 # 3. One-Line Pitch
 
-**CareZero finds the financial help hidden inside hospital paperwork and creates a transparent charitable rail for the bills that assistance doesn't fully erase.**
+**Althea finds the financial help hidden inside hospital paperwork and creates a transparent charitable rail for the bills that assistance doesn't fully erase.**
 
 Alternative:
 
-**CareZero turns hospital financial assistance from paperwork into a pathway.**
+**Althea turns hospital financial assistance from paperwork into a pathway.**
 
 Alternative:
 
-**Before a hospital bill becomes debt, CareZero finds the help already available.**
+**Before a hospital bill becomes debt, Althea finds the help already available.**
 
 ---
 
@@ -111,7 +111,7 @@ Alternative:
 
 ## The hospital may already have a program that can reduce your bill.
 
-CareZero finds it, explains it, prepares the paperwork, tracks the process, and—when assistance still isn't enough—connects verified remaining balances to transparent charitable relief.
+Althea finds it, explains it, prepares the paperwork, tracks the process, and—when assistance still isn't enough—connects verified remaining balances to transparent charitable relief.
 
 ### No loans.
 
@@ -177,7 +177,7 @@ KFF's broader health-care debt research has also found that health-related debt 
 
 The CFPB has reported evidence that people who appeared eligible for nonprofit-hospital financial assistance were nevertheless billed billions of dollars.
 
-CareZero attacks the problem **before assistance is missed and before a remaining bill becomes more expensive debt.**
+Althea attacks the problem **before assistance is missed and before a remaining bill becomes more expensive debt.**
 
 ---
 
@@ -201,7 +201,7 @@ Among other requirements, a hospital's FAP must describe:
 
 Hospitals must widely publicize these policies.
 
-CareZero's product is built around converting this legally required public information into structured, understandable patient guidance.
+Althea's product is built around converting this legally required public information into structured, understandable patient guidance.
 
 ## The 120-Day Notification Period
 
@@ -209,7 +209,7 @@ Under federal §501(r)(6) regulations, before certain extraordinary collection a
 
 The IRS describes a **120-day notification period** beginning with the first post-discharge billing statement.
 
-This becomes a valuable CareZero timeline event.
+This becomes a valuable Althea timeline event.
 
 Example UI:
 
@@ -217,7 +217,7 @@ Example UI:
 
 > Federal nonprofit-hospital rules generally restrict certain extraordinary collection actions during the initial 120-day notification period while reasonable FAP notification efforts occur.
 
-CareZero must avoid presenting this as individualized legal advice.
+Althea must avoid presenting this as individualized legal advice.
 
 ## The 240-Day Application Period
 
@@ -225,7 +225,7 @@ The IRS also describes a **240-day application period**, beginning from the firs
 
 A hospital may accept applications beyond this period as well.
 
-CareZero can turn this into an actionable countdown:
+Althea can turn this into an actionable countdown:
 
 > Approximate federal FAP application-window status: Day 32 of 240.
 
@@ -235,7 +235,7 @@ This is materially more valuable than simply telling someone that charity care e
 
 When an incomplete FAP application is submitted within the application period, the federal framework requires the hospital to notify the individual about how to complete it and provide a reasonable opportunity to do so.
 
-CareZero can therefore maintain:
+Althea can therefore maintain:
 
 - Submitted
 - Incomplete / additional documentation requested
@@ -251,9 +251,9 @@ CareZero can therefore maintain:
 
 ## Hospital Decision Authority
 
-CareZero must always distinguish:
+Althea must always distinguish:
 
-**CareZero estimate**
+**Althea estimate**
 
 from
 
@@ -269,7 +269,7 @@ It cannot represent itself as the final eligibility authority.
 
 # 8. Product Philosophy
 
-CareZero should obey five principles.
+Althea should obey five principles.
 
 ## Principle 1 — Crypto disappears
 
@@ -287,7 +287,7 @@ Blockchain infrastructure belongs underneath the experience.
 
 The patient sees:
 
-> $500 CareZero Relief Grant applied.
+> $500 Althea Relief Grant applied.
 
 Not:
 
@@ -313,7 +313,7 @@ The architecture is:
 
 ## Principle 3 — Hospital decides hospital assistance
 
-CareZero tells the patient:
+Althea tells the patient:
 
 > Based on the published policy, you may qualify.
 
@@ -333,7 +333,7 @@ No World verification is required to:
 - generate an application-preparation packet;
 - learn about federal timelines.
 
-World Selfie Check only appears when someone voluntarily requests a limited, discretionary **CareZero Relief Fund grant**.
+World Selfie Check only appears when someone voluntarily requests a limited, discretionary **Althea Relief Fund grant**.
 
 ## Principle 5 — Sensitive patient information stays offchain
 
@@ -363,7 +363,7 @@ Needs:
 
 
 
-## CareZero Relief Fund Administrator
+## Althea Relief Fund Administrator
 
 Manages:
 
@@ -377,13 +377,13 @@ Manages:
 
 
 
-## CareZero Reviewer
+## Althea Reviewer
 
 Reviews grants above the autonomous threshold or flagged cases.
 
 ## Donor
 
-Can contribute to the general CareZero Relief Fund.
+Can contribute to the general Althea Relief Fund.
 
 Donor receives aggregate impact information but **does not choose individual recipients**.
 
@@ -409,7 +409,7 @@ The hackathon demo does not require hospital participation.
 
 ## STEP 1 — Start With the Bill
 
-CareZero asks for only the minimum information necessary.
+Althea asks for only the minimum information necessary.
 
 Demo:
 
@@ -437,7 +437,7 @@ Avoid asking for diagnosis unless strictly necessary.
 
 # 11. STEP 2 — Find the Hospital FAP
 
-CareZero maintains a structured FAP registry.
+Althea maintains a structured FAP registry.
 
 Each hospital record contains:
 
@@ -461,7 +461,7 @@ For the hackathon MVP, seed one polished demo hospital plus one or two additiona
 
 # 12. STEP 3 — Parse the Policy
 
-CareZero transforms a hospital FAP into a structured schema.
+Althea transforms a hospital FAP into a structured schema.
 
 Example:
 
@@ -567,7 +567,7 @@ Patients should be able to click:
 
 **Why am I seeing this?**
 
-CareZero should show:
+Althea should show:
 
 - policy income limit;
 - household size used;
@@ -596,7 +596,7 @@ Button:
 
 # Prepare Application
 
-CareZero creates a patient packet containing:
+Althea creates a patient packet containing:
 
 - hospital's application;
 - prefilled patient-provided values where technically/legal appropriate;
@@ -605,9 +605,9 @@ CareZero creates a patient packet containing:
 - billing office contact information;
 - applicable deadline tracker;
 - cover sheet;
-- CareZero case ID.
+- Althea case ID.
 
-For hospitals without electronic submission APIs, CareZero does **not** pretend an application was submitted automatically.
+For hospitals without electronic submission APIs, Althea does **not** pretend an application was submitted automatically.
 
 Status should distinguish:
 
@@ -643,7 +643,7 @@ Documents supplied
 Hospital decision
 ```
 
-CareZero tracks relevant dates.
+Althea tracks relevant dates.
 
 Example:
 
@@ -693,17 +693,17 @@ The decision could be imported through:
 
 
 
-# 18. STEP 9 — Offer CareZero Relief
+# 18. STEP 9 — Offer Althea Relief
 
 Only after the FAP workflow:
 
 > You still have a $2,470 balance.
 
-> CareZero Relief may be able to help with part of the remaining amount.
+> Althea Relief may be able to help with part of the remaining amount.
 
 Button:
 
-# Check CareZero Relief
+# Check Althea Relief
 
 This is not another hospital eligibility process.
 
@@ -713,13 +713,13 @@ It is an independent charitable grant.
 
 
 
-# 19. STEP 10 — CareZero Relief Eligibility
+# 19. STEP 10 — Althea Relief Eligibility
 
 Example program rules:
 
 ```text
 PROGRAM:
-CareZero General Medical Relief
+Althea General Medical Relief
 
 Purpose:
 Residual hospital balances remaining after available hospital financial assistance has been processed.
@@ -760,7 +760,7 @@ These are hackathon/demo parameters, not finalized legal program rules.
 
 Patient sees:
 
-> CareZero Relief is funded by limited charitable donations. We use a brief liveness check to help reduce automated and duplicate abuse of this fund.
+> Althea Relief is funded by limited charitable donations. We use a brief liveness check to help reduce automated and duplicate abuse of this fund.
 
 World is **not** used to determine whether the person qualifies for hospital financial assistance.
 
@@ -768,7 +768,7 @@ World is **not** used to identify the person publicly.
 
 World is **not** used to determine medical need.
 
-World is only an additional risk signal for the discretionary CareZero grant.
+World is only an additional risk signal for the discretionary Althea grant.
 
 Architecture:
 
@@ -779,7 +779,7 @@ World Selfie Check
 ↓
 World verification response
 ↓
-CareZero backend verifies result
+Althea backend verifies result
 ↓
 case.livenessRiskSignal = PASS
 ```
@@ -788,7 +788,7 @@ Do not store the selfie.
 
 Do not claim Selfie Check alone proves that one person has never previously applied.
 
-It is one anti-abuse signal combined with CareZero's own application controls.
+It is one anti-abuse signal combined with Althea's own application controls.
 
 ---
 
@@ -796,7 +796,7 @@ It is one anti-abuse signal combined with CareZero's own application controls.
 
 # 21. STEP 12 — Relief Agent
 
-The CareZero Relief Agent evaluates structured facts.
+The Althea Relief Agent evaluates structured facts.
 
 It does not read the patient's diagnosis.
 
@@ -832,10 +832,10 @@ $0–$250:
 Relief Agent may autonomously execute if all objective rules pass.
 
 $251–$1,000:
-one authorized CareZero reviewer required.
+one authorized Althea reviewer required.
 
 Above $1,000:
-2-of-3 CareZero governance approval.
+2-of-3 Althea governance approval.
 ```
 
 For the exact hackathon wow demo, either:
@@ -854,7 +854,7 @@ Option B creates a stronger Privy B2B/quorum story.
 
 # 22. STEP 13 — Arc Relief Settlement
 
-The CareZero Relief Treasury has:
+The Althea Relief Treasury has:
 
 # 25,000 USDC
 
@@ -862,7 +862,7 @@ The verified residual bill is:
 
 # $2,470
 
-CareZero grants:
+Althea grants:
 
 # $500
 
@@ -911,7 +911,7 @@ to:
 ```text
 Hospital Financial Assistance   -$15,950
 
-CareZero Relief Grant              -$500
+Althea Relief Grant              -$500
 
 ------------------------------------------
 
@@ -922,10 +922,10 @@ Then:
 
 # $16,450 in total assistance identified or delivered.
 
-CareZero must carefully distinguish:
+Althea must carefully distinguish:
 
 - hospital assistance actually approved;
-- CareZero grant actually disbursed;
+- Althea grant actually disbursed;
 - estimates.
 
 ---
@@ -958,7 +958,7 @@ Patient enters:
 
 ## Transformation One
 
-CareZero reads the hospital FAP.
+Althea reads the hospital FAP.
 
 Screen:
 
@@ -1001,7 +1001,7 @@ Voice:
 
 Click:
 
-# CHECK CAREZERO RELIEF
+# CHECK ALTHEA RELIEF
 
 World Sandbox Selfie Check completes.
 
@@ -1016,7 +1016,7 @@ Voice:
 Display:
 
 ```text
-CareZero Relief Agent
+Althea Relief Agent
 
 ✓ Hospital FAP processed
 ✓ Residual balance verified
@@ -1040,7 +1040,7 @@ Original bill               $18,420
 
 Hospital assistance        -$15,950
 
-CareZero Relief               -$500
+Althea Relief               -$500
 
 ────────────────────────────────────
 
@@ -1053,11 +1053,11 @@ Then the final line:
 
 
 
-# CareZero made it usable.
+# Althea made it usable.
 
 Optional second line:
 
-**And when assistance stopped short, CareZero carried relief the rest of the way.**
+**And when assistance stopped short, Althea carried relief the rest of the way.**
 
 ---
 
@@ -1065,7 +1065,7 @@ Optional second line:
 
 # 25. What the Blockchain Is Actually Doing
 
-CareZero must be able to answer the inevitable judge question:
+Althea must be able to answer the inevitable judge question:
 
 > Why does this need blockchain?
 
@@ -1083,7 +1083,7 @@ Traditional charitable relief requires donors to trust a central operator's spre
 
 > We received money and promise we spent it correctly.
 
-CareZero can instead demonstrate:
+Althea can instead demonstrate:
 
 ```text
 Donation entered pool
@@ -1109,9 +1109,9 @@ That is the correct blockchain thesis.
 
 
 
-# 26. What CareZero Is NOT
+# 26. What Althea Is NOT
 
-CareZero is not:
+Althea is not:
 
 - a lender;
 - a medical credit card;
@@ -1130,7 +1130,7 @@ CareZero is not:
 - a patient diagnosis database;
 - a system where donors choose who receives treatment.
 
-CareZero should never tokenize an individual's medical debt for trading.
+Althea should never tokenize an individual's medical debt for trading.
 
 ---
 
@@ -1157,7 +1157,7 @@ and determine whether they may qualify for hospital financial assistance.
 
 Dollar For also helps patients pursue hospital-bill forgiveness.
 
-This is not a reason to abandon CareZero.
+This is not a reason to abandon Althea.
 
 It establishes that:
 
@@ -1166,13 +1166,13 @@ It establishes that:
 3. hospital FAP information can be structured;
 4. nonprofit organizations can successfully advocate for patients.
 
-CareZero should avoid positioning itself publicly as:
+Althea should avoid positioning itself publicly as:
 
 > Better Dollar For.
 
 Instead:
 
-> CareZero is the next-generation infrastructure layer for patient financial assistance: policy intelligence, application workflow, deadline tracking, and a transparent residual-relief rail in one system.
+> Althea is the next-generation infrastructure layer for patient financial assistance: policy intelligence, application workflow, deadline tracking, and a transparent residual-relief rail in one system.
 
 Potential future relationship:
 
@@ -1183,11 +1183,11 @@ Hospital Financial Navigator
 or
 Hospital API
 or
-CareZero FAP Navigator
+Althea FAP Navigator
        ↓
 Verified residual hardship
        ↓
-CareZero Relief Rail
+Althea Relief Rail
 ```
 
 Dollar For can eventually become an upstream partner instead of an enemy.
@@ -1203,7 +1203,7 @@ It validates:
 - program matching;
 - digital assistance workflows.
 
-CareZero differs by focusing the hackathon product on:
+Althea differs by focusing the hackathon product on:
 
 - nonprofit-hospital FAP rights;
 - patient-first public access;
@@ -1218,7 +1218,7 @@ Cinnamon combines charity care, manufacturer programs, nonprofit foundations, go
 
 Again, this validates the need.
 
-CareZero's unique architectural thesis is:
+Althea's unique architectural thesis is:
 
 **public FAP intelligence + consumer advocate + independently governed charitable settlement rail + verifiable donor capital.**
 
@@ -1230,13 +1230,13 @@ CareZero's unique architectural thesis is:
 
 Existing organizations prove that patients need help finding financial assistance.
 
-**CareZero connects that navigation process to the missing financial infrastructure behind it.**
+**Althea connects that navigation process to the missing financial infrastructure behind it.**
 
 Other products may help answer:
 
 > What assistance exists?
 
-CareZero additionally answers:
+Althea additionally answers:
 
 > What happens after I find it?
 
@@ -1252,7 +1252,7 @@ CareZero additionally answers:
 
 > Can donors prove their money actually reached verified medical hardship without exposing the patient?
 
-That is the CareZero system.
+That is the Althea system.
 
 ---
 
@@ -1264,7 +1264,7 @@ The preferred long-term structure is mission-first.
 
 Potential structure:
 
-## CareZero Foundation
+## Althea Foundation
 
 A nonprofit or equivalent public-benefit entity that governs:
 
@@ -1277,7 +1277,7 @@ A nonprofit or equivalent public-benefit entity that governs:
 
 Potential supporting entity later:
 
-## CareZero Labs / Public Benefit Company
+## Althea Labs / Public Benefit Company
 
 Could provide:
 
@@ -1292,7 +1292,7 @@ This dual-entity structure requires legal and tax advice before implementation.
 
 For hackathon purposes:
 
-**CareZero is presented as an open-source public-good project with a prototype independent Relief Fund.**
+**Althea is presented as an open-source public-good project with a prototype independent Relief Fund.**
 
 ---
 
@@ -1307,7 +1307,7 @@ Patients should not pay to access:
 - application preparation;
 - deadline information;
 - case tracking;
-- CareZero Relief eligibility.
+- Althea Relief eligibility.
 
 Potential sustainable funding:
 
@@ -1342,9 +1342,9 @@ This is an important future compliance principle.
 
 HHS OIG has repeatedly emphasized that independent patient-assistance charities need genuine independence from donors, particularly when federal healthcare programs are involved.
 
-CareZero's fund should therefore be designed around principles such as:
+Althea's fund should therefore be designed around principles such as:
 
-- CareZero—not donors—sets grant criteria;
+- Althea—not donors—sets grant criteria;
 - eligibility is based on objective financial hardship;
 - donors do not choose individual patients;
 - donors do not receive recipient identities;
@@ -1377,7 +1377,7 @@ Surgeon Z Procedure Fund
 Prefer:
 
 ```text
-CareZero General Medical Hardship Fund
+Althea General Medical Hardship Fund
 ```
 
 Objective criteria.
@@ -1462,7 +1462,7 @@ Must build:
 9. Simulated hospital decision.
 10. Verified residual-balance state.
 11. World Selfie Check sandbox integration.
-12. CareZero Relief rules engine.
+12. Althea Relief rules engine.
 13. Privy Relief Treasury.
 14. At least one real Privy policy/control.
 15. Privy USDC funding flow.
@@ -1511,7 +1511,7 @@ Do not sacrifice the working sponsor integrations for these.
 
 # 36. North-Star Metrics
 
-For a future real CareZero:
+For a future real Althea:
 
 ## Access
 
@@ -1565,17 +1565,17 @@ For a future real CareZero:
 
 # 37. Success Definition for ETHOnline
 
-CareZero succeeds if a judge can understand this in four minutes:
+Althea succeeds if a judge can understand this in four minutes:
 
 **A patient receives an $18,420 hospital bill.**
 
-CareZero finds a public hospital policy.
+Althea finds a public hospital policy.
 
-CareZero converts it into understandable rules.
+Althea converts it into understandable rules.
 
 The patient may qualify for $15,950 of assistance.
 
-CareZero prepares the application.
+Althea prepares the application.
 
 The hospital decision is recorded.
 
@@ -1585,7 +1585,7 @@ World helps protect the independent aid pool from automated abuse.
 
 Privy controls the nonprofit treasury.
 
-The CareZero Relief Agent verifies program conditions.
+The Althea Relief Agent verifies program conditions.
 
 Arc moves $500 USDC through a transparent conditional relief flow.
 
@@ -1609,21 +1609,21 @@ And every charitable dollar can be accounted for.
 
 # 38. Closing Product Statement
 
-**CareZero is not blockchain for medical debt.**
+**Althea is not blockchain for medical debt.**
 
 It is infrastructure for keeping a medical bill from becoming debt in the first place.
 
 The hospital's assistance program remains the first source of relief.
 
-CareZero makes that program usable.
+Althea makes that program usable.
 
-When the hospital's assistance still leaves hardship behind, the CareZero Relief Rail gives independent charity a transparent, programmable way to help close the gap.
+When the hospital's assistance still leaves hardship behind, the Althea Relief Rail gives independent charity a transparent, programmable way to help close the gap.
 
 ## The financial help already exists.
 
 
 
-## CareZero makes it reachable.
+## Althea makes it reachable.
 
 ---
 
@@ -1686,7 +1686,7 @@ Key evidence: authorization keys, policies, signers, allowlists, transfer limits
 
 **R15 — Circle Developer Documentation**
 “Agent Stack” and “Agent Wallets.”
-Key evidence: autonomous USDC-capable agent wallets and programmable control architecture. Built-in Agent Wallet spending policies currently require mainnet; CareZero should use testnet-safe app/contract controls for the hackathon and document the distinction.
+Key evidence: autonomous USDC-capable agent wallets and programmable control architecture. Built-in Agent Wallet spending policies currently require mainnet; Althea should use testnet-safe app/contract controls for the hackathon and document the distinction.
 
 **R16 — Dollar For**
 Current public financial-assistance eligibility/application workflow.
@@ -1712,14 +1712,14 @@ Use:
 - “potential financial assistance”
 - “based on the hospital's published policy”
 - “hospital determines final eligibility”
-- “CareZero Relief is separate from hospital financial assistance”
+- “Althea Relief is separate from hospital financial assistance”
 - “World Selfie Check is an anti-abuse risk signal”
 - “testnet / simulated hospital decision” in hackathon demos
 
 Avoid:
 
 - “guaranteed debt forgiveness”
-- “CareZero approved your charity care”
+- “Althea approved your charity care”
 - “World proved you deserve assistance”
 - “AI approved your hospital discount”
 - “we erase medical debt”
@@ -1729,4 +1729,4 @@ Avoid:
 - “all nonprofit hospitals must forgive your bill”
 - “blockchain determines patient eligibility”
 
-CareZero's credibility comes from being precise.
+Althea's credibility comes from being precise.

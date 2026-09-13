@@ -1,8 +1,8 @@
-# CareZero — Research & Evidence Base
+# Althea Care — Research & Evidence Base
 
 ## Purpose
 
-This document records the evidence supporting CareZero's product thesis.
+This document records the evidence supporting Althea's product thesis.
 
 It should be used when creating:
 
@@ -20,9 +20,9 @@ The document distinguishes between:
 
 1. verified facts;
 2. product implications;
-3. claims CareZero should avoid.
+3. claims Althea should avoid.
 
-CareZero should prefer:
+Althea should prefer:
 
 * federal agencies;
 * primary regulations;
@@ -48,7 +48,7 @@ IRS guidance states that the FAP must include, among other things:
 
 The policy must also be widely publicized.
 
-## CareZero Implication
+## Althea Implication
 
 There is a legally required source of public policy information that can be converted into:
 
@@ -62,9 +62,9 @@ patient explanation
 application pathway
 ```
 
-This significantly strengthens CareZero's business thesis.
+This significantly strengthens Althea's business thesis.
 
-CareZero is not inventing an assistance program.
+Althea is not inventing an assistance program.
 
 It is helping patients use an existing institutional program.
 
@@ -78,7 +78,7 @@ The Consumer Financial Protection Bureau states that financial assistance or cha
 
 ## Product Implication
 
-CareZero should not ask:
+Althea should not ask:
 
 > Are you uninsured?
 
@@ -114,7 +114,7 @@ Avoid:
 
 Federal law requires nonprofit hospitals to maintain FAPs, but CFPB research notes that federal law does not establish one universal eligibility threshold; hospital and state policies can vary substantially.
 
-## CareZero Implication
+## Althea Implication
 
 This is exactly why a national rules engine is valuable.
 
@@ -125,7 +125,7 @@ income < X
 therefore eligible everywhere
 ```
 
-CareZero must maintain:
+Althea must maintain:
 
 ```text
 hospital
@@ -147,9 +147,9 @@ The CFPB describes nonprofit financial-assistance application processes as poten
 
 The CFPB's consumer guidance tells patients to obtain the policy, complete an application, supply income information, ask about processing, contact collectors when relevant and follow up with the billing office.
 
-## CareZero Implication
+## Althea Implication
 
-CareZero should solve workflow, not merely discovery.
+Althea should solve workflow, not merely discovery.
 
 Minimum useful product:
 
@@ -216,9 +216,9 @@ CFPB consumer guidance describes medical bills as complicated and notes that whe
 * federal protections;
 * state protections.
 
-## CareZero Implication
+## Althea Implication
 
-CareZero should eventually become an orchestration layer rather than a single eligibility calculator.
+Althea should eventually become an orchestration layer rather than a single eligibility calculator.
 
 The user need is not:
 
@@ -242,7 +242,7 @@ The agency noted this estimate may understate the gap.
 
 The FAP is not enough.
 
-CareZero should maintain evidence that:
+Althea should maintain evidence that:
 
 ```text
 application submitted
@@ -279,7 +279,7 @@ The federal §501(r) workflow addresses a very large hospital segment.
 
 However:
 
-CareZero should still be able to represent:
+Althea should still be able to represent:
 
 * nonprofit hospitals;
 * public hospitals;
@@ -298,7 +298,7 @@ During the regulatory reasonable-efforts framework, applicable hospitals must re
 
 ## Product Implication
 
-CareZero should track:
+Althea should track:
 
 ```text
 first post-discharge bill date
@@ -332,7 +332,7 @@ The IRS also notes hospitals may accept applications beyond that period.
 
 ## Product Implication
 
-This can become one of CareZero's most useful differentiators.
+This can become one of Althea's most useful differentiators.
 
 Example:
 
@@ -365,7 +365,7 @@ The IRS states that if an individual submits an incomplete FAP application durin
 
 ## Product Implication
 
-CareZero needs:
+Althea needs:
 
 ```text
 APPLICATION SUBMITTED
@@ -387,7 +387,7 @@ Do not treat incomplete as denied.
 
 IRS guidance states that hospitals may continue to accept and process FAP applications at any time.
 
-## CareZero Implication
+## Althea Implication
 
 Never display:
 
@@ -420,7 +420,7 @@ Hospital Policy
 +
 State Requirements
 =
-CareZero Patient Guidance
+Althea Patient Guidance
 ```
 
 This should be a versioned rules engine.
@@ -437,9 +437,9 @@ The CFPB specifically notes poor information-sharing can shift the burden onto p
 
 ## Product Implication
 
-CareZero's case record has value beyond initial eligibility.
+Althea's case record has value beyond initial eligibility.
 
-Future “CareZero Receipt”:
+Future “Althea Receipt”:
 
 ```text
 Application submitted
@@ -452,7 +452,7 @@ Patient controls these records.
 
 ---
 
-# 15. Why CareZero Should Intervene Before Financing
+# 15. Why Althea Should Intervene Before Financing
 
 ## Evidence
 
@@ -472,7 +472,7 @@ Traditional consumer finance asks:
 
 > How should this person finance the bill?
 
-CareZero first asks:
+Althea first asks:
 
 # **How much of this bill should the patient actually be expected to pay after available assistance is considered?**
 
@@ -499,7 +499,7 @@ Dollar For also publicly offers help applying for hospital bill forgiveness.
 
 ## Strategic Meaning
 
-Do not treat this as proof CareZero should not exist.
+Do not treat this as proof Althea should not exist.
 
 It proves:
 
@@ -508,9 +508,9 @@ It proves:
 * hospital policy databases are feasible;
 * nonprofit navigation is a real category.
 
-## CareZero Differentiation
+## Althea Differentiation
 
-CareZero's differentiation should be:
+Althea's differentiation should be:
 
 ```text
 FAP structured rules
@@ -550,7 +550,7 @@ through a broader “Coverage Waterfall.”
 
 This validates the concept that patient affordability is best treated as a sequence of potential funding layers.
 
-CareZero's version:
+Althea's version:
 
 ```text
 Hospital FAP
@@ -564,7 +564,7 @@ independent Relief Fund
 
 Difference:
 
-CareZero begins as a public-good patient advocacy system rather than primarily a provider workflow product.
+Althea begins as a public-good patient advocacy system rather than primarily a provider workflow product.
 
 ---
 
@@ -578,9 +578,9 @@ However, OIG has emphasized the need for independence from donors and warned abo
 
 OIG continues to issue advisory opinions on patient-assistance arrangements, including a favorable opinion posted in August 2026 concerning a nonprofit charitable organization's proposed patient-assistance program. Advisory opinions are highly fact-specific and bind only the requestor.
 
-## CareZero Implication
+## Althea Implication
 
-CareZero should begin with:
+Althea should begin with:
 
 # broad general medical hardship.
 
@@ -606,7 +606,7 @@ The agency has specifically raised concerns about:
 * donor influence;
 * structures that effectively subsidize a donor's own products.
 
-## CareZero Design Principle
+## Althea Design Principle
 
 Donor:
 
@@ -614,7 +614,7 @@ Donor:
 contributes money
 ```
 
-CareZero:
+Althea:
 
 ```text
 sets objective program rules
@@ -642,13 +642,13 @@ HHS explains that a consumer-directed health app is not automatically a HIPAA bu
 
 Whether HIPAA applies to the app developer depends on the relationship with the covered entity and whether the app is creating, receiving, maintaining or transmitting protected health information on behalf of that covered entity.
 
-## CareZero Implication
+## Althea Implication
 
 Never casually write:
 
 > HIPAA-compliant.
 
-At launch, legal analysis must determine whether CareZero is acting as:
+At launch, legal analysis must determine whether Althea is acting as:
 
 * direct-to-consumer app;
 * business associate;
@@ -666,13 +666,13 @@ The FTC updated its Health Breach Notification Rule to make clear that certain h
 
 Covered vendors of personal health records and related entities may have obligations to notify individuals, the FTC and sometimes the media when unsecured identifiable health information is breached.
 
-## CareZero Implication
+## Althea Implication
 
 “Not HIPAA-covered” does **not** mean:
 
 > no federal health privacy obligations.
 
-CareZero should build privacy/security as though the information is extremely sensitive regardless of technical regulatory classification.
+Althea should build privacy/security as though the information is extremely sensitive regardless of technical regulatory classification.
 
 ---
 
@@ -684,7 +684,7 @@ FTC guidance explains that the Health Breach Notification Rule's breach concept 
 
 ## Product Implication
 
-CareZero should not place third-party marketing pixels or advertising SDKs on pages containing:
+Althea should not place third-party marketing pixels or advertising SDKs on pages containing:
 
 * patient bill information;
 * hospital;
@@ -704,7 +704,7 @@ Washington's My Health My Data Act protects certain consumer health data outside
 
 ## Product Implication
 
-CareZero must treat:
+Althea must treat:
 
 ```text
 direct-to-consumer health-financial data
@@ -724,7 +724,7 @@ ETHGlobal's ETHOnline 2026 rules allow submissions to select up to **three Partn
 
 If one partner offers multiple prize tracks, a project can be eligible for multiple tracks from that selected partner while using only one of the three partner selections.
 
-## CareZero Strategy
+## Althea Strategy
 
 Select:
 
@@ -763,7 +763,7 @@ ETHGlobal states judges evaluate:
 4. Usability
 5. Wow Factor
 
-## CareZero Mapping
+## Althea Mapping
 
 ### Technicality
 
@@ -817,7 +817,7 @@ Qualification requires a Privy wallet, business use case, functional B2B flow an
 
 Its Financial Flow track requires a real supported Privy financial action and emphasizes hiding unnecessary blockchain complexity.
 
-## CareZero Fit
+## Althea Fit
 
 ```text
 Nonprofit treasury
@@ -859,7 +859,7 @@ Arc calls for:
 * Agent Stack;
 * payments or settlement.
 
-## CareZero Fit
+## Althea Fit
 
 Perfect architecture:
 
@@ -883,7 +883,7 @@ For both current $3,500 classic-track Arc categories, ETHGlobal states that **$2
 
 ## Development Implication
 
-CareZero must:
+Althea must:
 
 * deploy testnet now;
 * keep environment config clean;
@@ -916,7 +916,7 @@ World also requires a feedback document covering:
 * errors and edge cases;
 * confusing/missing/broken functionality.
 
-## CareZero Fit
+## Althea Fit
 
 Use:
 
@@ -936,7 +936,7 @@ ETHGlobal permits AI development tools but requires disclosure of where/how AI w
 
 Spec-driven development workflows are permitted, but the submission repository must contain the spec files, prompts and planning artifacts used.
 
-## CareZero Requirement
+## Althea Requirement
 
 Preserve:
 
@@ -950,7 +950,7 @@ Do not delete this handoff material before submission.
 
 ---
 
-# 31. Research-Backed CareZero Claims
+# 31. Research-Backed Althea Claims
 
 Strong claims:
 
@@ -982,9 +982,9 @@ Hospital/state rules vary.
 
 Do not claim:
 
-> CareZero can stop collections.
+> Althea can stop collections.
 
-CareZero can inform users of relevant rules and help document the process.
+Althea can inform users of relevant rules and help document the process.
 
 Do not claim:
 
@@ -1000,7 +1000,7 @@ Selfie Check is a lower-assurance liveness credential.
 
 Do not claim:
 
-> Blockchain makes CareZero HIPAA compliant.
+> Blockchain makes Althea HIPAA compliant.
 
 It does not.
 
@@ -1169,9 +1169,9 @@ Patients apparently eligible for assistance have still been billed substantial a
 
 Medical debt remains enormous.
 
-CareZero therefore first improves access to existing institutional assistance.
+Althea therefore first improves access to existing institutional assistance.
 
-Then—only after that institutional assistance is considered—the CareZero Relief Rail uses independent charitable capital to address verified remaining hardship.
+Then—only after that institutional assistance is considered—the Althea Relief Rail uses independent charitable capital to address verified remaining hardship.
 
 The model does not replace existing help.
 

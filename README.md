@@ -1,14 +1,16 @@
-# CareZero
+# Althea Care
+
+Display name: **Althea**. Official name: **Althea Care**.
 
 ## Before the bill becomes debt.
 
-CareZero is an open-source patient financial advocacy platform and transparent charitable relief rail.
+Althea Care is an open-source patient financial advocacy platform and transparent charitable relief rail.
 
-CareZero helps patients find and understand hospital Financial Assistance Policies, estimate whether they may qualify for assistance, prepare the application process, track important financial-assistance timelines, and understand the hospital's final decision.
+Althea helps patients find and understand hospital Financial Assistance Policies, estimate whether they may qualify for assistance, prepare the application process, track important financial-assistance timelines, and understand the hospital's final decision.
 
-When hospital financial assistance still leaves a verified unaffordable balance, CareZero can route the case into a separate independent charitable Relief Fund.
+When hospital financial assistance still leaves a verified unaffordable balance, Althea can route the case into a separate independent charitable Relief Fund.
 
-The CareZero Relief Rail uses:
+The Althea Relief Rail uses:
 
 * **World Selfie Check** as one abuse-prevention signal for scarce charitable funds;
 * **Privy** as the institutional wallet, policy, and approval layer for the charitable organization;
@@ -56,7 +58,7 @@ Patients may still need to:
 11. understand the final decision;
 12. find additional help if a balance remains.
 
-CareZero turns that fragmented process into a guided workflow.
+Althea turns that fragmented process into a guided workflow.
 
 ---
 
@@ -66,15 +68,15 @@ CareZero turns that fragmented process into a guided workflow.
 
 ## The interface doesn't.
 
-CareZero does not create the hospital's financial-assistance program.
+Althea does not create the hospital's financial-assistance program.
 
-CareZero makes the existing program easier to discover, understand, and use.
+Althea makes the existing program easier to discover, understand, and use.
 
 ---
 
-# What CareZero Does
+# What Althea Does
 
-The complete CareZero Rail is:
+The complete Althea Rail is:
 
 ```text
 Hospital bill
@@ -95,7 +97,7 @@ Hospital makes final decision
       ↓
 Remaining balance verified
       ↓
-CareZero Relief considered
+Althea Relief considered
       ↓
 World abuse-prevention signal
       ↓
@@ -139,7 +141,7 @@ Insurance:
 Yes
 ```
 
-CareZero analyzes the hospital's demonstration Financial Assistance Policy.
+Althea analyzes the hospital's demonstration Financial Assistance Policy.
 
 The patient sees:
 
@@ -165,7 +167,7 @@ The hospital remains the final decision-maker.
 
 # Hospital Financial-Assistance Workflow
 
-CareZero prepares:
+Althea prepares:
 
 * application information;
 * required-document checklist;
@@ -190,7 +192,7 @@ Remaining balance               $2,470
 
 ---
 
-# CareZero Relief
+# Althea Relief
 
 The patient still has:
 
@@ -198,12 +200,12 @@ The patient still has:
 
 remaining.
 
-CareZero Relief is a separate independent charitable program.
+Althea Relief is a separate independent charitable program.
 
 For the demonstration:
 
 ```text
-CareZero General Medical Hardship Fund
+Althea General Medical Hardship Fund
 
 Demo available capital:
 $25,000
@@ -221,7 +223,7 @@ Patient fee:
 $0
 ```
 
-CareZero checks:
+Althea checks:
 
 ```text
 ✓ Hospital assistance processed
@@ -230,7 +232,7 @@ CareZero checks:
 
 ✓ Residual balance verified
 
-✓ CareZero program rules satisfied
+✓ Althea program rules satisfied
 
 ✓ Anti-abuse signal completed
 
@@ -245,7 +247,7 @@ A $500 grant requires human authorization in the demonstration because it exceed
 
 World Selfie Check is used only for:
 
-# CareZero Relief abuse prevention.
+# Althea Relief abuse prevention.
 
 It is not used for:
 
@@ -261,26 +263,26 @@ The patient can access the entire hospital financial-assistance navigator withou
 
 The Relief screen explicitly explains:
 
-> CareZero Relief is supported by limited charitable funds. We use World Selfie Check as one liveness signal to help reduce automated abuse of this separate fund.
+> Althea Relief is supported by limited charitable funds. We use World Selfie Check as one liveness signal to help reduce automated abuse of this separate fund.
 
-A production CareZero system should also offer a manual-review pathway for users unable or unwilling to complete a biometric verification.
+A production Althea system should also offer a manual-review pathway for users unable or unwilling to complete a biometric verification.
 
-CareZero does not store the patient's selfie.
+Althea does not store the patient's selfie.
 
 ---
 
 # Privy
 
-CareZero uses Privy as the institutional control layer for the charitable organization.
+Althea uses Privy as the institutional control layer for the charitable organization.
 
 The architecture separates:
 
 ```text
-CareZero Relief Treasury
+Althea Relief Treasury
         │
         │ Privy organization controls
         ▼
-CareZero ReliefPool
+Althea ReliefPool
         │
         │ limited program capital
         ▼
@@ -292,20 +294,20 @@ Verified medical obligation
 
 Privy is used for:
 
-* CareZero organizational wallet infrastructure;
+* Althea organizational wallet infrastructure;
 * treasury operations;
 * financial flow;
 * policies;
 * signers and/or approval controls;
 * restricting what the charitable treasury can do.
 
-The agent does not receive unrestricted access to CareZero's treasury.
+The agent does not receive unrestricted access to Althea's treasury.
 
 ---
 
 # Circle Agent Stack
 
-CareZero uses a constrained Relief Agent.
+Althea uses a constrained Relief Agent.
 
 The agent receives structured signals including:
 
@@ -335,7 +337,7 @@ It does **not** change grant rules.
 
 It orchestrates an already governed financial workflow.
 
-CareZero's design principle is:
+Althea's design principle is:
 
 # AI interprets.
 
@@ -349,9 +351,9 @@ CareZero's design principle is:
 
 # Arc
 
-Arc is CareZero's programmable charitable settlement layer.
+Arc is Althea's programmable charitable settlement layer.
 
-The CareZero ReliefPool uses USDC and enforces conditions such as:
+The Althea ReliefPool uses USDC and enforces conditions such as:
 
 ```text
 authorized executor
@@ -375,14 +377,14 @@ This makes the payment flow more meaningful than a simple token transfer.
 
 # Final Demo Result
 
-After the CareZero Relief grant:
+After the Althea Relief grant:
 
 ```text
 Original Bill                  $18,420
 
 Hospital Assistance           -$15,950
 
-CareZero Relief                  -$500
+Althea Relief                  -$500
 
 ---------------------------------------
 
@@ -393,17 +395,17 @@ The demo closes with:
 
 # The hospital already had the assistance program.
 
-# CareZero made it usable.
+# Althea made it usable.
 
 And:
 
-# When assistance stopped short, CareZero carried transparent charitable relief the rest of the way.
+# When assistance stopped short, Althea carried transparent charitable relief the rest of the way.
 
 ---
 
 # Why Blockchain?
 
-CareZero deliberately does **not** put hospital financial-assistance eligibility onchain.
+Althea deliberately does **not** put hospital financial-assistance eligibility onchain.
 
 That problem does not require a blockchain.
 
@@ -411,7 +413,7 @@ The blockchain begins where independently donated money enters the system.
 
 Traditional charitable relief requires donors to trust an organization's internal accounting.
 
-CareZero can instead make the financial movement verifiable:
+Althea can instead make the financial movement verifiable:
 
 ```text
 charitable capital
@@ -453,7 +455,7 @@ The result is:
 
 # Why Not Tokenize Medical Debt?
 
-CareZero does not tokenize:
+Althea does not tokenize:
 
 * patient debt;
 * medical claims;
@@ -462,20 +464,20 @@ CareZero does not tokenize:
 
 Patients are not financial assets.
 
-CareZero uses blockchain only to improve the transparency and programmability of charitable capital.
+Althea uses blockchain only to improve the transparency and programmability of charitable capital.
 
 ---
 
 # Architecture
 
 ```text
-                    CAREZERO
+                    ALTHEA
 
                   Patient App
               Next.js / TypeScript
                        │
                        ▼
-                CareZero API
+                Althea API
                        │
           ┌────────────┴────────────┐
           │                         │
@@ -495,7 +497,7 @@ CareZero uses blockchain only to improve the transparency and programmability of
                 Residual Balance
                        │
                        ▼
-                 CAREZERO RELIEF
+                 ALTHEA RELIEF
 
                        │
                World Selfie Check
@@ -562,13 +564,13 @@ CareZero uses blockchain only to improve the transparency and programmability of
 ## Contracts
 
 * OpenZeppelin components
-* CareZeroReliefPool
+* AltheaReliefPool
 
 ---
 
 # FAP Architecture
 
-CareZero does not feed a hospital policy into an LLM and blindly trust the answer.
+Althea does not feed a hospital policy into an LLM and blindly trust the answer.
 
 The pipeline is:
 
@@ -596,7 +598,7 @@ NEEDS_REVIEW
 
 is returned.
 
-CareZero should never invent a missing eligibility requirement.
+Althea should never invent a missing eligibility requirement.
 
 ---
 
@@ -631,14 +633,14 @@ The calculation is traceable back to the policy.
 
 # Federal Timeline Support
 
-CareZero tracks educational timeline information tied to nonprofit-hospital Financial Assistance Policies.
+Althea tracks educational timeline information tied to nonprofit-hospital Financial Assistance Policies.
 
 The federal Section 501(r) framework includes concepts commonly described as:
 
 * a 120-day notification period;
 * a 240-day application period.
 
-CareZero can show:
+Althea can show:
 
 ```text
 First billing statement:
@@ -650,7 +652,7 @@ Day 24 of 240
 
 This is educational information.
 
-CareZero does not provide legal advice and does not claim all collection actions are prohibited during the entire period.
+Althea does not provide legal advice and does not claim all collection actions are prohibited during the entire period.
 
 ---
 
@@ -658,7 +660,7 @@ CareZero does not provide legal advice and does not claim all collection actions
 
 ## Never onchain
 
-CareZero does not publish:
+Althea does not publish:
 
 * patient name;
 * diagnosis;
@@ -714,7 +716,7 @@ Testnet funds are used for the hackathon integration.
 # Repository Structure
 
 ```text
-carezero/
+althea/
 │
 ├── app/
 │   ├── page.tsx
@@ -738,7 +740,7 @@ carezero/
 │   └── db/
 │
 ├── contracts/
-│   ├── CareZeroReliefPool.sol
+│   ├── AltheaReliefPool.sol
 │   └── test/
 │
 ├── data/
@@ -899,13 +901,13 @@ recipient receives correct USDC
 
 ## Privy
 
-CareZero targets:
+Althea targets:
 
 ### Best B2B Financial Product
 
 The Relief Fund treasury is an organizational financial operation.
 
-CareZero uses at least:
+Althea uses at least:
 
 * one Privy wallet;
 * one business workflow;
@@ -914,17 +916,17 @@ CareZero uses at least:
 
 ### Best Financial Flow
 
-CareZero uses Privy to perform a real supported financial action, such as funding the ReliefPool.
+Althea uses Privy to perform a real supported financial action, such as funding the ReliefPool.
 
 ---
 
 ## Arc
 
-CareZero targets:
+Althea targets:
 
 ### Best DeFi / Onchain Finance Application
 
-CareZero uses Arc + USDC for conditional, programmable charitable settlement.
+Althea uses Arc + USDC for conditional, programmable charitable settlement.
 
 ### Best Agentic Economy Application with Circle Agent Stack
 
@@ -938,7 +940,7 @@ A separate deployment configuration must therefore be maintained.
 
 ## World
 
-CareZero targets:
+Althea targets:
 
 ### Selfie Check
 
@@ -974,7 +976,7 @@ This separation prevents sponsor integrations from feeling artificial.
 
 # Competitors
 
-CareZero is not the first organization to help patients find hospital financial assistance.
+Althea is not the first organization to help patients find hospital financial assistance.
 
 That is a strength, not a weakness.
 
@@ -985,7 +987,7 @@ Organizations such as Dollar For validate that:
 * digital screening can help;
 * free patient advocacy has real value.
 
-CareZero expands the category through:
+Althea expands the category through:
 
 ```text
 structured FAP intelligence
@@ -1007,13 +1009,13 @@ programmable donor capital
 privacy-safe public financial proof
 ```
 
-A future CareZero system could accept cases from Dollar For and similar advocacy organizations.
+A future Althea system could accept cases from Dollar For and similar advocacy organizations.
 
 ---
 
-# What CareZero Is Not
+# What Althea Is Not
 
-CareZero is not:
+Althea is not:
 
 * a lender;
 * medical credit;
@@ -1043,7 +1045,7 @@ Possible future sustainability sources include:
 * enterprise APIs;
 * implementation services.
 
-CareZero should never monetize by:
+Althea should never monetize by:
 
 * taking a percentage of hospital assistance;
 * selling patient health information;
@@ -1060,7 +1062,7 @@ The intended future structure is independent and need-based.
 Principles include:
 
 ```text
-CareZero defines objective grant criteria.
+Althea defines objective grant criteria.
 
 Donors contribute to a broad fund.
 
@@ -1105,7 +1107,7 @@ $15,950 hospital assistance
 ↓
 $2,470 remaining
 ↓
-$500 CareZero Relief
+$500 Althea Relief
 ↓
 $1,970 remaining
 ```
@@ -1114,7 +1116,7 @@ The closing statement is:
 
 # The hospital already had the assistance program.
 
-# CareZero made it usable.
+# Althea made it usable.
 
 ---
 
@@ -1134,7 +1136,7 @@ All spec-driven planning artifacts used to direct coding assistants are preserve
 
 # Disclaimer
 
-CareZero currently exists as a hackathon prototype.
+Althea currently exists as a hackathon prototype.
 
 It provides educational and administrative support based on published financial-assistance information.
 
@@ -1152,8 +1154,8 @@ Production deployment requires further legal, privacy, security, charitable-gove
 
 ---
 
-# CareZero
+# Althea
 
 ## The financial help may already exist.
 
-## CareZero makes it usable.
+## Althea makes it usable.

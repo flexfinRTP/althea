@@ -1,17 +1,17 @@
-# CareZero — Technical Architecture
+# Althea Care — Technical Architecture
 
 ## 1. Architectural Goal
 
 Build a working ETHOnline MVP in which:
 
 1. a patient enters basic bill and household information;
-2. CareZero retrieves a structured hospital Financial Assistance Policy;
+2. Althea retrieves a structured hospital Financial Assistance Policy;
 3. deterministic rules calculate potential assistance;
-4. CareZero generates an application-preparation workflow;
+4. Althea generates an application-preparation workflow;
 5. a hospital decision is simulated or recorded;
-6. a residual balance becomes eligible for separate CareZero Relief review;
+6. a residual balance becomes eligible for separate Althea Relief review;
 7. World Selfie Check supplies an anti-abuse signal;
-8. a CareZero Relief Agent evaluates objective rules;
+8. a Althea Relief Agent evaluates objective rules;
 9. Privy controls the nonprofit treasury;
 10. Arc handles transparent USDC relief settlement; and
 11. no sensitive patient information is written onchain.
@@ -25,7 +25,7 @@ The architecture must maximize ETHOnline sponsor depth while remaining believabl
 # 2. Core Architecture
 
 ```text
-                        CAREZERO
+                        ALTHEA
 
                  ┌────────────────────┐
                  │   Patient Web App  │
@@ -34,7 +34,7 @@ The architecture must maximize ETHOnline sponsor depth while remaining believabl
                            │
                            ▼
                   ┌──────────────────┐
-                  │ CareZero API     │
+                  │ Althea API     │
                   │ Node/Next API    │
                   └────────┬─────────┘
                            │
@@ -506,7 +506,7 @@ Prefilled answers
 Required document checklist
 Submission instructions
 Hospital contact
-CareZero case ID
+Althea case ID
 Timeline information
 
 ```
@@ -597,7 +597,7 @@ Never hide this.
 
 
 
-# 14. CareZero Relief Model
+# 14. Althea Relief Model
 
 Data object:
 
@@ -694,7 +694,7 @@ World Selfie Check is used for:
 Not for:
 
 - hospital FAP eligibility;
-- access to CareZero;
+- access to Althea;
 - medical need;
 - identity publication;
 - medical necessity;
@@ -703,7 +703,7 @@ Not for:
 Flow:
 
 ```text
-CareZero frontend
+Althea frontend
 ↓
 World ID / Selfie Check
 ↓
@@ -801,7 +801,7 @@ Privy serves two distinct roles.
 Create a Privy-controlled wallet:
 
 ```text
-CareZero Relief Treasury
+Althea Relief Treasury
 
 ```
 
@@ -856,7 +856,7 @@ A working control is more important than a mocked complex control.
 Show this explicitly in the demo or technical appendix.
 
 ```text
-CareZero Relief Treasury
+Althea Relief Treasury
       ↓
 Privy controlled organization wallet
       ↓
@@ -889,7 +889,7 @@ A separate visible flow should use Privy to move funds.
 Example:
 
 ```text
-CareZero Treasury
+Althea Treasury
     |
     | 1,000 USDC
     ▼
@@ -932,7 +932,7 @@ This gives Privy judges an actual financial flow rather than just authentication
 Deploy:
 
 ```text
-CareZeroReliefPool.sol
+AltheaReliefPool.sol
 
 ```
 
@@ -1011,7 +1011,7 @@ emit GrantReleased(...)
 
 This prevents a duplicate contract-level payout for the same case hash.
 
-Offchain CareZero still handles broader anti-duplication logic.
+Offchain Althea still handles broader anti-duplication logic.
 
 ---
 
@@ -1114,7 +1114,7 @@ USDC released
 ↓
 GrantReleased event
 ↓
-CareZero records transaction
+Althea records transaction
 
 ```
 
@@ -1134,7 +1134,7 @@ That is substantially more aligned with Arc's stated preference for:
 Create:
 
 ```text
-CareZero Relief Agent
+Althea Relief Agent
 
 ```
 
@@ -1202,7 +1202,7 @@ Therefore for the hackathon:
 Use:
 
 - Arc testnet;
-- CareZero deterministic grant rules;
+- Althea deterministic grant rules;
 - ReliefPool contract limits;
 - authorized executor;
 - Privy treasury controls;
@@ -1235,7 +1235,7 @@ Use separate financial responsibilities.
 ```text
 PRIVY RELIEF TREASURY
 Longer-term funds
-Controlled by CareZero organization
+Controlled by Althea organization
 Policies/quorum
         |
         | deposits USDC
@@ -1263,7 +1263,7 @@ It also creates excellent sponsor storytelling.
 
 
 
-# 30. CareZero Backend APIs
+# 30. Althea Backend APIs
 
 
 
@@ -1553,7 +1553,7 @@ Hospital outcome.
 
 ## `/case/:caseId/relief`
 
-CareZero Relief explanation.
+Althea Relief explanation.
 
 ## `/case/:caseId/verify`
 
@@ -1585,7 +1585,7 @@ Patient should see no crypto terminology before the final optional proof screen.
 
 Use:
 
-**CareZero Relief Fund**
+**Althea Relief Fund**
 
 instead of:
 
@@ -1609,7 +1609,7 @@ instead of:
 
 The technical detail belongs in:
 
-**How CareZero works**
+**How Althea works**
 
 and the judge presentation.
 
@@ -1622,7 +1622,7 @@ and the judge presentation.
 Public safe data:
 
 ```text
-CareZero Relief Fund
+Althea Relief Fund
 
 Total contributed
 $25,000
@@ -1798,7 +1798,7 @@ ETHGlobal explicitly requires spec-driven prompts/planning artifacts to be inclu
 # 39. Repository Structure
 
 ```text
-carezero/
+althea/
 │
 ├── app/
 │   ├── page.tsx
@@ -1836,7 +1836,7 @@ carezero/
 │   └── db/
 │
 ├── contracts/
-│   ├── CareZeroReliefPool.sol
+│   ├── AltheaReliefPool.sol
 │   └── test/
 │
 ├── scripts/
@@ -1937,7 +1937,7 @@ The project is ready when this test passes:
 
 6. See $2,470 residual.
 
-7. Click CareZero Relief.
+7. Click Althea Relief.
 
 8. Complete World Sandbox Selfie Check.
 

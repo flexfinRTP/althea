@@ -1,8 +1,8 @@
-# CareZero — Security, Privacy & Compliance Blueprint
+# Althea Care — Security, Privacy & Compliance Blueprint
 
 ## 1. Purpose
 
-CareZero handles information that is potentially among the most sensitive information a person can provide:
+Althea handles information that is potentially among the most sensitive information a person can provide:
 
 * hospital interactions;
 * household income;
@@ -12,7 +12,7 @@ CareZero handles information that is potentially among the most sensitive inform
 * identity-related information;
 * charitable assistance applications.
 
-CareZero must therefore treat security and privacy as core product requirements rather than post-launch compliance tasks.
+Althea must therefore treat security and privacy as core product requirements rather than post-launch compliance tasks.
 
 The guiding principle:
 
@@ -61,7 +61,7 @@ $15,950
 Residual:
 $2,470
 
-CareZero grant:
+Althea grant:
 $500
 
 Remaining:
@@ -76,7 +76,7 @@ Everything should clearly be labeled as:
 
 # 3. Privacy Principle
 
-CareZero should separate information into three domains:
+Althea should separate information into three domains:
 
 ```text
 PRIVATE PATIENT DATA
@@ -174,7 +174,7 @@ Encryption is not an excuse to publish medical records permanently.
 
 # 7. HIPAA: Do Not Assume
 
-HIPAA applicability depends on CareZero's role.
+HIPAA applicability depends on Althea's role.
 
 HHS explains that an app is not automatically a HIPAA business associate merely because a consumer directs a covered healthcare entity to send information to it.
 
@@ -184,17 +184,17 @@ Therefore:
 
 ## Direct-to-Consumer Model
 
-If the consumer independently uses CareZero and supplies information to CareZero:
+If the consumer independently uses Althea and supplies information to Althea:
 
-CareZero may not automatically be a HIPAA-covered entity/business associate.
+Althea may not automatically be a HIPAA-covered entity/business associate.
 
 But other privacy laws can still apply.
 
 ## Hospital-Contract Model
 
-If a hospital contracts CareZero to process FAP applications on the hospital's behalf:
+If a hospital contracts Althea to process FAP applications on the hospital's behalf:
 
-CareZero may become a HIPAA business associate depending on the actual data/services.
+Althea may become a HIPAA business associate depending on the actual data/services.
 
 That may require:
 
@@ -218,7 +218,7 @@ Covered entities may include vendors of personal health records and related enti
 
 The rule may require notice following breaches of unsecured identifiable health information.
 
-This is highly relevant to CareZero.
+This is highly relevant to Althea.
 
 ---
 
@@ -228,7 +228,7 @@ The FTC has clarified that a “breach of security” can include certain **unau
 
 This has a direct design consequence.
 
-CareZero should not deploy standard advertising technology on sensitive patient pages.
+Althea should not deploy standard advertising technology on sensitive patient pages.
 
 Avoid:
 
@@ -296,7 +296,7 @@ Potential requirements can include:
 * geofence restrictions;
 * processor agreements.
 
-CareZero's architecture should minimize the amount of data subject to these obligations.
+Althea's architecture should minimize the amount of data subject to these obligations.
 
 ---
 
@@ -314,23 +314,23 @@ Better:
 
 ### Required
 
-“I agree to CareZero using the information I enter to estimate financial-assistance eligibility.”
+“I agree to Althea using the information I enter to estimate financial-assistance eligibility.”
 
 ### Optional
 
-“I want CareZero to store my case so I can return later.”
+“I want Althea to store my case so I can return later.”
 
 ### Optional
 
-“I want to request CareZero Relief.”
+“I want to request Althea Relief.”
 
 ### Separate
 
-“I agree to complete a World Selfie Check as an anti-abuse signal for the CareZero Relief Fund.”
+“I agree to complete a World Selfie Check as an anti-abuse signal for the Althea Relief Fund.”
 
 ### Separate Future Consent
 
-“I authorize CareZero to send this application to Hospital X.”
+“I authorize Althea to send this application to Hospital X.”
 
 Do not bundle unrelated permissions.
 
@@ -365,7 +365,7 @@ Data minimization reduces:
 
 # 14. Progressive Data Collection
 
-CareZero should use:
+Althea should use:
 
 # Ask only when needed.
 
@@ -397,7 +397,7 @@ Relief stage:
 
 ```text
 Additional hardship evidence
-only if CareZero program requires it
+only if Althea program requires it
 ```
 
 ---
@@ -486,7 +486,7 @@ Hackathon:
 
 # 18. Privy Treasury Security
 
-The CareZero Relief Treasury should never be controlled by one unrestricted browser wallet.
+The Althea Relief Treasury should never be controlled by one unrestricted browser wallet.
 
 Use:
 
@@ -501,7 +501,7 @@ Example:
 ALLOW:
 Arc
 USDC
-CareZero ReliefPool
+Althea ReliefPool
 
 DENY:
 unknown contracts
@@ -664,7 +664,7 @@ The contract still limits:
 
 # 24. AI Safety Model
 
-CareZero should use the principle:
+Althea should use the principle:
 
 # AI interprets. Deterministic systems authorize.
 
@@ -762,7 +762,7 @@ This matters because:
 
 # 28. Relief Fund Legal Risk
 
-CareZero's charitable grant infrastructure touches healthcare.
+Althea's charitable grant infrastructure touches healthcare.
 
 Potential federal concerns include:
 
@@ -775,13 +775,13 @@ Potential federal concerns include:
 
 HHS OIG recognizes legitimate independent charities but emphasizes their independence from donors.
 
-CareZero should therefore treat independence as a product requirement.
+Althea should therefore treat independence as a product requirement.
 
 ---
 
 # 29. Donor Independence Rules
 
-CareZero should prohibit:
+Althea should prohibit:
 
 ## Patient Selection
 
@@ -824,7 +824,7 @@ Avoid reporting that would allow a donor to infer:
 
 Preferred:
 
-# CareZero General Medical Hardship Fund
+# Althea General Medical Hardship Fund
 
 Possible objective criteria:
 
@@ -854,7 +854,7 @@ However, OIG advisory opinions are:
 
 * highly fact-specific;
 * limited to the requestor;
-* not blanket approval for CareZero.
+* not blanket approval for Althea.
 
 Therefore:
 
@@ -864,7 +864,7 @@ Do not say:
 
 Say:
 
-> OIG guidance demonstrates that independent charitable patient assistance can be structured lawfully, but CareZero's eventual program will require its own legal review.
+> OIG guidance demonstrates that independent charitable patient assistance can be structured lawfully, but Althea's eventual program will require its own legal review.
 
 ---
 
@@ -890,7 +890,7 @@ No real public fundraising.
 
 # 33. Stablecoin / Money-Movement Compliance
 
-CareZero's future use of USDC should receive legal analysis covering:
+Althea's future use of USDC should receive legal analysis covering:
 
 * custody;
 * money transmission;
@@ -941,7 +941,7 @@ It introduces:
 Preferred:
 
 ```text
-CareZero Relief
+Althea Relief
 ↓
 directly toward verified medical obligation
 ```
@@ -999,7 +999,7 @@ medical documents
 
 to World merely to perform Selfie Check.
 
-CareZero only needs:
+Althea only needs:
 
 ```text
 verification challenge
@@ -1007,7 +1007,7 @@ result
 case linkage
 ```
 
-The linkage remains private in CareZero.
+The linkage remains private in Althea.
 
 ---
 
@@ -1015,7 +1015,7 @@ The linkage remains private in CareZero.
 
 Before Selfie Check:
 
-> CareZero Relief is supported by limited charitable funds. We use World Selfie Check as one liveness signal to reduce automated abuse of the fund. It is not used to determine your eligibility for your hospital's financial-assistance program.
+> Althea Relief is supported by limited charitable funds. We use World Selfie Check as one liveness signal to reduce automated abuse of the fund. It is not used to determine your eligibility for your hospital's financial-assistance program.
 
 Buttons:
 
@@ -1029,7 +1029,7 @@ Production should have a non-biometric alternative.
 
 # 38. World Data Retention
 
-CareZero should avoid storing biometric images.
+Althea should avoid storing biometric images.
 
 Store only what is necessary to record:
 
@@ -1186,7 +1186,7 @@ Where legally allowed:
 
 Patients should be able to request deletion of offchain case data.
 
-CareZero must clearly explain:
+Althea must clearly explain:
 
 > Public blockchain transaction records cannot be deleted.
 
@@ -1491,7 +1491,7 @@ Example conceptual:
 ```text
 caseHash =
 keccak256(
-  "CAREZERO_CASE_V1"
+  "ALTHEA_CASE_V1"
   + caseUUID
   + randomSalt
 )
@@ -1529,7 +1529,7 @@ onchain.
 
 Do not store the private evidence.
 
-This lets CareZero later prove:
+This lets Althea later prove:
 
 > this transaction corresponded to this internal decision record.
 
@@ -1541,7 +1541,7 @@ Public dashboard can show:
 
 ```text
 Program:
-CareZero General Medical Hardship
+Althea General Medical Hardship
 
 Grant:
 $500
@@ -1572,7 +1572,7 @@ unless aggregation prevents identification.
 
 # 58. Emergency Pause
 
-CareZero ReliefPool must be pausable.
+Althea ReliefPool must be pausable.
 
 Trigger examples:
 
@@ -1643,13 +1643,13 @@ Remediation.
 
 # 60. Health Breach Notification
 
-If CareZero becomes subject to the FTC Health Breach Notification Rule, covered breaches may require notification to:
+If Althea becomes subject to the FTC Health Breach Notification Rule, covered breaches may require notification to:
 
 * affected individuals;
 * FTC;
 * in some circumstances media.
 
-The current rule's applicability to health apps means this must be evaluated even if CareZero is not a HIPAA-covered entity.
+The current rule's applicability to health apps means this must be evaluated even if Althea is not a HIPAA-covered entity.
 
 ---
 
@@ -1678,7 +1678,7 @@ Not 40 pages of legalese as the only explanation.
 
 Recommended:
 
-> CareZero provides educational and administrative support based on published financial-assistance information. CareZero does not make hospital eligibility decisions, provide legal advice, provide medical advice, guarantee financial assistance, or guarantee that a hospital will pause collection activity. Hospital and state rules vary.
+> Althea provides educational and administrative support based on published financial-assistance information. Althea does not make hospital eligibility decisions, provide legal advice, provide medical advice, guarantee financial assistance, or guarantee that a hospital will pause collection activity. Hospital and state rules vary.
 
 ---
 
@@ -1690,13 +1690,13 @@ Recommended:
 
 # 64. Relief Disclaimer
 
-> CareZero Relief is separate from hospital financial assistance. Relief funding is limited and subject to independent program rules. Completing the CareZero financial-assistance navigator does not guarantee a CareZero Relief grant.
+> Althea Relief is separate from hospital financial assistance. Relief funding is limited and subject to independent program rules. Completing the Althea financial-assistance navigator does not guarantee a Althea Relief grant.
 
 ---
 
 # 65. World Disclaimer
 
-> World Selfie Check is used only as one anti-abuse signal for CareZero's independent charitable Relief Fund. It does not determine hospital financial-assistance eligibility and does not determine medical necessity.
+> World Selfie Check is used only as one anti-abuse signal for Althea's independent charitable Relief Fund. It does not determine hospital financial-assistance eligibility and does not determine medical necessity.
 
 ---
 
@@ -1704,7 +1704,7 @@ Recommended:
 
 Patient-facing:
 
-> CareZero may use digital-dollar infrastructure behind the scenes to move charitable funds. Patients are not required to purchase cryptocurrency or manage a crypto wallet.
+> Althea may use digital-dollar infrastructure behind the scenes to move charitable funds. Patients are not required to purchase cryptocurrency or manage a crypto wallet.
 
 Excellent language.
 
@@ -1754,7 +1754,7 @@ Before demo:
 
 # 69. Production Launch Gates
 
-CareZero must not accept real patient applications or real charitable funds until appropriate launch gates are satisfied.
+Althea must not accept real patient applications or real charitable funds until appropriate launch gates are satisfied.
 
 ## Legal
 
@@ -1802,7 +1802,7 @@ CareZero must not accept real patient applications or real charitable funds unti
 
 # 70. Compliance Architecture Summary
 
-CareZero should be designed so that:
+Althea should be designed so that:
 
 ```text
 HOSPITAL ELIGIBILITY
@@ -1836,13 +1836,13 @@ PATIENT
 doesn't need to understand crypto
 ```
 
-That is the safest and strongest version of CareZero.
+That is the safest and strongest version of Althea.
 
 ---
 
 # 71. Final Security Principle
 
-CareZero should not ask:
+Althea should not ask:
 
 # “How much patient data can blockchain verify?”
 

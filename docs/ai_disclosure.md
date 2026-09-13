@@ -1,4 +1,4 @@
-# CareZero — AI Development Disclosure
+# Althea Care — AI Development Disclosure
 
 ## 1. Purpose
 
@@ -14,7 +14,7 @@ ETHGlobal also requires developers using spec-driven development workflows to in
 
 in the submission repository.
 
-This document records CareZero's AI-assisted development process.
+This document records Althea's AI-assisted development process.
 
 It must be updated before final submission to reflect what actually occurred.
 
@@ -22,7 +22,7 @@ It must be updated before final submission to reflect what actually occurred.
 
 # 2. Development Principle
 
-CareZero uses AI as:
+Althea uses AI as:
 
 # an engineering and research assistant.
 
@@ -81,22 +81,11 @@ Update if additional models/configurations are used.
 
 # 4. Coding Assistant
 
-If using:
-
-* Claude Code;
-* Cursor;
-* GitHub Copilot;
-* Codex;
-* Windsurf;
-* another coding assistant;
-
-record it here.
-
-Example:
+## 4. Coding Assistant
 
 ```text
 Tool:
-[ACTUAL TOOL]
+Cursor (Grok 4.6)
 
 Used for:
 repository scaffolding
@@ -107,15 +96,14 @@ unit test generation
 debugging
 refactoring
 documentation
+spec-driven implementation from /docs
 ```
-
-Replace with actual information.
 
 ---
 
 # 5. Spec-Driven Development
 
-CareZero is intentionally being developed from detailed specification artifacts.
+Althea is intentionally being developed from detailed specification artifacts.
 
 These specifications were created before and during implementation to ensure the coding harness maintains:
 
@@ -186,11 +174,11 @@ AI assisted in researching and comparing potential ETHOnline project concepts.
 Human decisions included:
 
 * selecting healthcare financial assistance as the final problem;
-* choosing CareZero over alternative concepts;
+* choosing Althea over alternative concepts;
 * deciding the project should be mission-first;
 * choosing Privy + Arc + World as the three prize partners;
 * preserving hospital decision authority;
-* separating hospital FAP navigation from the CareZero Relief Fund;
+* separating hospital FAP navigation from the Althea Relief Fund;
 * rejecting tokenization of medical debt;
 * rejecting patient-facing crypto complexity.
 
@@ -214,7 +202,7 @@ AI-assisted web research was used to investigate:
 
 Human contributors are responsible for validating consequential claims before production use.
 
-CareZero's hackathon implementation is not a substitute for healthcare legal counsel.
+Althea's hackathon implementation is not a substitute for healthcare legal counsel.
 
 ---
 
@@ -349,7 +337,7 @@ Human contribution:
 
 ---
 
-## `/contracts/CareZeroReliefPool.sol`
+## `/contracts/AltheaReliefPool.sol`
 
 AI contribution:
 
@@ -457,7 +445,7 @@ Human contributors determine final submitted language.
 
 # 15. What AI Does Inside the Product
 
-CareZero itself may use AI during runtime for:
+Althea itself may use AI during runtime for:
 
 # hospital policy interpretation.
 
@@ -538,7 +526,7 @@ best guess
 
 # 18. AI Agent Guardrails
 
-The CareZero Relief Agent receives only structured data.
+The Althea Relief Agent receives only structured data.
 
 Example:
 
@@ -591,7 +579,7 @@ The agent operates inside preconfigured boundaries.
 
 # 20. Human Contribution
 
-CareZero's human team is responsible for substantive decisions including:
+Althea's human team is responsible for substantive decisions including:
 
 * choosing the healthcare problem;
 * project mission;
@@ -634,7 +622,7 @@ The team should be able to explain the implementation during judging.
 
 AI assistance does not substitute for smart-contract review.
 
-CareZero's ETHOnline contract is:
+Althea's ETHOnline contract is:
 
 # testnet prototype code.
 
@@ -662,13 +650,13 @@ Relevant sources include:
 * KFF;
 * ETHGlobal sponsor materials.
 
-Production CareZero would require specialized counsel.
+Production Althea would require specialized counsel.
 
 ---
 
 # 24. Spec Artifact Preservation
 
-Because CareZero uses a spec-driven coding approach, all prompts and planning artifacts actually used to direct implementation should remain in version control.
+Because Althea uses a spec-driven coding approach, all prompts and planning artifacts actually used to direct implementation should remain in version control.
 
 Recommended directory:
 
@@ -731,7 +719,7 @@ Human changes
 # 26. Example Prompt Log
 
 ```text
-# Prompt 005 — CareZero ReliefPool
+# Prompt 005 — Althea ReliefPool
 
 Goal:
 Implement the Arc ReliefPool contract from TECH_ARCHITECTURE.md.
@@ -796,7 +784,7 @@ Be transparent.
 
 # 28. Pre-Existing Project Work
 
-CareZero is intended for ETHOnline's:
+Althea is intended for ETHOnline's:
 
 # Start Fresh / Classic Track.
 
@@ -804,7 +792,7 @@ Therefore project-specific code, designs, and assets submitted for prize eligibi
 
 Planning/research should be handled according to event rules, and any reused public starter kits or libraries must be disclosed.
 
-If any CareZero-specific code existed before the event start:
+If any Althea-specific code existed before the event start:
 
 # flag it immediately.
 
@@ -859,16 +847,16 @@ Before submission:
 
 # 32. Final Statement
 
-CareZero uses AI to accelerate research and development.
+Althea uses AI to accelerate research and development.
 
 It does not outsource responsibility to AI.
 
 The team remains responsible for:
 
-# what CareZero does,
+# what Althea does,
 
-# what CareZero claims,
+# what Althea claims,
 
-# how CareZero protects patients,
+# how Althea protects patients,
 
-# and how CareZero moves money.
+# and how Althea moves money.

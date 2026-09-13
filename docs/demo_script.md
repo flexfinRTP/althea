@@ -1,4 +1,4 @@
-# CareZero — ETHOnline 2026 Demo Script
+# Althea Care — ETHOnline 2026 Demo Script
 
 ## 1. Demo Goal
 
@@ -18,7 +18,7 @@ The demo should not feel like:
 
 It should feel like:
 
-> CareZero solves the patient problem first, then uses blockchain exactly where transparency and programmable charitable money add value.
+> Althea solves the patient problem first, then uses blockchain exactly where transparency and programmable charitable money add value.
 
 ---
 
@@ -61,7 +61,7 @@ First bill date:
 August 20, 2026
 ```
 
-CareZero estimate:
+Althea estimate:
 
 ```text
 Potential hospital assistance:
@@ -81,7 +81,7 @@ Remaining:
 $2,470
 ```
 
-CareZero Relief:
+Althea Relief:
 
 ```text
 $500
@@ -146,7 +146,7 @@ Track the process
 
 Then:
 
-> CareZero turns that paperwork into one guided path.
+> Althea turns that paperwork into one guided path.
 
 Click:
 
@@ -212,7 +212,7 @@ Do not fake a long AI process.
 
 Narration:
 
-> CareZero structures the hospital's published Financial Assistance Policy.
+> Althea structures the hospital's published Financial Assistance Policy.
 
 > AI can help interpret the policy, but deterministic code performs the financial calculation.
 
@@ -240,7 +240,7 @@ Narration:
 
 Immediately say:
 
-> CareZero does not make the hospital's decision. The hospital does.
+> Althea does not make the hospital's decision. The hospital does.
 
 This demonstrates credibility.
 
@@ -297,7 +297,7 @@ Day 24 of 240
 
 Narration:
 
-> CareZero also converts regulatory timelines into something useful.
+> Althea also converts regulatory timelines into something useful.
 
 > Based on the first post-discharge bill date, this patient appears to still be within the federal 240-day financial-assistance application period that applies in the Section 501(r) framework.
 
@@ -331,7 +331,7 @@ Hospital contact:
 
 Narration:
 
-> CareZero prepares the next step instead of simply telling the patient that a program exists.
+> Althea prepares the next step instead of simply telling the patient that a program exists.
 
 > It identifies the application, documents and submission instructions.
 
@@ -379,7 +379,7 @@ Highlight:
 
 ---
 
-# 13. Introduce CareZero Relief
+# 13. Introduce Althea Relief
 
 Next screen.
 
@@ -389,7 +389,7 @@ Next screen.
 
 Text:
 
-> CareZero Relief is an independent charitable fund for verified residual medical hardship.
+> Althea Relief is an independent charitable fund for verified residual medical hardship.
 
 Show:
 
@@ -406,13 +406,13 @@ $0
 
 Narration:
 
-> This is where CareZero becomes more than a financial-assistance navigator.
+> This is where Althea becomes more than a financial-assistance navigator.
 
 > If hospital assistance still leaves a verified unaffordable balance, an independent charitable fund can help close part of the gap.
 
 Click:
 
-# Check CareZero Relief
+# Check Althea Relief
 
 ---
 
@@ -426,7 +426,7 @@ Copy:
 
 > Hospital financial assistance does not require World.
 
-> CareZero uses World Selfie Check only as one liveness signal to reduce abuse of this separate donor-funded Relief Fund.
+> Althea uses World Selfie Check only as one liveness signal to reduce abuse of this separate donor-funded Relief Fund.
 
 Narration:
 
@@ -456,7 +456,7 @@ Successful return:
 
 Narration:
 
-> The selfie itself is not stored by CareZero.
+> The selfie itself is not stored by Althea.
 
 > We only need the verification result.
 
@@ -468,7 +468,7 @@ Do not linger.
 
 Now display:
 
-# CareZero Relief Agent
+# Althea Relief Agent
 
 Checks begin.
 
@@ -485,7 +485,7 @@ Hospital assistance processed
 Verified residual balance
 ✓ $2,470
 
-CareZero program limit
+Althea program limit
 ✓ Maximum $500
 
 World anti-abuse signal
@@ -537,7 +537,7 @@ This is an excellent technical detail.
 
 # 18. Privy Moment
 
-Switch to CareZero reviewer/admin view.
+Switch to Althea reviewer/admin view.
 
 Show:
 
@@ -551,7 +551,7 @@ Requested:
 $500
 
 Program:
-CareZero General Medical Hardship
+Althea General Medical Hardship
 
 Decision:
 Eligible for reviewer approval
@@ -563,7 +563,7 @@ Button:
 
 Narration:
 
-> CareZero's Relief Fund is controlled through Privy.
+> Althea's Relief Fund is controlled through Privy.
 
 > Privy gives the nonprofit an organizational wallet, policies and approval controls instead of handing unrestricted private keys to an AI agent.
 
@@ -580,7 +580,7 @@ Optional 5–7 second mini overlay:
 ```text
 PRIVY
 
-CareZero Relief Treasury
+Althea Relief Treasury
 ✓ organization wallet
 ✓ policy-controlled
 ✓ approved Arc contract
@@ -613,7 +613,7 @@ Executing settlement...
 
 Narration:
 
-> After approval, the CareZero Relief Agent uses Circle Agent Stack to execute the authorized settlement.
+> After approval, the Althea Relief Agent uses Circle Agent Stack to execute the authorized settlement.
 
 ---
 
@@ -626,7 +626,7 @@ Show:
 ```text
 500 USDC
 
-CareZero ReliefPool
+Althea ReliefPool
 ↓
 Demo Provider Settlement Account
 ```
@@ -680,7 +680,7 @@ Hospital Financial Assistance
 Then:
 
 ```text
-CareZero Relief
+Althea Relief
 -$500
 ```
 
@@ -702,15 +702,15 @@ Recommended final narration:
 
 > The hospital already had the assistance program.
 
-> CareZero made it usable.
+> Althea made it usable.
 
 Pause.
 
-> And when that assistance stopped short, CareZero carried transparent charitable relief the rest of the way.
+> And when that assistance stopped short, Althea carried transparent charitable relief the rest of the way.
 
 Final screen:
 
-# CareZero
+# Althea
 
 ## Before the bill becomes debt.
 
@@ -734,7 +734,7 @@ Residual Balance
 World
 anti-abuse signal
 ↓
-CareZero Relief Rules
+Althea Relief Rules
 ↓
 Circle Relief Agent
 ↓
@@ -775,7 +775,7 @@ $18,420 bill.
 
 ## 0:15–0:35
 
-Problem + CareZero thesis.
+Problem + Althea thesis.
 
 ## 0:35–1:00
 
@@ -825,7 +825,7 @@ $1,970 final + closing.
 
 Answer:
 
-> Dollar For validates the patient-navigation problem and could eventually be a partner. CareZero extends the workflow beyond qualification screening into structured policy intelligence, regulatory timeline tracking, the hospital decision, verified residual hardship and a transparent charitable settlement rail. A future CareZero Relief Rail could even accept cases referred from organizations like Dollar For.
+> Dollar For validates the patient-navigation problem and could eventually be a partner. Althea extends the workflow beyond qualification screening into structured policy intelligence, regulatory timeline tracking, the hospital decision, verified residual hardship and a transparent charitable settlement rail. A future Althea Relief Rail could even accept cases referred from organizations like Dollar For.
 
 ---
 
@@ -921,7 +921,7 @@ Answer:
 
 Answer:
 
-> Offchain, CareZero performs duplicate-risk checks. Onchain, the ReliefPool stores each randomized case hash and will not pay the same case hash twice.
+> Offchain, Althea performs duplicate-risk checks. Onchain, the ReliefPool stores each randomized case hash and will not pay the same case hash twice.
 
 ---
 
@@ -953,7 +953,7 @@ Answer:
 
 Answer:
 
-> Potentially for software infrastructure, but CareZero's patient advocacy logic and Relief Fund governance need clear independence. The business model should never reward CareZero for denying assistance.
+> Potentially for software infrastructure, but Althea's patient advocacy logic and Relief Fund governance need clear independence. The business model should never reward Althea for denying assistance.
 
 ---
 
@@ -961,7 +961,7 @@ Answer:
 
 Answer:
 
-> KFF estimated Americans owed at least $220 billion in medical debt in 2024. CareZero doesn't claim all of that is preventable through charity care, but it demonstrates the scale of the affordability problem we're addressing.
+> KFF estimated Americans owed at least $220 billion in medical debt in 2024. Althea doesn't claim all of that is preventable through charity care, but it demonstrates the scale of the affordability problem we're addressing.
 
 ---
 
@@ -985,7 +985,7 @@ Answer:
 
 Answer:
 
-> Every rule must map back to the source policy. If extraction confidence is inadequate or the schema cannot be validated, CareZero returns “needs review” instead of guessing. The financial calculation never uses unvalidated free-form AI output.
+> Every rule must map back to the source policy. If extraction confidence is inadequate or the schema cannot be validated, Althea returns “needs review” instead of guessing. The financial calculation never uses unvalidated free-form AI output.
 
 ---
 
@@ -1073,7 +1073,7 @@ Show the utility.
 
 Recommended final 20 seconds:
 
-> CareZero does not tokenize the patient.
+> Althea does not tokenize the patient.
 
 > We don't tokenize their debt.
 
@@ -1083,10 +1083,10 @@ Pause.
 
 > The hospital already had the assistance program.
 
-> CareZero made it usable.
+> Althea made it usable.
 
 Screen:
 
-# CareZero
+# Althea
 
 ## Before the bill becomes debt.
