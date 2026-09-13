@@ -4,6 +4,8 @@
 
 ### Added
 
+- ETHOnline 16:9 cover at `public/brand/althea-ethonline-cover.png`: tagline "Before the bill becomes debt" in olive on cream, official flower off the final t.
+- ETHOnline 16:9 pitch slides at `/pitch` and `/pitch/close`. Open is the problem: $220B medical debt, 20M adults, $2.7B billed after they likely qualified, 240-day apply clock (KFF / CFPB / IRS). Close is centered $1,970, the hospital/relief/remain bar, and World / Privy / Circle / Arc.
 - Althea Relief Network: match vaults, grant escrow (`approved → reserved → settled` / `refunded`), multi-funder waterfall, restricted fund accounting, foundation console (`/funders`), give-from-any-chain (`/fund/give`), automatic match campaigns, Privy policy-caged funder and agent wallets, Circle CCTP/Gateway, and optional The Graph index when `GRAPH_SUBGRAPH_URL` is set.
 - `AltheaReliefNetwork` contract, `npm run deploy:network:arc:testnet`, and subgraph events for program, reserve, match, settle, and refund.
 - Patient relief assembly `$250` general + `$250` Community Health Match = `$500`. Program max grant stays `$500`.
@@ -24,7 +26,14 @@
 
 ### Changed
 
-- Homepage Relief Rail sits above the No loans section. No loans uses cream-2 so the bands still alternate.
+- `/how` is the architecture flowchart and copy page again: one Fig. 1 rail diagram, text stage cards, no still-life photographs. Homepage photographs are unchanged.
+- Pitch close uses a larger cream lockup. ETHOnline line sits at the bottom: Proudly built for the Ethereum 2026 hackathon, mark in a white oval.
+- Pitch close remaining figure rolls $18,420 → $1,970, then pops. No fade.
+- Pitch close headline is the Relief Network line. The hospital-already-had-it line is removed.
+- Pitch open gives the left column more width and larger type. The right-side lockup is smaller.
+- Pitch open names financial assistance on the 240-day and $2.7B lines, with KFF / CFPB / IRS after each figure.
+- Pitch open is the national problem statement from `docs/business_marketing.md` and `docs/research_evidence.md`, not the demo $18,420 bill. Cream lockup stays large on the right. Close is full-stage, centered.
+- Homepage and `/how` restored to the photographed marketing pages (numbered hero, section images, existing copy). Relief Network is one added section on each page.
 - Homepage copy and number layout restored: hero is the bill-reduction estimate again. Section photos stay in `public/marketing/` and on `/how`. No copy rewrite.
 - Demo mode banner is removed from site chrome. Header starts at the logo row.
 - Relief Fund is a public-style ledger: available capital, delivered split, pool facts, testnet, grant proofs, and verify. Matches Endaoment / GiveDirectly layout, Althea type and color.

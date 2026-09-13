@@ -1,5 +1,5 @@
 import Link from "next/link";
-import { Frame } from "@/components/marketing/Frame";
+import { ArchitectureFlow } from "@/components/marketing/ArchitectureFlow";
 
 const wrap = "mx-auto max-w-6xl px-6";
 const pill =
@@ -11,38 +11,26 @@ const stages = [
   {
     title: "Patient App",
     body: "A guided path from the bill you were handed to the help that may already exist. The patient never needs to manage cryptocurrency.",
-    src: "/marketing/how-patient-app.png",
-    alt: "Laptop, folder, and phone on a desk",
   },
   {
     title: "Althea API",
     body: "One case holds the hospital, the estimate, the application, the decision, and any Relief request. Nothing important lives in a side channel.",
-    src: "/marketing/how-api.png",
-    alt: "Case folders in a wooden tray",
   },
   {
     title: "FAP Intelligence",
     body: "Althea reads the hospital's published Financial Assistance Policy and turns it into rules you can follow. Extract. Structure. Then a deterministic engine calculates the estimate.",
-    src: "/marketing/step-policy.png",
-    alt: "Open policy packet on a desk",
   },
   {
     title: "Case Workflow",
     body: "The correct form, the document checklist, and the important dates sit in one place, instead of a PDF, a billing office, and a calendar.",
-    src: "/marketing/needs-path.png",
-    alt: "Clipboard, forms, and a pen",
   },
   {
     title: "Hospital Decision",
     body: "Althea estimates whether you may qualify and shows why. The hospital makes the final eligibility and assistance determination.",
-    src: "/marketing/step-decision.png",
-    alt: "Return envelope at a mailbox",
   },
   {
     title: "Residual Balance",
     body: "If hospital assistance still leaves a verified unaffordable amount, that remaining hardship can be considered for independent charitable Relief.",
-    src: "/marketing/needs-relief.png",
-    alt: "Remaining paperwork in a kraft envelope",
   },
 ];
 
@@ -92,32 +80,23 @@ const onchain = [
 export default function HowPage() {
   return (
     <div className="bg-cream">
-      <section className={`${wrap} grid items-center gap-12 py-16 md:grid-cols-2 md:py-24`}>
-        <div>
-          <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">How Althea works</p>
-          <h1 className="mt-4 max-w-3xl text-4xl leading-[1.08] tracking-tight text-green md:text-6xl">
-            The financial help may already exist. Althea makes it usable.
-          </h1>
-          <p className="mt-6 max-w-2xl text-lg leading-7 text-muted">
-            You should not need to understand hospital billing rules just to know whether help is
-            available. Althea is two systems. Only the second one uses World, Privy, Circle, or Arc.
-          </p>
-          <div className="mt-8 flex flex-wrap gap-3">
-            <Link href="/check" className={pillPrimary}>
-              Check My Bill
-            </Link>
-            <Link href="#architecture" className={pillGhost}>
-              See the rail
-            </Link>
-          </div>
+      <section className={`${wrap} py-16 md:py-24`}>
+        <p className="text-sm font-medium uppercase tracking-[0.16em] text-gold-deep">How Althea works</p>
+        <h1 className="mt-4 max-w-3xl text-4xl leading-[1.08] tracking-tight text-green md:text-6xl">
+          The financial help may already exist. Althea makes it usable.
+        </h1>
+        <p className="mt-6 max-w-2xl text-lg leading-7 text-muted">
+          You should not need to understand hospital billing rules just to know whether help is
+          available. Althea is two systems. Only the second one uses World, Privy, Circle, or Arc.
+        </p>
+        <div className="mt-8 flex flex-wrap gap-3">
+          <Link href="/check" className={pillPrimary}>
+            Check My Bill
+          </Link>
+          <Link href="#architecture" className={pillGhost}>
+            See the rail
+          </Link>
         </div>
-        <Frame
-          src="/marketing/how-hero.png"
-          alt="Paperwork and a closed laptop on a kitchen table"
-          ratio="aspect-[16/9] md:aspect-[4/3]"
-          className="rounded-[2rem]"
-          priority
-        />
       </section>
 
       <section className="bg-cream-2 py-20 md:py-24">
@@ -127,45 +106,31 @@ export default function HowPage() {
             Hospital assistance first. Independent Relief only if a gap remains.
           </h2>
           <div className="mt-12 grid gap-5 md:grid-cols-2">
-            <article className="overflow-hidden rounded-[2rem] bg-cream-elev">
-              <Frame
-                src="/marketing/needs-hospital.png"
-                alt="Policy folder on a desk"
-                sizes="(min-width: 768px) 45vw, 100vw"
-              />
-              <div className="p-8 md:p-10">
-                <p className="text-xs font-medium uppercase tracking-[0.18em] text-gold-deep">System 1</p>
-                <h3 className="mt-4 text-3xl">Hospital Financial Assistance Navigator</h3>
-                <p className="mt-4 text-lg leading-7 text-muted">
-                  Find the published policy. See whether you may qualify. Prepare the application. Track
-                  the hospital&apos;s decision. No World. No chain. No wallets.
-                </p>
-                <p className="mt-4 text-base leading-6 text-muted">
-                  Applicable nonprofit hospitals already maintain Financial Assistance Policies. The
-                  problem is that a patient can still miss the PDF, the income table, and the deadline.
-                  Althea turns that into a guided path. The hospital still decides.
-                </p>
-              </div>
+            <article className="rounded-[2rem] bg-cream-elev p-8 md:p-10">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-gold-deep">System 1</p>
+              <h3 className="mt-4 text-3xl">Hospital Financial Assistance Navigator</h3>
+              <p className="mt-4 text-lg leading-7 text-muted">
+                Find the published policy. See whether you may qualify. Prepare the application. Track
+                the hospital&apos;s decision. No World. No chain. No wallets.
+              </p>
+              <p className="mt-4 text-base leading-6 text-muted">
+                Applicable nonprofit hospitals already maintain Financial Assistance Policies. The
+                problem is that a patient can still miss the PDF, the income table, and the deadline.
+                Althea turns that into a guided path. The hospital still decides.
+              </p>
             </article>
-            <article className="overflow-hidden rounded-[2rem] bg-cream-elev">
-              <Frame
-                src="/marketing/relief-gap.png"
-                alt="Donation box on a wooden table"
-                sizes="(min-width: 768px) 45vw, 100vw"
-              />
-              <div className="p-8 md:p-10">
-                <p className="text-xs font-medium uppercase tracking-[0.18em] text-gold-deep">System 2</p>
-                <h3 className="mt-4 text-3xl">Althea Relief Rail</h3>
-                <p className="mt-4 text-lg leading-7 text-muted">
-                  When hospital assistance stops short, a separate charitable fund can help close part of
-                  a verified remaining balance.
-                </p>
-                <p className="mt-4 text-base leading-6 text-muted">
-                  World is one liveness signal against automated claims. Privy holds organizational
-                  control of the treasury. Circle executes an already approved grant. Arc records
-                  settlement in USDC. The patient never holds a wallet.
-                </p>
-              </div>
+            <article className="rounded-[2rem] bg-cream-elev p-8 md:p-10">
+              <p className="text-xs font-medium uppercase tracking-[0.18em] text-gold-deep">System 2</p>
+              <h3 className="mt-4 text-3xl">Althea Relief Rail</h3>
+              <p className="mt-4 text-lg leading-7 text-muted">
+                When hospital assistance stops short, a separate charitable fund can help close part of
+                a verified remaining balance.
+              </p>
+              <p className="mt-4 text-base leading-6 text-muted">
+                World is one liveness signal against automated claims. Privy holds organizational
+                control of the treasury. Circle executes an already approved grant. Arc records
+                settlement in USDC. The patient never holds a wallet.
+              </p>
             </article>
           </div>
         </div>
@@ -180,14 +145,9 @@ export default function HowPage() {
           AI interprets the policy. Deterministic code calculates the estimate. Humans govern the
           treasury. Settlement can be checked without a medical story.
         </p>
-        <figure className="mt-12 overflow-hidden rounded-[2rem] border border-line">
-          <Frame
-            src="/marketing/how-architecture.png"
-            alt="Two stacks of folders meeting one envelope"
-            ratio="aspect-[16/9]"
-            sizes="(min-width: 768px) 72rem, 100vw"
-          />
-          <figcaption className="bg-cream-elev px-6 py-4 text-sm leading-6 text-muted">
+        <figure className="mt-12 overflow-hidden rounded-[2rem] border border-line bg-cream-elev">
+          <ArchitectureFlow className="h-auto w-full" />
+          <figcaption className="border-t border-line px-6 py-4 text-sm leading-6 text-muted">
             Hospital assistance never touches World, Privy, Circle, or Arc. Those rails run only for
             Althea Relief.
           </figcaption>
@@ -201,12 +161,9 @@ export default function HowPage() {
           </h2>
           <div className="mt-12 grid gap-5 md:grid-cols-2">
             {stages.map((stage) => (
-              <article key={stage.title} className="overflow-hidden rounded-[2rem] bg-cream-elev">
-                <Frame src={stage.src} alt={stage.alt} sizes="(min-width: 768px) 45vw, 100vw" />
-                <div className="p-8">
-                  <h3 className="text-2xl">{stage.title}</h3>
-                  <p className="mt-3 text-base leading-6 text-muted">{stage.body}</p>
-                </div>
+              <article key={stage.title} className="rounded-[2rem] bg-cream-elev p-8">
+                <h3 className="text-2xl">{stage.title}</h3>
+                <p className="mt-3 text-base leading-6 text-muted">{stage.body}</p>
               </article>
             ))}
           </div>
@@ -222,13 +179,6 @@ export default function HowPage() {
           available hospital financial assistance has been explored. Althea does not take a percentage
           of a patient&apos;s Relief grant.
         </p>
-        <Frame
-          src="/marketing/step-relief.png"
-          alt="Hands exchanging a kraft envelope"
-          ratio="aspect-[4/3] md:aspect-[16/9]"
-          sizes="(min-width: 768px) 72rem, 100vw"
-          className="mt-12 rounded-[2rem]"
-        />
         <div className="mt-12 grid gap-5 md:grid-cols-2 lg:grid-cols-3">
           {reliefStages.map((stage) => (
             <article key={stage.title} className="rounded-[2rem] bg-cream-2 p-8">
@@ -280,6 +230,14 @@ export default function HowPage() {
               </p>
             </article>
           </div>
+          <div className="mt-10 flex flex-wrap gap-3">
+            <Link href="/funders" className={pillGhost}>
+              Funder console
+            </Link>
+            <Link href="/fund/give" className={pillGhost}>
+              Give from any chain
+            </Link>
+          </div>
         </div>
       </section>
 
@@ -293,55 +251,37 @@ export default function HowPage() {
             information stays off the rail. Grant movement can still be verified.
           </p>
           <div className="mt-12 grid gap-5 md:grid-cols-2">
-            <article className="overflow-hidden rounded-[2rem] bg-green-dark">
-              <Frame
-                src="/marketing/privacy-private.png"
-                alt="Sealed folder and latched box"
-                sizes="(min-width: 768px) 45vw, 100vw"
-              />
-              <div className="p-8">
-                <h3 className="text-2xl">Never on the rail</h3>
-                <ul className="mt-5 space-y-3 text-base leading-6 text-gold-soft">
-                  {neverOnchain.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
+            <article className="rounded-[2rem] bg-green-dark p-8">
+              <h3 className="text-2xl">Never on the rail</h3>
+              <ul className="mt-5 space-y-3 text-base leading-6 text-gold-soft">
+                {neverOnchain.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </article>
-            <article className="overflow-hidden rounded-[2rem] bg-green-dark">
-              <Frame
-                src="/marketing/privacy-public.png"
-                alt="Open ledger and stacked coins"
-                sizes="(min-width: 768px) 45vw, 100vw"
-              />
-              <div className="p-8">
-                <h3 className="text-2xl">What a grant can show</h3>
-                <ul className="mt-5 space-y-3 text-base leading-6 text-gold-soft">
-                  {onchain.map((item) => (
-                    <li key={item}>{item}</li>
-                  ))}
-                </ul>
-              </div>
+            <article className="rounded-[2rem] bg-green-dark p-8">
+              <h3 className="text-2xl">What a grant can show</h3>
+              <ul className="mt-5 space-y-3 text-base leading-6 text-gold-soft">
+                {onchain.map((item) => (
+                  <li key={item}>{item}</li>
+                ))}
+              </ul>
             </article>
           </div>
         </div>
       </section>
 
-      <section className="relative overflow-hidden py-20 md:py-28">
-        <Frame src="/marketing/cta-check.png" alt="" fillParent sizes="100vw" />
-        <div className="absolute inset-0 bg-cream/80" />
-        <div className={`${wrap} relative text-center`}>
-          <h2 className="mx-auto max-w-3xl text-3xl leading-tight tracking-tight md:text-5xl">
-            Know what help you may qualify for before you pay.
-          </h2>
-          <p className="mx-auto mt-6 max-w-xl text-lg leading-7 text-muted">
-            Check My Bill. No loans. No percentage of your hospital assistance.
-          </p>
-          <div className="mt-8">
-            <Link href="/check" className={pillPrimary}>
-              Check My Bill
-            </Link>
-          </div>
+      <section className={`${wrap} py-20 text-center md:py-24`}>
+        <h2 className="mx-auto max-w-3xl text-3xl leading-tight tracking-tight md:text-5xl">
+          Know what help you may qualify for before you pay.
+        </h2>
+        <p className="mx-auto mt-6 max-w-xl text-lg leading-7 text-muted">
+          Check My Bill. No loans. No percentage of your hospital assistance.
+        </p>
+        <div className="mt-8">
+          <Link href="/check" className={pillPrimary}>
+            Check My Bill
+          </Link>
         </div>
       </section>
     </div>
