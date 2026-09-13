@@ -1,0 +1,150 @@
+{
+  "id": "fap_demo_2026",
+  "hospitalId": "hosp_demo_001",
+  "documentId": "doc_emc_fap_2026",
+  "versionLabel": "2026-demo",
+  "effectiveDate": "2026-01-01",
+  "demonstrationPolicy": true,
+  "hospital": {
+    "id": "hosp_demo_001",
+    "name": "Example Medical Center",
+    "systemName": "Example Health",
+    "city": "St. Louis",
+    "state": "MO",
+    "organizationType": "nonprofit",
+    "fapLandingPageUrl": "https://example-medical.invalid/financial-assistance",
+    "applicationUrl": "https://example-medical.invalid/financial-assistance/apply"
+  },
+  "structuredPolicy": {
+    "hospitalName": "Example Medical Center",
+    "policyScope": {
+      "emergencyCare": true,
+      "medicallyNecessaryCare": true,
+      "insuredPatientsEligible": true
+    },
+    "householdDefinition": "All persons living in the household who are financially interdependent, including the patient, spouse, and dependents claimed on a federal tax return.",
+    "freeCareRules": [
+      {
+        "id": "emc-free-0-150",
+        "minFplPercent": 0,
+        "maxFplPercent": 150,
+        "assistanceType": "free",
+        "citationIds": ["cit-free"]
+      }
+    ],
+    "discountedCareRules": [
+      {
+        "id": "emc-discount-151-200",
+        "minFplPercent": 151,
+        "maxFplPercent": 200,
+        "assistanceType": "custom",
+        "fixedAssistanceAmount": 15950,
+        "customDescription": "Discounted care for households from 151% through 200% of the Federal Poverty Guidelines. This demonstration policy is constructed so the published example (charges $18,420, household of 3, income $51,000) yields $15,950 in assistance and a $2,470 remainder.",
+        "citationIds": ["cit-discount"]
+      },
+      {
+        "id": "emc-discount-201-300",
+        "minFplPercent": 201,
+        "maxFplPercent": 300,
+        "assistanceType": "percentage_discount",
+        "discountPercent": 80,
+        "citationIds": ["cit-discount"]
+      },
+      {
+        "id": "emc-discount-301-400",
+        "minFplPercent": 301,
+        "maxFplPercent": 400,
+        "assistanceType": "percentage_discount",
+        "discountPercent": 50,
+        "citationIds": ["cit-discount"]
+      }
+    ],
+    "residency": {
+      "required": false,
+      "description": "This demonstration policy does not impose a state-residency test."
+    },
+    "assets": {
+      "evaluated": false,
+      "description": "This demonstration policy does not apply an asset test."
+    },
+    "requiredDocuments": [
+      {
+        "id": "doc-income",
+        "type": "proof_of_income",
+        "required": true,
+        "description": "Recent proof of household income (pay stubs, benefit letter, or tax return).",
+        "citationIds": ["cit-docs"]
+      },
+      {
+        "id": "doc-household",
+        "type": "other",
+        "required": true,
+        "description": "Statement of household size.",
+        "citationIds": ["cit-docs"]
+      },
+      {
+        "id": "doc-app",
+        "type": "application_form",
+        "required": true,
+        "description": "Completed Example Medical Center Financial Assistance Application.",
+        "citationIds": ["cit-apply"]
+      },
+      {
+        "id": "doc-bill",
+        "type": "hospital_bill",
+        "required": true,
+        "description": "Copy of the billing statement being reviewed.",
+        "citationIds": ["cit-docs"]
+      }
+    ],
+    "applicationMethods": ["mail", "in_person", "online"],
+    "applicationUrl": "https://example-medical.invalid/financial-assistance/apply",
+    "billingOffice": {
+      "phone": "555-010-2420",
+      "email": "financial.assistance@example-medical.invalid",
+      "address": "100 Demonstration Way, St. Louis, MO 63101"
+    },
+    "collectionsSummary": "Example Medical Center describes reasonable efforts to determine FAP eligibility before certain extraordinary collection actions, consistent with the federal 120-day notification period and 240-day application period framework for applicable nonprofit hospitals. This is a demonstration policy, not legal advice.",
+    "notes": [
+      "Fictional demonstration policy. Do not treat this as a real hospital Financial Assistance Policy.",
+      "Insured patients are eligible under this demonstration policy."
+    ],
+    "citations": [
+      {
+        "id": "cit-free",
+        "documentId": "doc_emc_fap_2026",
+        "page": 4,
+        "section": "Free Care",
+        "shortExcerpt": "Households at or below 150% of the Federal Poverty Guidelines may receive free care for eligible services."
+      },
+      {
+        "id": "cit-discount",
+        "documentId": "doc_emc_fap_2026",
+        "page": 5,
+        "section": "Discounted Care",
+        "shortExcerpt": "Households from 151% through 400% of the Federal Poverty Guidelines may receive discounted care on a sliding scale."
+      },
+      {
+        "id": "cit-insured",
+        "documentId": "doc_emc_fap_2026",
+        "page": 3,
+        "section": "Who May Apply",
+        "shortExcerpt": "Insured and uninsured patients may apply for financial assistance for eligible medically necessary and emergency services."
+      },
+      {
+        "id": "cit-docs",
+        "documentId": "doc_emc_fap_2026",
+        "page": 8,
+        "section": "Required Documents",
+        "shortExcerpt": "Applicants should provide proof of income, household size, and the bill under review."
+      },
+      {
+        "id": "cit-apply",
+        "documentId": "doc_emc_fap_2026",
+        "page": 9,
+        "section": "How to Apply",
+        "shortExcerpt": "Submit the Financial Assistance Application by mail, in person, or through the hospital's application page."
+      }
+    ]
+  }
+}

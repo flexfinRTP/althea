@@ -1,0 +1,18 @@
+{
+  "hospital": "Example Medical Center",
+  "hospitalId": "hosp_demo_001",
+  "patient": "Demo Patient",
+  "billAmount": 18420,
+  "householdSize": 3,
+  "income": 51000,
+  "insuranceStatus": "insured",
+  "firstPostDischargeBillDate": "2026-08-20",
+  "estimatedAssistance": 15950,
+  "estimatedRemaining": 2470,
+  "finalHospitalAssistance": 15950,
+  "reliefGrant": 500,
+  "finalRemaining": 1970,
+  "demoAvailableCapital": 25000,
+  "maxStandardGrant": 500,
+  "autoThreshold": 250
+}

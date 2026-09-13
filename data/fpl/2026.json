@@ -1,0 +1,49 @@
+{
+  "year": 2026,
+  "source": "HHS Federal Register 91 FR 1797 (January 15, 2026)",
+  "effectiveDate": "2026-01-13",
+  "jurisdictions": {
+    "contiguous_us": {
+      "label": "48 contiguous states and D.C.",
+      "additionalPersonAmount": 5680,
+      "households": [
+        { "householdSize": 1, "annualGuidelineAmount": 15960 },
+        { "householdSize": 2, "annualGuidelineAmount": 21640 },
+        { "householdSize": 3, "annualGuidelineAmount": 27320 },
+        { "householdSize": 4, "annualGuidelineAmount": 33000 },
+        { "householdSize": 5, "annualGuidelineAmount": 38680 },
+        { "householdSize": 6, "annualGuidelineAmount": 44360 },
+        { "householdSize": 7, "annualGuidelineAmount": 50040 },
+        { "householdSize": 8, "annualGuidelineAmount": 55720 }
+      ]
+    },
+    "alaska": {
+      "label": "Alaska",
+      "additionalPersonAmount": 7100,
+      "households": [
+        { "householdSize": 1, "annualGuidelineAmount": 19950 },
+        { "householdSize": 2, "annualGuidelineAmount": 27050 },
+        { "householdSize": 3, "annualGuidelineAmount": 34150 },
+        { "householdSize": 4, "annualGuidelineAmount": 41250 },
+        { "householdSize": 5, "annualGuidelineAmount": 48350 },
+        { "householdSize": 6, "annualGuidelineAmount": 55450 },
+        { "householdSize": 7, "annualGuidelineAmount": 62550 },
+        { "householdSize": 8, "annualGuidelineAmount": 69650 }
+      ]
+    },
+    "hawaii": {
+      "label": "Hawaii",
+      "additionalPersonAmount": 6530,
+      "households": [
+        { "householdSize": 1, "annualGuidelineAmount": 18360 },
+        { "householdSize": 2, "annualGuidelineAmount": 24890 },
+        { "householdSize": 3, "annualGuidelineAmount": 31420 },
+        { "householdSize": 4, "annualGuidelineAmount": 37950 },
+        { "householdSize": 5, "annualGuidelineAmount": 44480 },
+        { "householdSize": 6, "annualGuidelineAmount": 51010 },
+        { "householdSize": 7, "annualGuidelineAmount": 57540 },
+        { "householdSize": 8, "annualGuidelineAmount": 64070 }
+      ]
+    }
+  }
+}
